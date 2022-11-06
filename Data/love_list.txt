@@ -1,0 +1,61 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;This file contains a list of love-related words (or sentiment words).
+;
+;The list comes from :https://grammar.yourdictionary.com/word-lists/list-of-romantic-words.html
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Actions
+
+adore
+admire
+beguile
+care
+caress
+cherish
+choose
+court
+cuddle
+daydream
+embrace
+entice
+delight
+fantasize
+immortalize
+mesmerize
+need
+overture
+prize
+treasure
+value
+want
+woo
+worship
+yearn
+
+; Romance synonyms
+
+adoration
+amorous
+ardent
+chivalrous
+courtship
+dalliance
+devotion
+doting
+dreamy
+enamored
+fancy
+fairy-tale
+fanciful
+goo goo
+impassioned
+infatuation
+intimate
+liaison
+lovesick
+lovey-dovey
+passionate
+reverence
+sensual
+starry-eyed
+tender
