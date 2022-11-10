@@ -150,7 +150,7 @@ def characters_in_sentence(characters, sentence):
 
 # We define a method that takes in a movie ID, and outputs the number of common mentions 
 # (i.e. interactions) for each pair of characters. 
-def character_pairs(movie_id):
+def character_pairs(movie_id, plot_df):
     ''' 
     Find all pairs of characters that appear in the same sentence in a movie plot summary. 
     Input: 
