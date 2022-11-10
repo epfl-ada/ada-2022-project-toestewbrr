@@ -120,6 +120,8 @@ def most_mentioned(movie_id):
     '''
     tree = get_tree(movie_id)
     characters = get_characters(tree)
+    if len(characters) == 0:
+        return None
     character_dict = aggregate_characters(characters)
     sorted_characters = sorted(character_dict.items(), key=lambda x: x[1], reverse=True)
     return sorted_characters
@@ -185,7 +187,8 @@ def character_pairs(movie_id, plot_df):
                     char_pairs[pair] += 1
                 else:
                     char_pairs[pair] = 1
-    
+    if len(char_pairs) == 0: 
+        return None
     # Sort character pairs by number of times they appear together
     sorted_pairs = sorted(char_pairs.items(), key=lambda x: x[1], reverse=True)
     return sorted_pairs
