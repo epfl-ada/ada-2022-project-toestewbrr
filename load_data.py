@@ -16,39 +16,39 @@ import numpy as np
 import re
 import ast
 
-PATH = 'Data/MovieSummaries/'
+DATA_PATH = 'Data/MovieSummaries/'
+GZ_DIR = 'Data/CoreNLP/corenlp_plot_summaries'
+XML_DIR = GZ_DIR + '_xml'
 
 def download_data():
     summaries_filename = 'http://www.cs.cmu.edu/~ark/personas/data/MovieSummaries.tar.gz'
     if not os.path.exists('Data/MovieSummaries'):
         my_tar = tarfile.open(fileobj=urllib.request.urlopen(summaries_filename), mode="r:gz") 
-        my_tar.extractall('./Data') # specify which folder to extract to
+        my_tar.extractall('./Data') 
         my_tar.close()
     
     # Extract all coreNLP files to Data/CoreNLP
     if not os.path.exists('Data/CoreNLP'):
         coreNLP_filename = 'http://www.cs.cmu.edu/~ark/personas/data/corenlp_plot_summaries.tar'
         my_tar = tarfile.open(fileobj=urllib.request.urlopen(coreNLP_filename), mode="r|") 
-        my_tar.extractall(path='./Data/CoreNLP') # specify which folder to extract to
+        my_tar.extractall(path='./Data/CoreNLP')
         my_tar.close()
 
     # Convert every file in directory Data/CoreNLP to xml format
-    xml_dir = 'Data/CoreNLP/corenlp_plot_summaries'
-    extracted_dir = xml_dir + '_xml'
-    if not os.path.exists(extracted_dir):
-        os.mkdir(extracted_dir)
-        for filename in os.listdir(xml_dir):
-            f = os.path.join(xml_dir, filename) 
+    if not os.path.exists(XML_DIR):
+        os.mkdir(XML_DIR)
+        for filename in os.listdir(GZ_DIR):
+            f = os.path.join(GZ_DIR, filename) 
             if os.path.isfile(f):
                 # Open and store file as xml 
                 with gzip.open(f, 'rb') as f_in:
-                    gz_file = os.path.join(extracted_dir, filename)
+                    gz_file = os.path.join(XML_DIR, filename)
                     with open(gz_file[:-3], 'wb') as f_out:
                         f_out.write(f_in.read())
 
 
 def load_plot_df():
-    plot_path = PATH + 'plot_summaries.txt'
+    plot_path = DATA_PATH + 'plot_summaries.txt'
     plot_cols = ['Wikipedia ID', 'Summary']
     plot_df = pd.read_csv(plot_path, sep='\t', header=None, names=plot_cols, index_col=False)
     return plot_df
@@ -56,7 +56,7 @@ def load_plot_df():
 def load_movie_df():
     strip_encoding = lambda x: np.nan if x == '{}' else [w.replace(' Language', '').replace(' language', '') for w in re.findall(r'"(.*?)"', x)[1::2]]
 
-    movie_path = PATH + 'movie.metadata.tsv'
+    movie_path = DATA_PATH + 'movie.metadata.tsv'
     movie_cols = ['Wikipedia ID', 'Freebase ID', 'Name', 'Release date', 
                 'Box office revenue', 'Runtime', 'Languages', 'Countries', 'Genres']
     movie_df = pd.read_csv(movie_path, sep='\t', header=None, names=movie_cols, index_col=False, dtype = {'Freebase ID': str})
@@ -66,7 +66,7 @@ def load_movie_df():
     return movie_df
 
 def load_char_df():
-    char_path = PATH + 'character.metadata.tsv'
+    char_path = DATA_PATH + 'character.metadata.tsv'
     char_cols = ['Wikipedia ID', 'Freebase ID', 'Release date', 'Character name', 'Date of birth', 
                 'Gender', 'Height', 'Ethnicity', 'Actor name', 'Actor age at release', 
                 'Freebase character/map ID', 'Freebase character ID', 'Freebase actor ID']
@@ -74,14 +74,14 @@ def load_char_df():
     return char_df
 
 def load_names_df():
-    names_path = PATH + 'name.clusters.txt'
+    names_path = DATA_PATH + 'name.clusters.txt'
     names_cols = ['Character name', 'Cluster']
     names_df = pd.read_csv(names_path, sep='\t', header=None, names=names_cols, dtype = {'Freebase ID': str})
     names_df = names_df.groupby('Character name').aggregate(list)
     return names_df
 
 def load_cluster_df():
-    cluster_path = PATH + 'tvtropes.clusters.txt'
+    cluster_path = DATA_PATH + 'tvtropes.clusters.txt'
     cluster_cols = ['Cluster', 'Character data']
     cluster_df = pd.read_csv(cluster_path, sep='\t', header=None, names=cluster_cols, dtype = {'Freebase ID': str})
     cluster_df['Character data'] = cluster_df['Character data'].apply(lambda x: ast.literal_eval(x))
