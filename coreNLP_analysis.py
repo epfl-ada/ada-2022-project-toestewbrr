@@ -14,16 +14,15 @@ from load_data import *
 
 XML_DIR = 'Data/CoreNLP/corenlp_plot_summaries_xml'
 
-# To get the tree from xml CoreNLP output
+# Given a movie ID, get the file tree from xml CoreNLP output
 def get_tree(movie_id):
     xml_filename = os.path.join(XML_DIR, '{}.xml'.format(movie_id))
     tree = ET.parse(xml_filename)
     return tree
 
-# Given an xml file, we return all of its CoreNLP parsed sentences 
+# Given an xml tree, we return all of its CoreNLP parsed sentences 
 def get_parsed_sentences(tree):
     sentences = []
-    root = tree.getroot()
     for child in tree.iter():
         if child.tag == "parse":
             sentences.append(child.text)
@@ -34,6 +33,7 @@ def print_tree(parsed_string):
     tree = Tree.fromstring(parsed_string)
     tree.pretty_print()
 
+# Given an xml tree, get all of its characters as consecutive PERSON tags
 def get_characters(tree):
     characters = []
     current_word = None
@@ -53,7 +53,8 @@ def get_characters(tree):
             character = ''
             was_person = False
     return characters
-
+    
+# DISCARD THIS METHOD?
 # Given a character in a movie, find all sentences mentioning the character
 def sentences_with_character(xml_filename, char_name):
     char_sentences = []
@@ -62,6 +63,7 @@ def sentences_with_character(xml_filename, char_name):
         char_sentences = [sentence for sentence in sentences if char_name in sentence]
     return char_sentences
 
+# Given a list of characters and a partial character name, find the full name of the character
 def get_full_name(string, characters):
     ''' 
     Find the longest name of a given character in a list of character names. 
@@ -108,7 +110,7 @@ def aggregate_characters(characters):
     return character_dict
 
 # Given a parse tree, extract the most mentioned characters in decreasing order
-def most_mentioned(tree):
+def most_mentioned(movie_id):
     '''
     Input: 
         tree: parse tree of the xml file
@@ -116,6 +118,7 @@ def most_mentioned(tree):
     Output:
         A dictionary of the N characters most mentioned in the movie
     '''
+    tree = get_tree(movie_id)
     characters = get_characters(tree)
     character_dict = aggregate_characters(characters)
     sorted_characters = sorted(character_dict.items(), key=lambda x: x[1], reverse=True)
@@ -158,13 +161,12 @@ def character_pairs(movie_id):
     char_pairs = dict()
 
     # Parse xml file and get all characters from plot summary
-    xml_filename = os.path.join(XML_DIR, '{}.xml'.format(movie_id))
-    tree = ET.parse(xml_filename)
+    tree = get_tree(movie_id)
     characters = get_characters(tree)
     full_name_map = full_name_dict(characters) # all maps (partial name : full name)
 
     # Split plot summary into sentences
-    plot_summary = plot_df.loc[movie_id].values[0]
+    plot_summary = plot_df.loc[plot_df['Wikipedia ID'] == movie_id]['Summary'].values[0]
     sentences = re.split(r'(?<=[.!?])\s+', plot_summary)
 
     # For each sentence, find the characters mentioned and their full names, then add count for each pair between them
@@ -187,27 +189,3 @@ def character_pairs(movie_id):
     # Sort character pairs by number of times they appear together
     sorted_pairs = sorted(char_pairs.items(), key=lambda x: x[1], reverse=True)
     return sorted_pairs
-
-
-# Given a movie ID, find the character pairs with the highest number of interactions 
-# (both mentioned in a single sentence).
-def most_interactions(movie_id):
-    # Get all characters in the movie
-    xml_filename = os.path.join(XML_DIR, '{}.xml'.format(movie_id))
-    tree = ET.parse(xml_filename)
-    characters = get_characters(tree)
-
-    # Find the plot summary sentences with at least two characters 
-    plot_summary = plot_df.loc[movie_id].values[0]
-    sentences = re.split(r'(?<=[.!?])\s+', plot_summary)
-    
-
-    # Find the character pairs with the most interactions
-    character_pairs = dict()
-    for sentence in sentences:
-        characters = get_characters(sentence)
-        character_pairs = aggregate_characters(characters)
-    sorted_pairs = sorted(character_pairs.items(), key=lambda x: x[1], reverse=True)
-    return sorted_pairs
-
-
