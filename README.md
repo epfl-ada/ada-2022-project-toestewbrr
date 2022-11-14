@@ -44,4 +44,12 @@ WHAT DO WE WANT TO ANSWER?
 * General analysis: 
   * character meta-analysis
   * add first plot for the name clusters 
-* Move description to load data 
+  * Move description to load data 
+* CoreNLP 
+  * example of what we can extract from core nlp directly 
+  * extract characteristic from an example (marg)
+  * extract relationship from an example (ant)
+  * look at all words in all summaries : verbs (subj and obj), nouns
+* Word2Vec (hugo)
+  * get all love related words and gives you how significant 
+
