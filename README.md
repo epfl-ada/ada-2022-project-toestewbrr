@@ -21,6 +21,11 @@ Love appears as the third most common noun in the plot summaries (after father a
 
 ## Proposed timeline 
 
+* December 16: 
+** code finished and commented 
+** full draft of the website (website is working, summary of how we are going to write the story, having all graphs available) 
+* December 23: hand-in the project 
+
 ## Organization within the team 
 
 ## Questions 
