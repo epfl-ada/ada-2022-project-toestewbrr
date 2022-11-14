@@ -1,4 +1,4 @@
-# How have relationships change since 80s? 
+# How are relationships depicted in movies since 1980s? 
 
 ## Motivation 
 
@@ -7,7 +7,6 @@ WHAT DO WE WANT TO ANSWER?
 
 ## Research questions 
 
-* Are love relationship 
 * What is the evolution of relationship through time? 
 * What is the social status of each character involved in the relationship? (too hard for the given amount of time) 
 * What are their characteristics (smart, wealthy, beautiful)? 
