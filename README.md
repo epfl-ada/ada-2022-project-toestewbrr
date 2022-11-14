@@ -15,9 +15,8 @@ WHAT DO WE WANT TO ANSWER?
 
 ## Methods 
 
-* Cluster relationships and characters
- * ex: are there more personas with x characteristic in y type of relation
-* General analysis
+* Type of characters and type of relationships 
+  * ex: are there more personas with x characteristic in y type of relation
 * Find plot summaries which contain most love related words 
 * Extract information about each character (job, physical details, qualities, actions) using NLP Core on plot summaries 
 * Create pairs dataframe which contain the pairs of characters which are in a romantic relationship in a movie 
@@ -40,3 +39,9 @@ WHAT DO WE WANT TO ANSWER?
 
 ## Questions 
 * Find a way to label the characters or the relationships? 
+
+## TODO: 
+* General analysis: 
+  * character meta-analysis
+  * add first plot for the name clusters 
+* Move description to load data 
