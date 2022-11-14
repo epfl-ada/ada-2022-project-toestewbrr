@@ -1,4 +1,4 @@
-# How are relationships depicted in movies since 1980s? 
+# How are relationships depicted in movies? 
 
 ## Motivation 
 
@@ -15,6 +15,8 @@ WHAT DO WE WANT TO ANSWER?
 
 ## Methods 
 
+* Cluster relationships and characters
+ * ex: are there more personas with x characteristic in y type of relation
 * General analysis
 * Find plot summaries which contain most love related words 
 * Extract information about each character (job, physical details, qualities, actions) using NLP Core on plot summaries 
