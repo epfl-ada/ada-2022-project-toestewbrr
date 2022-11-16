@@ -158,7 +158,7 @@ def character_pairs(movie_id, plot_df):
     Input: 
         movie_id: integer Movie ID
     Output:
-        A list of all character pairs in the movie in decreasing order of frequency
+        sorted_pairs: A list of all character pairs in the movie in decreasing order of frequency
     '''
     char_pairs = dict()
 
