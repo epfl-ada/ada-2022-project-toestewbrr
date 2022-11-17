@@ -124,5 +124,5 @@ Dividing all movies by decade, we will look at the most common personality types
 * Which transformers and clustering methods are best suited to our needs?
 
 ## Bonus
-permutation(team_name) == 'robertwest'
+permutation(team_name) == professor_name
 
