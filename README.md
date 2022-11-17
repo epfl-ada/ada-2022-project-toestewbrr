@@ -85,14 +85,15 @@ From our custom pipeline, we extracted couples from the plot summaries. The NER 
 
 We now define the methods we will use to answer our research questions. 
 
-    How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
+
+> ### How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
 
 We will extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity and religion. We will also use the corresponding available actor metadata when available. 
 
 
 Method: Extracting personalities using KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
 
-    Are there recurrent personality types among lovers for each gender?
+ > ### Are there recurrent personality types among lovers for each gender?
     
 
 - Using the extracted couples, we obtain the role of each character involved from per:title. 
@@ -110,10 +111,10 @@ Gender differences
 - Most common personality types for each gender. 
 
 
-    Which type of personalities are coupled together?
+> ### Which type of personalities are coupled together?
 
   
-    Has the cinematic couple evolved over time?
+> ### Has the cinematic couple evolved over time?
 
 Dividing all movies by decade, we will look at the most common personality types among couples and how it evolves through time. 
 
