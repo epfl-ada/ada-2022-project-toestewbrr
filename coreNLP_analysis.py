@@ -23,7 +23,7 @@ def get_tree(movie_id):
 
 # Given a movie ID, get the file tree from xml CoreNLP augmented pipeline output
 def get_tree_romance(movie_id):
-    xml_filename = os.path.join(XML_DIR_ROMANCE, '{}.txt.xml'.format(movie_id))
+    xml_filename = os.path.join(XML_DIR_ROMANCE, '{}.xml'.format(movie_id))
     tree = ET.parse(xml_filename)
     return tree
 
@@ -217,6 +217,28 @@ def get_plots(genres, movie_df, plot_df):
     genres_plots = movie_of_genres.merge(plot_df, on='Wikipedia ID', how='left')[['Wikipedia ID', 'Summary']]
     genres_plots = genres_plots[~genres_plots['Summary'].isna()]
     return genres_plots
+
+# Create a list of tuples containing (movie_id, subject, object) for each kbp triples with title relationship
+def get_relation_df(DIR, relation_type, confidence_threshold=0.9): 
+    '''
+    Find all subject and object pairs that have a relation type of relation_type
+    Input: 
+        DIR: directory to get the xml file 
+        relation_type: full list of relations can be find here https://stanfordnlp.github.io/CoreNLP/kbp.html
+        confidence_threshold: float between 0 and 1, the minimum confidence of the relation
+    Output:
+        relations: a list of tuples (movie_id, subject, object)
+    '''
+    relation = []
+    for filename in os.listdir(DIR):
+        # Manually deleted files: 43849.xml and 1282593.xml because could not be parsed
+        if filename != ".DS_Store" and filename != "43849.xml" and filename != "1282593.xml":
+            movie_id = filename[:-4]
+            relation.append(get_relation(movie_id, relation_type, confidence_threshold))
+    # Create a dataframe with the list of tuples
+    relation_df = pd.DataFrame([item for sublist in relation for item in sublist], columns=['Wikipedia ID', 'Subject', 'Relation'])
+    relation_df = relation_df.groupby(['Wikipedia ID','Subject'])['Relation'].apply(', '.join).reset_index()  
+    return relation_df   
 
 # We define a method that takes in a movie id, relation_type and confidence threshold and 
 # outputs a list of tuples containing all subject and object pairs in the movie that have this type of relation
