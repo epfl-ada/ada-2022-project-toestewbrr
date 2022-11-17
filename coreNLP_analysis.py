@@ -13,10 +13,17 @@ import itertools
 from load_data import *
 
 XML_DIR = 'Data/CoreNLP/corenlp_plot_summaries_xml'
+XML_DIR_ROMANCE = 'RomancePlotsOutputs'
 
 # Given a movie ID, get the file tree from xml CoreNLP output
 def get_tree(movie_id):
     xml_filename = os.path.join(XML_DIR, '{}.xml'.format(movie_id))
+    tree = ET.parse(xml_filename)
+    return tree
+
+# Given a movie ID, get the file tree from xml CoreNLP augmented pipeline output
+def get_tree_romance(movie_id):
+    xml_filename = os.path.join(XML_DIR_ROMANCE, '{}.txt.xml'.format(movie_id))
     tree = ET.parse(xml_filename)
     return tree
 
@@ -192,3 +199,67 @@ def character_pairs(movie_id, plot_df):
     # Sort character pairs by number of times they appear together
     sorted_pairs = sorted(char_pairs.items(), key=lambda x: x[1], reverse=True)
     return sorted_pairs
+
+
+# We define a method that takes in a list of movie genres and outputs their plot summaries 
+def get_plots(genres, movie_df, plot_df):
+    '''
+    Find all movies of specified genres and return a dataframe containing their id and summaries
+    Input: 
+        genres: list of genres
+        movie_df: dataframe containing movies' Wikipedia ID and genres 
+        plot_df: dataframe containing movies' Wikipedia ID and their plot summaries 
+    Output:
+        genres_plots: dataframe containing movies' Wikipedia ID and their plot summaries
+    '''
+    is_genres = lambda i: lambda x: any(y in genres[i] for y in x) if type(x) == list else False
+    movie_of_genres = movie_df[movie_df['Genres'].apply(is_genres(slice(0, len(genres))))]
+    genres_plots = movie_of_genres.merge(plot_df, on='Wikipedia ID', how='left')[['Wikipedia ID', 'Summary']]
+    genres_plots = genres_plots[~genres_plots['Summary'].isna()]
+    return genres_plots
+
+# We define a method that takes in a movie id, relation_type and confidence threshold and 
+# outputs a list of tuples containing all subject and object pairs in the movie that have this type of relation
+def get_relation(movie_id, relation_type, confidence_threshold=0.9):
+    '''
+    Find all subject and object pairs that have a relation type of relation_type
+    Input: 
+        movie_id: Wikipedia ID of the movie
+        relation_type: full list of relations can be find here https://stanfordnlp.github.io/CoreNLP/kbp.html
+        confidence_threshold: float between 0 and 1, the minimum confidence of the relation
+    Output:
+        relations: a list of tuples (movie_id, subject, object)
+    '''
+    tree = get_tree_romance(movie_id)
+    relations = []
+    isRelationType = False
+    # Iterate through the tree
+    for child in tree.iter():
+        # Once at kbp section, find the triple (subject, relation, object) of the correct relation type
+        if child.tag == 'kbp':
+            for triple in child.iter():
+                if triple.tag == 'triple':
+                    # Check if confidence level is above threshold
+                    confidence = float(triple.attrib['confidence'].replace(',', '.'))
+                    if confidence > confidence_threshold: 
+                        for element in triple.iter():
+                            # Store the subject 
+                            if element.tag == 'subject':
+                                for el in element.iter():
+                                    if el.tag == 'text':
+                                        subject = el.text
+                            # Store the relation 
+                            if element.tag == 'relation':
+                                for el in element.iter():
+                                    if el.tag == 'text':
+                                        if el.text == relation_type:
+                                            isRelationType = True
+                                            relation = el.text
+                            # If the relation type is correct, store the triple
+                            if element.tag == 'object' and isRelationType:
+                                for el in element.iter():
+                                    if el.tag == 'text':
+                                        object = el.text
+                                        relations.append((movie_id, subject, object))
+                                        isRelationType = False
+    return relations
