@@ -1,6 +1,4 @@
-# Data-Driven Analysis of Romance in Movie
-
-# DRAMA: Data-driven Romance Analysis in Movies 
+# Call Me By Your Name: A Data-Driven Analysis of Romantic Movies
 
 **ToeStewBrr** 🍲 🦶: Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery
 
@@ -12,10 +10,9 @@ The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains pl
 
 To gain a comprehensive understanding of the characters paired in romantic relationships in movies, we aim to answer the following questions:
 
-1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
-2. Are there recurrent personality types among lovers for each gender?
-3. Which type of personalities are coupled together?
-5. Has the cinematic couple evolved over time?
+1. Are there recurrent personality types among lovers?
+2. Which type of personalities are coupled together?
+3. Has the cinematic couple evolved over time?
 
 ## Methods ✒️
 
@@ -79,41 +76,27 @@ We now use a **custom CoreNLP pipeline** to analyze the plot summaries. A comple
 
 Note: Due to the weakness of our available computing power, our current analysis is restricted to [ADD NUMBER] romantic comedy movies. A broader analysis will be performed when we gain access to more powerful computing clusters.  
 
-From our custom pipeline, we extracted couples from the plot summaries. The NER annotator recognizes characters, while coref links together all common mentions of each character. The OpenIE and KBP annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies.
+From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **OpenIE** and **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. 
 
 ### 3. Future analysis
 
 We now define the methods we will use to answer our research questions. 
 
-
-> ### How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
-
-We will extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity and religion. We will also use the corresponding available actor metadata when available. 
-
-
-Method: Extracting personalities using KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
-
- > ### Are there recurrent personality types among lovers for each gender?
+ > ### Are there recurrent personality types among lovers?
     
+To answer this question, we will first gather as much information as possible about each character involved in a love relationship. We can obtain the main role of each lover from the KBP tag `per:title`. Additional information including actions, adjectives and attributes will be extracted from KBP relation triples with this entity as subject.
 
-- Using the extracted couples, we obtain the role of each character involved from per:title. 
+We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. 
 
-- OpenIE: Extract information by looking at relation triples, where Named entity is the subject, and collect all object adjectives or common nouns.
-
-- Cluster the above character information using BERT transformer, then dimensionality reduction through UMAP and then use a clustering algorithm to agglomerate personality types, which we will visualize in a 2D interactive graph. 
-
-1. Get characters in a couple using CoreNLP per:spouse
-2. For each character in a couple, get associated list of descriptive words (like adjectives, actions or attributes)
-3. For each character description, map it to a 100-dimensional embedding using BERT or NLTK, then do principal component analysis to map back to 2- or 3-dimensional space and visualize the clusters
-
-Gender differences
-- From the couples and their character personalities from 3.1. and 3.2., we will explore how personalities differ across genders. 
-- Most common personality types for each gender. 
-
+We will also strive to identify which personality types are most common for each gender using a gender annotator.
 
 > ### Which type of personalities are coupled together?
 
-  
+
+How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
+
+We will extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity and religion. We will also use the corresponding actor metadata when available. 
+
 > ### Has the cinematic couple evolved over time?
 
 Dividing all movies by decade, we will look at the most common personality types among couples and how it evolves through time. 
