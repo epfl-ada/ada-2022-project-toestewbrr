@@ -20,7 +20,9 @@ DATA_PATH = 'Data/MovieSummaries/'
 GZ_DIR = 'Data/CoreNLP/corenlp_plot_summaries'
 XML_DIR = GZ_DIR + '_xml'
 
+
 def download_data(coreNLP=True):
+    '''Download the data from the CMU Movie Summary Corpus'''
     summaries_filename = 'http://www.cs.cmu.edu/~ark/personas/data/MovieSummaries.tar.gz'
     if not os.path.exists('Data/MovieSummaries'):
         my_tar = tarfile.open(fileobj=urllib.request.urlopen(summaries_filename), mode="r:gz") 
@@ -49,12 +51,14 @@ def download_data(coreNLP=True):
 
 
 def load_plot_df():
+    '''Load the plot summaries from the CoreNLP files'''
     plot_path = DATA_PATH + 'plot_summaries.txt'
     plot_cols = ['Wikipedia ID', 'Summary']
     plot_df = pd.read_csv(plot_path, sep='\t', header=None, names=plot_cols, index_col=False)
     return plot_df
 
 def load_movie_df():
+    '''Load the movie metadata from the CoreNLP files'''
     strip_encoding = lambda x: np.nan if x == '{}' else [w.replace(' Language', '').replace(' language', '') for w in re.findall(r'"(.*?)"', x)[1::2]]
 
     movie_path = DATA_PATH + 'movie.metadata.tsv'
@@ -67,6 +71,7 @@ def load_movie_df():
     return movie_df
 
 def load_char_df():
+    '''Load the character metadata from the CoreNLP files'''
     char_path = DATA_PATH + 'character.metadata.tsv'
     char_cols = ['Wikipedia ID', 'Freebase ID', 'Release date', 'Character name', 'Date of birth', 
                 'Gender', 'Height', 'Ethnicity', 'Actor name', 'Actor age at release', 
@@ -75,6 +80,7 @@ def load_char_df():
     return char_df
 
 def load_names_df():
+    '''Load the names metadata from the CoreNLP files'''
     names_path = DATA_PATH + 'name.clusters.txt'
     names_cols = ['Character name', 'Cluster']
     names_df = pd.read_csv(names_path, sep='\t', header=None, names=names_cols, dtype = {'Freebase ID': str})
@@ -82,6 +88,7 @@ def load_names_df():
     return names_df
 
 def load_cluster_df():
+    '''Load the clusters metadata from the CoreNLP files'''
     cluster_path = DATA_PATH + 'tvtropes.clusters.txt'
     cluster_cols = ['Cluster', 'Character data']
     cluster_df = pd.read_csv(cluster_path, sep='\t', header=None, names=cluster_cols, dtype = {'Freebase ID': str})
