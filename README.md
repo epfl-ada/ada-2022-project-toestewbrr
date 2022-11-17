@@ -41,19 +41,17 @@ Although this gives a rough sketch of the personalities, the classification of 5
 
 ### 2. CoreNLP analysis
 
-[**CoreNLP**](https://nlp.stanford.edu/software/) is an incredible natural language processing toolkit created at Stanford University. CoreNLP analysis is run through a **pipeline** of sequential analysis steps called annotators. The full list of available annotators is available [here](https://stanfordnlp.github.io/CoreNLP/annotators.html). We will use CoreNLP to extract couples and lovers' persona from the plot summaries. 
+[**CoreNLP**](https://nlp.stanford.edu/software/) is an natural language processing toolkit with vast capability created at Stanford University. Its textual analysis is run through a **pipeline** of sequential analysis steps called annotators. The full list of available annotators is available [here](https://stanfordnlp.github.io/CoreNLP/annotators.html). We will use CoreNLP to extract couples and lovers' persona from the plot summaries. 
 
 #### 2.1. Exploring pre-existing analysis
 
 The authors of the dataset had performed a preliminary analysis using CoreNLP on the plot summaries. This data was useful to extract the main character as the one with the highest number of mentions for each movie. Moreover, we extracted the main pair of interacting characters by using the number of common mentions within a sentence as a proxy for interaction. 
 
-However, our end goal is to extract love relationships as well as the lovers' persona. Using common mentions as a proxy for love relationships is a vulgar approximation and so we must run our own NLP analysis on the plot summaries to extract more accurate information. We therefore decided to build our own customized CoreNLP pipeline on the plot summaries. 
+However, our end goal is to extract love relationships as well as lovers' persona. Using common mentions as a proxy for love relationships is but a shallow approximation.  We concluded that we must therefore run our own NLP analysis to extract more valuable insights. We therefore decided to build our own customized CoreNLP pipeline. 
 
 #### 2.2. Custom CoreNLP pipeline
 
-We now use a **custom CoreNLP pipeline** to analyze the plot summaries. For now, due to the weakness of our available computing power, we only analyze romantic comedy movies. A complete description of our NLP pipeline is available in the `coreNLP_analysis.ipynb` notebook. 
-
-Our custom pipeline consists of the following annotators: 
+We now use a **custom CoreNLP pipeline** to analyze the plot summaries. A complete description of our pipeline is available in the `coreNLP_analysis.ipynb` notebook. Our custom pipeline consists of the following annotators: 
 
 1. [Tokenization (tokenize)](https://stanfordnlp.github.io/CoreNLP/tokenize.html): Turns the whole text into tokens. 
 
@@ -75,20 +73,21 @@ Our custom pipeline consists of the following annotators:
 
 10. [Knowledge Base Population (KBP)](https://stanfordnlp.github.io/CoreNLP/kbp.html): Filters meaningful relation triples. 
 
+#### 2.4. Results
+
+Note: Due to the weakness of our available computing power, our current analysis is restricted to [ADD NUMBER] romantic comedy movies. A broader analysis will be performed when we gain access to more powerful computing clusters.  
+
+From our custom pipeline, we extracted couples from the plot summaries. The NER annotator recognizes characters, while coref links together all common mentions of each character. The OpenIE and KBP annotators then conveniently label love relationships between entities as per:spouse. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies.
+
 ### 3. Future analysis
+
+We now define the methods we will use to answer our research questions. 
 
 #### 3.1. Couple demographics
 
-[To delete] Question 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
+We will extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity and religion. We will also use the corresponding available actor metadata when available. 
 
-Describe our method to extract couples: 
 
-- NER: Recognizes characters (named entities) in plot summary
-
-- Coref: links together all mentions of each character
-
-- OpenIE + KBP: relation triples with per:spouse extracts couples
-    
 Method: Extracting personalities using KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
 
 #### 3.2. Lovers' personalities
@@ -136,4 +135,6 @@ Dividing all movies by decade, we will look at the most common personality types
 
 ## Questions for the TA ❔
 * Find a way to label the characters or the relationships? 
+
+
 
