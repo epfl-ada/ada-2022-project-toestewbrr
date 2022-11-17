@@ -1,4 +1,6 @@
-# A Data-Driven Analysis of Romance in Movies
+# Data-Driven Analysis of Romance in Movie
+
+# DRAMA: Data-driven Romance Analysis in Movies 
 
 **ToeStewBrr** 🍲 🦶: Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery
 
@@ -11,9 +13,9 @@ The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains pl
 To gain a comprehensive understanding of the characters paired in romantic relationships in movies, we aim to answer the following questions:
 
 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
-2. Which type of personalities are coupled together?
-3. Are there recurrent personality types among lovers for each gender?
-4. Has the cinematic couple evolved over time?
+2. Are there recurrent personality types among lovers for each gender?
+3. Which type of personalities are coupled together?
+5. Has the cinematic couple evolved over time?
 
 ## Methods ✒️
 
@@ -77,22 +79,21 @@ We now use a **custom CoreNLP pipeline** to analyze the plot summaries. A comple
 
 Note: Due to the weakness of our available computing power, our current analysis is restricted to [ADD NUMBER] romantic comedy movies. A broader analysis will be performed when we gain access to more powerful computing clusters.  
 
-From our custom pipeline, we extracted couples from the plot summaries. The NER annotator recognizes characters, while coref links together all common mentions of each character. The OpenIE and KBP annotators then conveniently label love relationships between entities as per:spouse. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies.
+From our custom pipeline, we extracted couples from the plot summaries. The NER annotator recognizes characters, while coref links together all common mentions of each character. The OpenIE and KBP annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies.
 
 ### 3. Future analysis
 
 We now define the methods we will use to answer our research questions. 
 
-#### 3.1. Couple demographics
+    How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
 
 We will extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity and religion. We will also use the corresponding available actor metadata when available. 
 
 
 Method: Extracting personalities using KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
 
-#### 3.2. Lovers' personalities
-
-[To delete] Question 2. Which type of personalities are coupled together?
+    Are there recurrent personality types among lovers for each gender?
+    
 
 - Using the extracted couples, we obtain the role of each character involved from per:title. 
 
@@ -100,18 +101,19 @@ Method: Extracting personalities using KBP: Extract information from each charac
 
 - Cluster the above character information using BERT transformer, then dimensionality reduction through UMAP and then use a clustering algorithm to agglomerate personality types, which we will visualize in a 2D interactive graph. 
 
-#### 3.3. Gender differences
+1. Get characters in a couple using CoreNLP per:spouse
+2. For each character in a couple, get associated list of descriptive words (like adjectives, actions or attributes)
+3. For each character description, map it to a 100-dimensional embedding using BERT or NLTK, then do principal component analysis to map back to 2- or 3-dimensional space and visualize the clusters
 
-[To delete] Question 3. Are there recurrent personality types among lovers for each gender?
-
+Gender differences
 - From the couples and their character personalities from 3.1. and 3.2., we will explore how personalities differ across genders. 
-
-
 - Most common personality types for each gender. 
 
-#### 2.4. Evolution in time
 
-[To delete] Question 4. Has the cinematic couple evolved over time?
+    Which type of personalities are coupled together?
+
+  
+    Has the cinematic couple evolved over time?
 
 Dividing all movies by decade, we will look at the most common personality types among couples and how it evolves through time. 
 
