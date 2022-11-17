@@ -2,7 +2,10 @@
 
 **Team: ToeStewBrr** 🍲 🦶
 
-Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery
+<p align="center">
+    Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery
+</p>
+
 
 ## Abstract 📰
 
