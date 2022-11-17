@@ -19,30 +19,30 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 ## Methods ✒️
 
 ### 1. General analysis
-To gain a better understanding of the provided datasets, we first performed an exploratory analysis. We show here a single finding from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. 
+To gain a better understanding of the provided datasets, we first performed an exploratory analysis. We show here only two findings from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. 
 
 
 #### 1.1. Romantic movies
 
-The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. This illustrates that movies from around 1900 are often short, such as the [Dickson Experimental Sound Film](https://en.wikipedia.org/wiki/The_Dickson_Experimental_Sound_Film). Second, we find that, on average, romantic movies are longer than non-romantic movies.  
+The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. Second, we find that, on average, romantic movies are longer than non-romantic movies.  
 
 <p align="center" width="100%">
-    <img width="80%" src="Images/Runtime.png">
+    <img width="70%" src="Images/Runtime.png">
 </p>
 
 #### 1.2. Character personalities
 
-As a first step to discovering the personalities that are matched together in a couple, we used the tv trope personality types that were part of the CMU dataset. Characters from approximately 500 movies were classified into 72 character types. When considering romantic movies, we obtained the top 5 character types that are displayed in the histogram below. For those wondering: the defining characteristics of a "ditz" are [profound stupidness or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
+As a first step to discovering the personalities that are matched together in a couple, we used the provided TV trope personality types. Characters from approximately 500 movies were classified into 72 character types. From this, we obtained the 10 most common character types among romantic movies as shown below. For those wondering: the defining characteristics of a '*ditz*' are [profound stupidness or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
 
 <p align="center" width="100%">
-    <img width="80%" src="Images/Tv_trope_clusters.png">
+    <img width="70%" src="Images/Tv_trope_clusters.png">
 </p>
 
-Although this gives a rough sketch of the personalities, the classification of 500 movies is rather limited. Therefore, we will conduct our own analysis directly on the plot summaries to extract couples and character roles. 
+Although this gives a rough sketch of the different personality clusters, only 500 of the 42,306 movies are involved. We have therefore conducted our own  analysis directly on the plot summaries to extract couples and character roles. 
 
 ### 2. CoreNLP analysis
 
-[**CoreNLP**](https://nlp.stanford.edu/software/) is an natural language processing toolkit with vast capability created at Stanford University. Its textual analysis is run through a **pipeline** of sequential analysis steps called annotators. The full list of available annotators is available [here](https://stanfordnlp.github.io/CoreNLP/annotators.html). We will use CoreNLP to extract couples and lovers' persona from the plot summaries. 
+[**CoreNLP**](https://nlp.stanford.edu/software/) is an NLP toolkit with vast capability created at Stanford University. It runs through a **pipeline** of sequential textual analysis steps called **annotators**. The full list of available annotators is available [here](https://stanfordnlp.github.io/CoreNLP/annotators.html). We will use CoreNLP to extract couples and lovers' persona from the plot summaries. 
 
 #### 2.1. Exploring pre-existing analysis
 
