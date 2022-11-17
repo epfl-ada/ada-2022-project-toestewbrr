@@ -1,4 +1,4 @@
-# How are relationships depicted in romantic movies? 
+# Which characters are paired in romantic movies? 
 _Toestewbrr 🍲 🦶 : Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery_
 
 ## Abstract 📰
@@ -7,14 +7,13 @@ The CMU dataset contains plot summarie and metadata on movies between 1888 and 2
 
 ## Research questions ❓
 
-To gain a comprehensive understanding of the romantic relationships shown in movies, we aim to answer the following questions:
+To gain a comprehensive understanding of the characters paired in romantic relationships in movies, we aim to answer the following questions:
 
-1. Which types of characters are coupled in a romantic relationship in movies?
-   * How do the demographics differ in the couple (i.e. age, ethnicity, religion)?
-   * Which type of personalities are coupled together?
-   * How present are non-heterosexual couples?
-   * How often is one person of the couple dying? 💀
-2. Are romantic relationships depicted differently in older movies?
+1. How do the demographics differ in the couple (i.e. age, ethnicity, religion)?
+2. Which type of personalities are coupled together?
+3. How present are non-heterosexual couples?
+4. How often is one person of the couple dying? 💀
+5. Is there a difference in the findings in (1)-(4) for older movies?
 
 ## Methods ✒️
 
