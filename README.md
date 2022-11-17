@@ -30,6 +30,7 @@ Marguerite
 #### Types of personalities
 TV tropes as preliminarie, explain with coreNLP
 
+![Images](Images/Tv trope clusters.png)
 #### How often is a character in a relationship dying?
 Histogram with main causes of dying
 
@@ -48,13 +49,12 @@ Explain how we will analyze it; show difference from gen analysis
 
 ## Proposed timeline ⏲️
 * 19-11-2022: Submit the second milestone
-* 25-11-2022: Have paired characters with their corresponding characteristics
-* 02-12-2022: Analyze the relationships between the characters
-* 09-12-2022: Start creating the visualizations for the website 
-* 16-12-2022: 
-  * Code finished and commented 
-  * A full first draft of the website, with all graphs available 
-  * Time-permitting: interactive plots
+* 23-11-2022: Run coreNLP augmented pipeline on all the plot summaries. 
+* 25-11-2022: Extract love pairs characters with their corresponding characteristics. 
+* 02-12-2022: Perform analysis on demographics and personality types between characters in a romantic relationship. 
+* 09-12-2022: Run temporal analysis. Begin developing a rough draft of the datastory.
+* 16-12-2022: Complete code implementation and interactive visualizations. 
+* 20-12-2022: Complete datastory. 
 * 23-12-2022: Hand-in the project 
 
 ## Organization within the team 💪
