@@ -42,15 +42,15 @@ Although this gives a rough sketch of the personalities, the classification of 5
 
 ### 2. CoreNLP analysis
 
-#### 2.1. Extracting characters from existing analysis
+#### 2.1. Extracting characters from existing analysis
 
 Next, we used the [CoreNLP](https://stanfordnlp.github.io/CoreNLP/) natural language processing toolkit to extract couples and character roles from the plot summaries. The authors of the dataset had performed a limited analysis using CoreNLP on the plot summaries. This data was useful to extract the main character as the one with the highest number of mentions for each movie.  
 
 Moreover, we extracted the main pair of interacting characters by using the number of common mentions within a sentence as a proxy for interaction. However, our goal is to extract love relationships as well as the persona of characters in love. Using common mentions as a proxy for love relationships is a vulgar approximation and so we must run our own NLP analysis on the plot summaries to extract useful information. We therefore decided to build our own customized CoreNLP pipeline on the plot summaries. 
 
-#### 2.2. Custom CoreNLP pipeline
+#### 2.2. Custom CoreNLP pipeline
 
-
+A complete description of our pipeline is available in the `coreNLP_analysis.ipynb` notebook. 
 
 #### 2.3. Character roles among genders
 
