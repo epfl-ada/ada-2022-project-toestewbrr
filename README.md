@@ -28,7 +28,9 @@ Explanation: meaning
 Marguerite
 
 #### Types of personalities
-TV tropes as preliminarie, explain with coreNLP
+As a first step to discovering the personalities that are matched together in a couple, we used the tv trope personality types that were part of the CMU dataset. Characters from approximately 500 movies were classified into 72 character types. When considering romantic movies, we obtained the top 5 character types that are displayed in the histogram below. For those wondering: the defining characteristics of a "ditz" are [profound stupidness or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
+
+Although this gives a rough sketch of the personalities, the classification of 500 movies is rather limited. Therefore, ..... CORENLP EXPLANATION RELATED TO THIS
 
 ![Images](Images/Tv_trope_clusters.png)
 #### How often is a character in a relationship dying?
