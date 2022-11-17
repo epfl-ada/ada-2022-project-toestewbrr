@@ -11,6 +11,7 @@ To gain a comprehensive understanding of the romantic relationships shown in mov
 
 1. Which types of characters are coupled in a romantic relationship in movies?
    * How do the demographics differ in the couple (i.e. age, ethnicity, religion)?
+   * Which type of personalities are coupled together?
    * How present are non-heterosexual couples?
    * How often is one person of the couple dying?
 2. Are romantic relationships depicted differently in older movies?
