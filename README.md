@@ -39,7 +39,8 @@ To gain a comprehensive understanding of the romantic relationships shown in mov
 ## Organization within the team 
 |            | **Task**                                                                                             |
 |------------|------------------------------------------------------------------------------------------------------|
-| Teammate 1 | Develop core NLP pipeline with teammate 2  Use core NLP to describe relationships between characters |
+| Teammate 1 | Develop core NLP pipeline with teammate 2  
+               Use core NLP to describe relationships between characters |
 | Teammate 2 | Develop core NLP pipeline with teammate 1  Cluster characters by main characteristics                |
 | Teammate 3 | Refine classification for romantic words  Set up the website                                         |
 | Teammate 4 | Continue exploration of the dataset  Develop a list of visualizations for on the website             |
