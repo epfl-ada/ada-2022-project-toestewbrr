@@ -12,7 +12,7 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 
 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
 2. Which type of personalities are coupled together?
-3. How often is one person of the couple dying? 💀
+3. How often is one person of the couple dying and why is the cause of their death (are heart attacks more likely...)? 💀
 4. Is there a difference in the findings in (1)-(4) for older movies?
 
 ## Methods ✒️
