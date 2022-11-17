@@ -10,23 +10,32 @@ The CMU dataset contains plot summarie and metadata on movies between 1888 and 2
 
 To gain a comprehensive understanding of the characters paired in romantic relationships in movies, we aim to answer the following questions:
 
-1. How do the demographics differ in the couple (i.e. age, ethnicity, religion)?
+1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion)?
 2. Which type of personalities are coupled together?
-3. How present are non-heterosexual couples?
-4. How often is one person of the couple dying? 💀
-5. Is there a difference in the findings in (1)-(4) for older movies?
+3. How often is one person of the couple dying? 💀
+4. Is there a difference in the findings in (1)-(4) for older movies?
 
 ## Methods ✒️
 
 ### General analysis
+Alex will fix: general info
 
-### Which types of characters are coupled in a romantic relationship?
+### CoreNLP to analyze relationships
+Explanation: meaning
 
-### How are romantic relationships characterized?
+#### Differences in demographic within a couple
+Marguerite
 
-### Are romantic relationships depicted differently in older movies?
+#### Types of personalities
+TV tropes as preliminarie, explain with coreNLP
 
-### Differences over time
+#### How often is a character in a relationship dying?
+Histogram with main causes of dying
+
+#### Differences in romantic relationships for older movies
+Explain how we will analyze it; show difference from gen analysis
+
+#### Differences over time
 * Type of characters and type of relationships 
   * ex: are there more personas with x characteristic in y type of relation
 * Find plot summaries which contain most love related words 
