@@ -72,9 +72,7 @@ We now use a **custom CoreNLP pipeline** to analyze the plot summaries. A comple
 
 10. [Knowledge Base Population (KBP)](https://stanfordnlp.github.io/CoreNLP/kbp.html): Filters meaningful relation triples. 
 
-#### 2.4. Results
-
-Note: Due to the weakness of our available computing power, our current analysis is restricted to [ADD NUMBER] romantic comedy movies. A broader analysis will be performed when we gain access to more powerful computing clusters.  
+Due to the weakness of our available computing power, our current analysis is restricted to [ADD NUMBER] romantic comedy movies. A broader analysis will be performed when we gain access to more powerful computing clusters.  
 
 From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **OpenIE** and **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. 
 
