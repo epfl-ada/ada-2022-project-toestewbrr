@@ -73,9 +73,21 @@ Our custom pipeline consists of the following annotators:
 
 9. [Open Information Extraction (OpenIE)](https://stanfordnlp.github.io/CoreNLP/openie.html): Identifies relation between words as triples *(subject, relation, object of relation)*. We use this to extract relationships between characters, as well as character traits. 
 
-10. [Knowledge Base Population (KBP)](https://stanfordnlp.github.io/CoreNLP/kbp.html): Identifies meaningful relation triples. 
+10. [Knowledge Base Population (KBP)](https://stanfordnlp.github.io/CoreNLP/kbp.html): Filters meaningful relation triples. 
+
+Extracting personalities: NER + coref + gender + KBP (age, role, country)
+- NER: Recognizes characters (named entities) in plot summary
+- Coref: links together all mentions of each character
+- KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
+
+Extracting 
+
 
 #### 2.2. Difference in demographics within a couple
+
+
+
+
 
 #### 2.2. Personalities that are coupled together
 
