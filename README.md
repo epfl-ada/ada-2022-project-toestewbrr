@@ -18,11 +18,11 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 
 ## Methods ✒️
 
-### General analysis
+### 1. General analysis
 To gain a better understanding of the provided datasets, we first performed an exploratory analysis. We show here a single finding from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. 
 
 
-#### Romantic movies
+#### 1.1. Romantic movies
 
 The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. This illustrates that movies from around 1900 are often short, such as the [Dickson Experimental Sound Film](https://en.wikipedia.org/wiki/The_Dickson_Experimental_Sound_Film). Second, we find that, on average, romantic movies are longer than non-romantic movies.  
 
@@ -30,7 +30,7 @@ The figure below shows the runtime of romantic movies and non-romantic movies ov
     <img width="90%" src="Images/Runtime.png">
 </p>
 
-#### Character personalities
+#### 1.2. Character personalities
 
 As a first step to discovering the personalities that are matched together in a couple, we used the tv trope personality types that were part of the CMU dataset. Characters from approximately 500 movies were classified into 72 character types. When considering romantic movies, we obtained the top 5 character types that are displayed in the histogram below. For those wondering: the defining characteristics of a "ditz" are [profound stupidness or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
 
@@ -40,25 +40,25 @@ As a first step to discovering the personalities that are matched together in a 
 
 Although this gives a rough sketch of the personalities, the classification of 500 movies is rather limited. Therefore, we will conduct our own analysis directly on the plot summaries to extract couples and character roles. 
 
-### CoreNLP analysis
+### 2. CoreNLP analysis
 
-Next, we used the [CoreNLP](https://stanfordnlp.github.io/CoreNLP/) natural language processing toolkit to extract couples and character roles from the plot summaries. 
+#### 2.1. Extracting characters from existing analysis
+
+Next, we used the [CoreNLP](https://stanfordnlp.github.io/CoreNLP/) natural language processing toolkit to extract couples and character roles from the plot summaries. The authors of the dataset had performed a limited analysis using CoreNLP on the plot summaries. This data was useful to extract the main character as the one with the highest number of mentions for each movie.  
+
+Moreover, we extracted the main pair of interacting characters by using the number of common mentions within a sentence as a proxy for interaction. However, our goal is to extract love relationships as well as the persona of characters in love. Using common mentions as a proxy for love relationships is a vulgar approximation and so we must run our own NLP analysis on the plot summaries to extract useful information. We therefore decided to build our own customized CoreNLP pipeline on the plot summaries. 
+
+#### 2.2. Custom CoreNLP pipeline
 
 
 
-#### 2.1. Character roles among genders
+#### 2.3. Character roles among genders
 
+#### 2.2. Lover personas
 
+#### 2.3. Gender differences
 
-
-
-#### Differences in demographic within a couple
-Marguerite
-
-#### How often is a character in a relationship dying?
-Histogram with main causes of dying
-
-#### Differences in romantic relationships for older movies
+#### 2.4. Evolution in time
 Explain how we will analyze it; show difference from gen analysis
 
 ## Proposed timeline ⏲️
