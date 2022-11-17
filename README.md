@@ -39,16 +39,6 @@ Histogram with main causes of dying
 #### Differences in romantic relationships for older movies
 Explain how we will analyze it; show difference from gen analysis
 
-#### Differences over time
-* Type of characters and type of relationships 
-  * ex: are there more personas with x characteristic in y type of relation
-* Find plot summaries which contain most love related words 
-* Extract information about each character (job, physical details, qualities, actions) using NLP Core on plot summaries 
-* Create pairs dataframe which contain the pairs of characters which are in a romantic relationship in a movie 
-* Plots: clouds/clusters. Clustering of the characters based on their features. Map each character in a loving relationship on a map based on the textual vector. Get a vector from word-to-vec from all characteristics and map it. Show the link between two characters. 
-* Find dataset online which maps main components of each character
-* Find type of relationships. 
-
 ## Proposed timeline ⏲️
 * 19-11-2022: Submit the second milestone
 * 23-11-2022: Run coreNLP augmented pipeline on all the plot summaries. 
