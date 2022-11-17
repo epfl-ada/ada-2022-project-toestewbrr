@@ -27,7 +27,7 @@ To gain a better understanding of the provided datasets, we first performed an e
 The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. This illustrates that movies from around 1900 are often short, such as the [Dickson Experimental Sound Film](https://en.wikipedia.org/wiki/The_Dickson_Experimental_Sound_Film). Second, we find that, on average, romantic movies are longer than non-romantic movies.  
 
 <p align="center" width="100%">
-    <img width="70%" src="Images/Runtime.png">
+    <img width="90%" src="Images/Runtime.png">
 </p>
 
 #### Character personalities
@@ -35,7 +35,7 @@ The figure below shows the runtime of romantic movies and non-romantic movies ov
 As a first step to discovering the personalities that are matched together in a couple, we used the tv trope personality types that were part of the CMU dataset. Characters from approximately 500 movies were classified into 72 character types. When considering romantic movies, we obtained the top 5 character types that are displayed in the histogram below. For those wondering: the defining characteristics of a "ditz" are [profound stupidness or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
 
 <p align="center" width="100%">
-    <img width="70%" src="Images/Tv_trope_clusters.png">
+    <img width="90%" src="Images/Tv_trope_clusters.png">
 </p>
 
 Although this gives a rough sketch of the personalities, the classification of 500 movies is rather limited. Therefore, we will conduct our own analysis directly on the plot summaries to extract couples and character roles. 
