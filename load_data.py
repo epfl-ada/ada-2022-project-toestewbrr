@@ -20,7 +20,7 @@ DATA_PATH = 'Data/MovieSummaries/'
 GZ_DIR = 'Data/CoreNLP/corenlp_plot_summaries'
 XML_DIR = GZ_DIR + '_xml'
 
-def download_data():
+def download_data(coreNLP=True):
     summaries_filename = 'http://www.cs.cmu.edu/~ark/personas/data/MovieSummaries.tar.gz'
     if not os.path.exists('Data/MovieSummaries'):
         my_tar = tarfile.open(fileobj=urllib.request.urlopen(summaries_filename), mode="r:gz") 
@@ -28,23 +28,24 @@ def download_data():
         my_tar.close()
     
     # Extract all coreNLP files to Data/CoreNLP
-    if not os.path.exists('Data/CoreNLP'):
-        coreNLP_filename = 'http://www.cs.cmu.edu/~ark/personas/data/corenlp_plot_summaries.tar'
-        my_tar = tarfile.open(fileobj=urllib.request.urlopen(coreNLP_filename), mode="r|") 
-        my_tar.extractall(path='./Data/CoreNLP')
-        my_tar.close()
+    if coreNLP:
+        if not os.path.exists('Data/CoreNLP'):
+            coreNLP_filename = 'http://www.cs.cmu.edu/~ark/personas/data/corenlp_plot_summaries.tar'
+            my_tar = tarfile.open(fileobj=urllib.request.urlopen(coreNLP_filename), mode="r|") 
+            my_tar.extractall(path='./Data/CoreNLP')
+            my_tar.close()
 
-    # Convert every file in directory Data/CoreNLP to xml format
-    if not os.path.exists(XML_DIR):
-        os.mkdir(XML_DIR)
-        for filename in os.listdir(GZ_DIR):
-            f = os.path.join(GZ_DIR, filename) 
-            if os.path.isfile(f):
-                # Open and store file as xml 
-                with gzip.open(f, 'rb') as f_in:
-                    gz_file = os.path.join(XML_DIR, filename)
-                    with open(gz_file[:-3], 'wb') as f_out:
-                        f_out.write(f_in.read())
+        # Convert every file in directory Data/CoreNLP to xml format
+        if not os.path.exists(XML_DIR):
+            os.mkdir(XML_DIR)
+            for filename in os.listdir(GZ_DIR):
+                f = os.path.join(GZ_DIR, filename) 
+                if os.path.isfile(f):
+                    # Open and store file as xml 
+                    with gzip.open(f, 'rb') as f_in:
+                        gz_file = os.path.join(XML_DIR, filename)
+                        with open(gz_file[:-3], 'wb') as f_out:
+                            f_out.write(f_in.read())
 
 
 def load_plot_df():

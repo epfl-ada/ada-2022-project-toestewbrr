@@ -1,20 +1,30 @@
-# How are relationships depicted in movies? 
+# How are romantic relationships depicted in movies? 
+_Toestewbrr 🍲 🦶 : Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery_
 
-## Motivation 
+## Abstract 📰
 
-Love appears as the third most common noun in the plot summaries (after father and man…#YOUGOGIRL). Love has a central place in movies regardless of their genres and hence movies highly contribute to our idea of what a romantic relationship should be. We want to know how relationships are portrayed in movies by looking specifically at the characters portrayed in romance movies. 
-WHAT DO WE WANT TO ANSWER? 
+The CMU dataset contains plot summarie and metadata on movies between 1888 and 2012. In these plot summaries, love appears as the third most common noun (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying the two characters that are coupled in a movie. Movies reflect the culture at the time of creation, therefore this research can provide insights on how views on romance differ across time and across the world. PART REGARDING THE RESEARCH METHODS
 
-## Research questions 
+## Research questions ❓
 
-* What is the evolution of relationship through time? 
-* What is the social status of each character involved in the relationship? (too hard for the given amount of time) 
-* What are their characteristics (smart, wealthy, beautiful)? 
-* Who does the relationship benefit? 
-* Is it a happy/violent/short relationship? How does the relationship end? 
+To gain a comprehensive understanding of the romantic relationships shown in movies, we aim to answer the following questions:
 
-## Methods 
+1. Can we cluster characters in movies by their main characteristics?
+2. Which types of characters are coupled in a romantic relationship in movies?
+3. How are romantic relationships characterized (happy / violent / short)?
+4. Are romantic relationships depicted differently in older movies?
 
+## Methods ✒️
+
+### General analysis
+
+### Clustering characters by their characteristics text
+
+### Romantic couples in movies
+
+### Characterization of romantic relationship
+
+### Differences over time
 * Type of characters and type of relationships 
   * ex: are there more personas with x characteristic in y type of relation
 * Find plot summaries which contain most love related words 
@@ -24,32 +34,25 @@ WHAT DO WE WANT TO ANSWER?
 * Find dataset online which maps main components of each character
 * Find type of relationships. 
 
-## Proposed timeline 
-* November 19: Redefine subject ideas and submission of milestone and wordvec working
-* November 25: Relationship pairs and corresponding attributes dataset
-* December 2: Analysis on the relationship dataset
-* December 9: Imagine and create graphs 
-* December 16: 
+## Proposed timeline ⏲️
+* 19-11-2022: Submit the second milestone
+* 25-11-2022: Have paired characters with their corresponding characteristics
+* 02-12-2022: Analyze the relationships between the characters
+* 09-12-2022: Start creating the visualizations for the website 
+* 16-12-2022: 
   * Code finished and commented 
-  * Full draft of the website (website is working, summary of how we are going to write the story, having all graphs available) 
-  * (bonus) Interactive plots
-* December 23: Hand-in the project 
+  * A full first draft of the website, with all graphs available 
+  * Time-permitting: interactive plots
+* 23-12-2022: Hand-in the project 
 
-## Organization within the team 
+## Organization within the team 💪
+|            | **Task**                                                                                             |
+|------------|------------------------------------------------------------------------------------------------------|
+| Antoine | Develop core NLP pipeline with Marguerite <br /> Use core NLP to describe relationships between characters |
+| Marguerite | Develop core NLP pipeline with Antoine <br /> Cluster characters by main characteristics                |
+| Hugo | Refine classification for romantic words  <br /> Set up the website and learn about interactive viz with Alexander                                         |
+| Alexander | Continue exploration of the dataset <br /> Set up the website and learn about interactive viz with Hugo             |
 
-## Questions 
+## Questions for the TA ❔
 * Find a way to label the characters or the relationships? 
-
-## TODO: 
-* General analysis: 
-  * character meta-analysis
-  * add first plot for the name clusters 
-  * Move description to load data 
-* CoreNLP 
-  * example of what we can extract from core nlp directly 
-  * extract characteristic from an example (marg)
-  * extract relationship from an example (ant)
-  * look at all words in all summaries : verbs (subj and obj), nouns
-* Word2Vec (hugo)
-  * get all love related words and gives you how significant 
 
