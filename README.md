@@ -17,12 +17,11 @@ To gain a comprehensive understanding of the romantic relationships shown in mov
 
 ### General analysis
 
+### Which types of characters are coupled in a romantic relationship?
 
-### Clustering characters by their characteristics text
+### How are romantic relationships characterized?
 
-### Romantic couples in movies
-
-### Characterization of romantic relationship
+### Are romantic relationships depicted differently in older movies?
 
 ### Differences over time
 * Type of characters and type of relationships 
