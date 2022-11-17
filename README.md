@@ -13,8 +13,7 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
 2. Which type of personalities are coupled together?
 3. Are there recurrent personality types among lovers for each gender?
-4. Are there different types of love couples?
-5. Has the cinematic couple evolved over time?
+4. Has the cinematic couple evolved over time?
 
 ## Methods ✒️
 
