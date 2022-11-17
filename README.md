@@ -1,5 +1,5 @@
 # Who is your soulmate?
-## _Which characters are paired in romantic movies? 
+## _Which characters are paired in romantic movies?_
 _Toestewbrr 🍲 🦶 : Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery_
 
 ## Abstract 📰
