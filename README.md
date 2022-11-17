@@ -26,7 +26,9 @@ To gain a better understanding of the provided datasets, we first performed an e
 
 The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. This illustrates that movies from around 1900 are often short, such as the [Dickson Experimental Sound Film](https://en.wikipedia.org/wiki/The_Dickson_Experimental_Sound_Film). Second, we find that, on average, romantic movies are longer than non-romantic movies.  
 
-![Runtime](Images/Runtime.png)
+<p align="center" width="100%">
+    <img width="70%" src="Images/Runtime.png">
+</p>
 
 #### Character personalities
 
