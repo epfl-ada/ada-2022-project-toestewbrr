@@ -18,7 +18,7 @@ To gain a comprehensive understanding of the romantic relationships shown in mov
 
 ### General analysis
 
-### Clustering characters by their characteristics
+#### Clustering characters by their characteristics
 
 ### Romantic couples in movies
 
