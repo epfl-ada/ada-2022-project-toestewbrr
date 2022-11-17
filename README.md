@@ -92,14 +92,11 @@ We will also strive to identify which personality types are most common for each
 
 > ### Which type of personalities are coupled together?
 
-
-How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
-
-We will extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity and religion. We will also use the corresponding actor metadata when available. 
+We will identify whether certain persona are frequently paired together. We will also extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity, social status and religion. We will also use the corresponding actor metadata when available. We will then explore how these demographics differ between lovers. 
 
 > ### Has the cinematic couple evolved over time?
 
-Dividing all movies by decade, we will look at the most common personality types among couples and how it evolves through time. 
+Dividing all movies by the decade of their release, we will look at the most common personality types among couples and how they evolve through time. An interactive graph will display how the personality type clusters vary over time. 
 
 ## Proposed timeline ⏲️
 * 19-11-2022: Submit the second milestone. 
@@ -125,6 +122,6 @@ Dividing all movies by decade, we will look at the most common personality types
 
 ## Bonus
     if (permutation(team_name) == professor_name): 
-        print('Haven't you noticed?')
+        print('Didn't you notice?')
 
 
