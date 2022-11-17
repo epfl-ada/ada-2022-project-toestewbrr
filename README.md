@@ -1,6 +1,6 @@
-# How are relationships depicted in movies? 
+# How are relationships depicted in romantic movies? 
 
-## Motivation 
+## Abstract :newspaper:
 
 Love appears as the third most common noun in the plot summaries (after father and man…#YOUGOGIRL). Love has a central place in movies regardless of their genres and hence movies highly contribute to our idea of what a romantic relationship should be. We want to know how relationships are portrayed in movies by looking specifically at the characters portrayed in romance movies. 
 WHAT DO WE WANT TO ANSWER? 
