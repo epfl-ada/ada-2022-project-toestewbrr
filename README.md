@@ -1,4 +1,5 @@
 # How are romantic relationships depicted in movies? 
+_Toestewbrr 🍲 🦶 : Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery_
 
 ## Abstract 📰
 
@@ -25,38 +26,25 @@ To gain a comprehensive understanding of the romantic relationships shown in mov
 * Find dataset online which maps main components of each character
 * Find type of relationships. 
 
-## Proposed timeline 
-* November 19: Redefine subject ideas and submission of milestone and wordvec working
-* November 25: Relationship pairs and corresponding attributes dataset
-* December 2: Analysis on the relationship dataset
-* December 9: Imagine and create graphs 
-* December 16: 
+## Proposed timeline ⏲️
+* 19-11-2022: Submit the second milestone
+* 25-11-2022: Have paired characters with their corresponding characteristics
+* 02-12-2022: Analyze the relationships between the characters
+* 09-12-2022: Start creating the visualizations for the website 
+* 16-12-2022: 
   * Code finished and commented 
-  * Full draft of the website (website is working, summary of how we are going to write the story, having all graphs available) 
-  * (bonus) Interactive plots
-* December 23: Hand-in the project 
+  * A full first draft of the website, with all graphs available 
+  * Time-permitting: interactive plots
+* 23-12-2022: Hand-in the project 
 
-## Organization within the team 
+## Organization within the team 💪
 |            | **Task**                                                                                             |
 |------------|------------------------------------------------------------------------------------------------------|
-| Teammate 1 | Develop core NLP pipeline with teammate 2 <br /> Use core NLP to describe relationships between characters |
-| Teammate 2 | Develop core NLP pipeline with teammate 1 <br /> Cluster characters by main characteristics                |
-| Teammate 3 | Refine classification for romantic words  <br /> Set up the website                                         |
-| Teammate 4 | Continue exploration of the dataset <br /> Develop a list of visualizations for on the website             |
+| Antoine | Develop core NLP pipeline with Marguerite <br /> Use core NLP to describe relationships between characters |
+| Marguerite | Develop core NLP pipeline with Antoine <br /> Cluster characters by main characteristics                |
+| Hugo | Refine classification for romantic words  <br /> Set up the website and learn about interactive viz with Alexander                                         |
+| Alexander | Continue exploration of the dataset <br /> Set up the website and learn about interactive viz with Hugo             |
 
-## Questions 
+## Questions for the TA ❔
 * Find a way to label the characters or the relationships? 
-
-## TODO: 
-* General analysis: 
-  * character meta-analysis
-  * add first plot for the name clusters 
-  * Move description to load data 
-* CoreNLP 
-  * example of what we can extract from core nlp directly 
-  * extract characteristic from an example (marg)
-  * extract relationship from an example (ant)
-  * look at all words in all summaries : verbs (subj and obj), nouns
-* Word2Vec (hugo)
-  * get all love related words and gives you how significant 
 
