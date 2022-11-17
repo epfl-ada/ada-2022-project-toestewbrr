@@ -1,4 +1,4 @@
-# How are romantic relationships depicted in movies? 
+# How are relationships depicted in romantic movies? 
 _Toestewbrr 🍲 🦶 : Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery_
 
 ## Abstract 📰
