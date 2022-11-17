@@ -34,7 +34,9 @@ As a first step to discovering the personalities that are matched together in a 
 
 ![Images](Images/Tv_trope_clusters.png)
 
-![Images](Images/Character.png)
+<p align="center">
+  ![Images](Images/Character.png)
+</p>
 
 Although this gives a rough sketch of the personalities, the classification of 500 movies is rather limited. Therefore, we will conduct our own analysis directly on the plot summaries to extract couples and character roles. 
 
