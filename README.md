@@ -121,6 +121,7 @@ Dividing all movies by decade, we will look at the most common personality types
 
 ## Questions for the TA ❔
 * Find a way to label the characters or the relationships? 
+* Which transformers and clustering methods are best suited to our needs?
 
 
 
