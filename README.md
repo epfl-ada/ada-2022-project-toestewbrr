@@ -29,7 +29,7 @@ Marguerite
 
 #### Types of personalities
 TV tropes as preliminarie, explain with coreNLP
-
+![](Images/Tv trope clusters)
 #### How often is a character in a relationship dying?
 Histogram with main causes of dying
 
