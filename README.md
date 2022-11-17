@@ -4,7 +4,7 @@ Toestewbrr 🍲 🦶 : Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Ma
 
 ## Abstract 📰
 
-The CMU dataset contains plot summarie and metadata on movies between 1888 and 2012. In these plot summaries, love appears as the third most common noun (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying the two characters that are coupled in a movie. Movies reflect the culture at the time of creation, therefore this research can provide insights on how views on romance differ across time and across the world. PART REGARDING THE RESEARCH METHODS
+The CMU dataset contains plot summaries and metadata on movies between 1888 and 2012. In these plot summaries, love appears as the third most common noun (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying the two characters that are coupled in a movie. Movies reflect the culture at the time of creation, therefore this research can provide insights on how views on romance differ across time and across the world. PART REGARDING THE RESEARCH METHODS
 
 ## Research questions ❓
 
