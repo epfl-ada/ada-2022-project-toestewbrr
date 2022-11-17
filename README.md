@@ -125,6 +125,6 @@ Dividing all movies by decade, we will look at the most common personality types
 
 ## Bonus
     if (permutation(team_name) == professor_name): 
-        print('Didn't you notice?')
+        print('Haven't you noticed?')
 
 
