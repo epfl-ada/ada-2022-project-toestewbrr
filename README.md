@@ -1,8 +1,7 @@
 # Call Me By Your Cluster: A Data-Driven Analysis of Romantic Movies
 
 <p align="center">
-    **Team: ToeStewBrr** 🍲 🦶
-    
+    Team: ToeStewBrr 🍲 🦶
     Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery
 </p>
 
