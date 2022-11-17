@@ -82,8 +82,11 @@ Our custom pipeline consists of the following annotators:
 [To delete] Question 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
 
 Describe our method to extract couples: 
+
     - NER: Recognizes characters (named entities) in plot summary
+    
     - Coref: links together all mentions of each character
+    
     - OpenIE + KBP: relation triples with per:spouse extracts couples
     
 Method: Extracting personalities using KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
@@ -93,6 +96,8 @@ Method: Extracting personalities using KBP: Extract information from each charac
 [To delete] Question 2. Which type of personalities are coupled together?
 
 - Using the extracted couples, we obtain the role of each character involved from per:title
+
+
 - OpenIE: Extract information by looking at relation triples, where Named entity is the subject, and collect all object adjectives or common nouns.
 
 
@@ -101,8 +106,9 @@ Method: Extracting personalities using KBP: Extract information from each charac
 [To delete] Question 3. Are there recurrent personality types among lovers for each gender?
 
 - From the couples and their character personalities from 3.1. and 3.2., we will explore how personalities differ across genders. 
+
+
 - Most common personality types for each gender. 
-.
 
 #### 2.4. Evolution in time
 
