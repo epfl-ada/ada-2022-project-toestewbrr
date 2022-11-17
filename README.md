@@ -52,6 +52,13 @@ However, our end goal is to extract love relationships as well as lovers' person
 
 We now use a **custom CoreNLP pipeline** to analyze the plot summaries. A complete description of our pipeline is available in the `coreNLP_analysis.ipynb` notebook. Our custom pipeline consists of the following annotators: 
 
+## Organization within the team 💪
+| Annotator | Description |
+|------------|------------------------------------------------------------------------------------------------------|
+| 1. [Tokenization (tokenize)](https://stanfordnlp.github.io/CoreNLP/tokenize.html) | urns the whole text into tokens.  |
+
+
+
 1. [Tokenization (tokenize)](https://stanfordnlp.github.io/CoreNLP/tokenize.html): Turns the whole text into tokens. 
 
 2. [Parts Of Speech (POS)](https://stanfordnlp.github.io/CoreNLP/pos.html): Tags each token with part of speech labels (e.g. determinants, verbs and nouns). 
