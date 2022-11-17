@@ -20,7 +20,7 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 ## Methods ✒️
 
 ### 1. General analysis
-To gain a better understanding of the provided datasets, we first performed an exploratory analysis. We show here a single finding from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. 
+To gain a better understanding of the provided datasets, we first performed an exploratory analysis. Although we only show several parts of the general analysis here, a thorough description and many more results can be found in `general_analysis.ipynb`. 
 
 
 #### 1.1. Romantic movies
@@ -60,7 +60,6 @@ A complete description of our pipeline is available in the `coreNLP_analysis.ipy
 #### 2.3. Gender differences
 
 #### 2.4. Evolution in time
-Explain how we will analyze it; show difference from gen analysis
 
 ## Proposed timeline ⏲️
 * 19-11-2022: Submit the second milestone
