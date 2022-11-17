@@ -75,26 +75,40 @@ Our custom pipeline consists of the following annotators:
 
 10. [Knowledge Base Population (KBP)](https://stanfordnlp.github.io/CoreNLP/kbp.html): Filters meaningful relation triples. 
 
-Extracting personalities: NER + coref + gender + KBP (age, role, country)
-- NER: Recognizes characters (named entities) in plot summary
-- Coref: links together all mentions of each character
-- KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
+### 3. Future analysis
 
-Extracting 
+#### 3.1. Couple demographics
+
+Question 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
+
+Describe our method to extract couples: 
+    - NER: Recognizes characters (named entities) in plot summary
+    - Coref: links together all mentions of each character
+    - OpenIE + KBP: relation triples with per:spouse extracts couples
+    
+Method: Extracting personalities using KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
+
+#### 3.2. Lovers' personalities
+
+[To delete] Question 2. Which type of personalities are coupled together?
+
+- Using the extracted couples, we obtain the role of each character involved from per:title
+- OpenIE: Extract information by looking at relation triples, where Named entity is the subject, and collect all object adjectives or common nouns.
 
 
-#### 2.2. Difference in demographics within a couple
+#### 3.3. Gender differences
 
+[To delete] Question 3. Are there recurrent personality types among lovers for each gender?
 
-
-
-
-#### 2.2. Personalities that are coupled together
-
-#### 2.3. Gender differences
+- From the couples and their character personalities from 3.1. and 3.2., we will explore how personalities differ across genders. 
+- Most common personality types for each gender. 
+.
 
 #### 2.4. Evolution in time
-Explain how we will analyze it; show difference from gen analysis
+
+[To delete] Question 4. Has the cinematic couple evolved over time?
+
+Dividing all movies by decade, we will look at the most common personality types among couples and how it evolves through time. 
 
 ## Proposed timeline ⏲️
 * 19-11-2022: Submit the second milestone
