@@ -83,11 +83,11 @@ Our custom pipeline consists of the following annotators:
 
 Describe our method to extract couples: 
 
-    - NER: Recognizes characters (named entities) in plot summary
-    
-    - Coref: links together all mentions of each character
-    
-    - OpenIE + KBP: relation triples with per:spouse extracts couples
+- NER: Recognizes characters (named entities) in plot summary
+
+- Coref: links together all mentions of each character
+
+- OpenIE + KBP: relation triples with per:spouse extracts couples
     
 Method: Extracting personalities using KBP: Extract information from each character (age from per_age, country from per:country, role from per:title)
 
@@ -95,11 +95,11 @@ Method: Extracting personalities using KBP: Extract information from each charac
 
 [To delete] Question 2. Which type of personalities are coupled together?
 
-- Using the extracted couples, we obtain the role of each character involved from per:title
-
+- Using the extracted couples, we obtain the role of each character involved from per:title. 
 
 - OpenIE: Extract information by looking at relation triples, where Named entity is the subject, and collect all object adjectives or common nouns.
 
+- Cluster the above character information using BERT transformer, then dimensionality reduction through UMAP and then use a clustering algorithm to agglomerate personality types, which we will visualize in a 2D interactive graph. 
 
 #### 3.3. Gender differences
 
