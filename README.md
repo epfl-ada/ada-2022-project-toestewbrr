@@ -75,11 +75,9 @@ Our custom pipeline consists of the following annotators:
 
 10. [Knowledge Base Population (KBP)](https://stanfordnlp.github.io/CoreNLP/kbp.html): Identifies meaningful relation triples. 
 
+#### 2.2. Difference in demographic within a couple
 
-
-#### 2.3. Character roles among genders
-
-#### 2.2. Lover personas
+#### 2.2. Personalities that are coupled together
 
 #### 2.3. Gender differences
 
