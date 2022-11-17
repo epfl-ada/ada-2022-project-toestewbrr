@@ -1,10 +1,10 @@
-# A Data-Driven Analysis of Romance in Movie
+# A Data-Driven Analysis of Romance in Movies
 
-**Toestewbrr** 🍲 🦶: Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery
+**ToeStewBrr** 🍲 🦶: Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery
 
 ## Abstract 📰
 
-The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains plot summaries and metadata on movies from 1888 to 2012. Love takes a central place in movies; love appears as the third most common noun in these plot summaries (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying the two characters that are coupled in a movie. Movies reflect the culture at the time of creation, therefore this research can provide insights on how views on romance differ across time and across the world. PART REGARDING THE RESEARCH METHODS
+The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains plot summaries and metadata on movies from 1888 to 2012. Love takes a central place in movies; the word love appears as the third most common noun in these summaries (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying which two characters are coupled in a movie. Movies reflect the culture at the time of creation, therefore this enquiry can provide insights on how views on romance differ across time and across the world.
 
 ## Research questions ❓
 
@@ -12,13 +12,14 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 
 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
 2. Which type of personalities are coupled together?
-3. How often is one person of the couple dying and what causes their death (are heart attacks more likely in romantic movies...)? 💀
-4. Is there a difference in the findings in (1)-(4) for older movies?
+3. Are there recurrent personality types among lovers for each gender?
+4. Are there different types of love couples?
+5. Has the cinematic couple evolved over time?
 
 ## Methods ✒️
 
 ### General analysis
-To gain a better understanding of the dataset, we first performed a general analysis. Let us show one finding from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. The figure below shows the runtime of romantic movies and non-romantic movies over the time. From this graph, we first note that the runtime of movies increases over time. This illustrates that movies from around 1900 are often short, such as the [Dickson Experimental Sound Film](https://en.wikipedia.org/wiki/The_Dickson_Experimental_Sound_Film). Second, we find that, on average, romantic movies are longer than non-romantic movies.  
+To gain a better understanding of the provided dataset, we first performed a general analysis. We show here a single finding from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. This illustrates that movies from around 1900 are often short, such as the [Dickson Experimental Sound Film](https://en.wikipedia.org/wiki/The_Dickson_Experimental_Sound_Film). Second, we find that, on average, romantic movies are longer than non-romantic movies.  
 
 ![Runtime](Images/Runtime.png)
 ### CoreNLP to analyze relationships
