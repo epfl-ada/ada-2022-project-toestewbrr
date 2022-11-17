@@ -18,7 +18,7 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 ## Methods ✒️
 
 ### General analysis
-To gain a better understanding of the dataset, we first performed general.ipynb
+To gain a better understanding of the dataset, we first performed `general_analysis.ipynb`
 
 ### CoreNLP to analyze relationships
 Explanation: meaning
