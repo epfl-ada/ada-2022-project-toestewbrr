@@ -9,14 +9,14 @@ The CMU dataset contains plot summarie and metadata on movies between 1888 and 2
 
 To gain a comprehensive understanding of the romantic relationships shown in movies, we aim to answer the following questions:
 
-1. Can we cluster characters in movies by their main characteristics?
-2. Which types of characters are coupled in a romantic relationship in movies?
-3. How are romantic relationships characterized (happy / violent / short)?
-4. Are romantic relationships depicted differently in older movies?
+1. Which types of characters are coupled in a romantic relationship in movies?
+2. How are romantic relationships characterized (happy / violent / short)?
+3. Are romantic relationships depicted differently in older movies?
 
 ## Methods ✒️
 
 ### General analysis
+
 
 ### Clustering characters by their characteristics text
 
