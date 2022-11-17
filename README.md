@@ -102,9 +102,9 @@ We will extract demographic information about each character involved in a coupl
 Dividing all movies by decade, we will look at the most common personality types among couples and how it evolves through time. 
 
 ## Proposed timeline ⏲️
-* 19-11-2022: Submit the second milestone
-* 23-11-2022: Run coreNLP augmented pipeline on all the plot summaries. 
-* 25-11-2022: Extract love pairs characters with their corresponding characteristics. 
+* 19-11-2022: Submit the second milestone. 
+* 23-11-2022: Run CoreNLP augmented pipeline on all the plot summaries. 
+* 25-11-2022: Extract couples and their corresponding characteristics. 
 * 02-12-2022: Perform analysis on demographics and personality types between characters in a romantic relationship. 
 * 09-12-2022: Run temporal analysis. Begin developing a rough draft of the datastory.
 * 16-12-2022: Complete code implementation and interactive visualizations. 
