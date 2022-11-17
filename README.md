@@ -79,7 +79,7 @@ Our custom pipeline consists of the following annotators:
 
 #### 3.1. Couple demographics
 
-Question 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
+[To delete] Question 1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
 
 Describe our method to extract couples: 
     - NER: Recognizes characters (named entities) in plot summary
