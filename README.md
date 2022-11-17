@@ -10,7 +10,7 @@ The CMU dataset contains plot summarie and metadata on movies between 1888 and 2
 
 To gain a comprehensive understanding of the characters paired in romantic relationships in movies, we aim to answer the following questions:
 
-1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion)?
+1. How do the demographics differ between characters in a couple (i.e. age, ethnicity, religion, gender)?
 2. Which type of personalities are coupled together?
 3. How often is one person of the couple dying? 💀
 4. Is there a difference in the findings in (1)-(4) for older movies?
