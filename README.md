@@ -37,13 +37,12 @@ To gain a comprehensive understanding of the romantic relationships shown in mov
 * December 23: Hand-in the project 
 
 ## Organization within the team 
-|            | **Task**                                                                                 |
-|------------|------------------------------------------------------------------------------------------|
-| Teammate 1 | Develop core NLP pipeline with teammate 2                                                |
-|            | Use core NLP to describe relationships between characters                                |
-| Teammate 2 | Develop core NLP pipeline with teammate 1  Cluster characters by main characteristics    |
-| Teammate 3 | Refine classification for romantic words  Set up the website                             |
-| Teammate 4 | Continue exploration of the dataset  Develop a list of visualizations for on the website |
+|            | **Task**                                                                                             |
+|------------|------------------------------------------------------------------------------------------------------|
+| Teammate 1 | Develop core NLP pipeline with teammate 2 <br /> Use core NLP to describe relationships between characters |
+| Teammate 2 | Develop core NLP pipeline with teammate 1 <br /> Cluster characters by main characteristics                |
+| Teammate 3 | Refine classification for romantic words  <br /> Set up the website                                         |
+| Teammate 4 | Continue exploration of the dataset <br /> Develop a list of visualizations for on the website             |
 
 ## Questions 
 * Find a way to label the characters or the relationships? 
