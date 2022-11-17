@@ -11,12 +11,20 @@ To gain a comprehensive understanding of the romantic relationships shown in mov
 
 1. Can we cluster characters in movies by their main characteristics?
 2. Which types of characters are coupled in a romantic relationship in movies?
-3. How is the relationship characterized (happy / violent / short)?
+3. How are romantic relationships characterized (happy / violent / short)?
 4. Are romantic relationships depicted differently in older movies?
 
 ## Methods ✒️
 
-### Test
+### General analysis
+
+### Clustering characters by their characteristics
+
+### Romantic couples in movies
+
+### Characterization of romantic relationship
+
+### Differences over time
 * Type of characters and type of relationships 
   * ex: are there more personas with x characteristic in y type of relation
 * Find plot summaries which contain most love related words 
