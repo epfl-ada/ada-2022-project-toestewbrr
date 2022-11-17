@@ -20,6 +20,7 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 ### General analysis
 To gain a better understanding of the dataset, we first performed a general analysis. Let us highlight two findings from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. The figure below shows the runtime of romantic movies and non-romantic movies over the time. 
 
+![Runtime](Images/runtime.png)
 ### CoreNLP to analyze relationships
 Explanation: meaning
 
