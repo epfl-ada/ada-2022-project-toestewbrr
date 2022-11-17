@@ -38,6 +38,10 @@ As a first step to discovering the personalities that are matched together in a 
   ![Images](Images/Character.png)
 </p>
 
+<p align="center" width="100%">
+    <img width="32%" src="Images/Tv_trope_clusters.png">
+</p>
+
 Although this gives a rough sketch of the personalities, the classification of 500 movies is rather limited. Therefore, we will conduct our own analysis directly on the plot summaries to extract couples and character roles. 
 
 ### CoreNLP analysis
