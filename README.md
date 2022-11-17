@@ -18,12 +18,16 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 
 ## Methods ✒️
 
-### General analysis
-To gain a better understanding of the provided dataset, we first performed a general analysis. We show here a single finding from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. This illustrates that movies from around 1900 are often short, such as the [Dickson Experimental Sound Film](https://en.wikipedia.org/wiki/The_Dickson_Experimental_Sound_Film). Second, we find that, on average, romantic movies are longer than non-romantic movies.  
+### 1. General analysis
+To gain a better understanding of the provided datasets, we first performed an exploratory analysis. We show here a single finding from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. This illustrates that movies from around 1900 are often short, such as the [Dickson Experimental Sound Film](https://en.wikipedia.org/wiki/The_Dickson_Experimental_Sound_Film). Second, we find that, on average, romantic movies are longer than non-romantic movies.  
 
 ![Runtime](Images/Runtime.png)
-### CoreNLP to analyze relationships
-Explanation: meaning
+
+### 2. CoreNLP analysis
+
+Next, we used the [CoreNLP](https://stanfordnlp.github.io/CoreNLP/) natural language processing toolkit to extract couples and character roles from the plot summaries. 
+
+#### 2.1. 
 
 #### Differences in demographic within a couple
 Marguerite
