@@ -237,7 +237,6 @@ def get_relation_df(DIR, relation_type, confidence_threshold=0.9):
             relation.append(get_relation(movie_id, relation_type, confidence_threshold))
     # Create a dataframe with the list of tuples
     relation_df = pd.DataFrame([item for sublist in relation for item in sublist], columns=['Wikipedia ID', 'Subject', 'Relation'])
-    relation_df = relation_df.groupby(['Wikipedia ID','Subject'])['Relation'].apply(', '.join).reset_index()  
     return relation_df   
 
 # We define a method that takes in a movie id, relation_type and confidence threshold and 
