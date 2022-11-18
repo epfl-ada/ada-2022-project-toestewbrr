@@ -22,7 +22,7 @@ To gain a better understanding of the provided datasets, we first performed an e
 
 #### 1.1. Genders in romantic and non-romantic movies
 
-The figure below shows the percen. From this graph, we first note that the runtime of movies increases over time. Second, we find that, on average, romantic movies are longer than non-romantic movies.  
+The figure below shows the percentage of males and females in romantic and non-romantic movies. One can see that there are more women in romantic movies compared to non-romantic movies.
 
 <p align="center" width="100%">
     <img width="70%" src="Images/Gender_movies.png">
