@@ -50,9 +50,9 @@ Although this gives a rough sketch of the different personality clusters, only 5
 
 #### 2.1. Exploring pre-existing analysis
 
-The authors of the dataset had performed a preliminary analysis using CoreNLP on the plot summaries. This data was useful to extract the main character as the one with the highest number of mentions for each movie. Moreover, we extracted the main pair of interacting characters by using the number of common mentions within a sentence as a proxy for interaction. 
+The authors of the dataset performed a preliminary analysis of the plot summaries using CoreNLP annotators. We used this data to extract the main character and the characters' pair with the most interactions in each movie. We define the main character of a movie as the entity 'PERSON' with the highest number of occurrences in the plot summary; and the principal characters' pair of a movie as the pair with the highest number of common mentions within a sentence over the plot summary. 
 
-However, our end goal is to extract love relationships as well as lovers' persona. Using common mentions as a proxy for love relationships is but a shallow approximation.  We concluded that we must therefore run our own NLP analysis to extract more valuable insights. We therefore decided to build our own customized CoreNLP pipeline. 
+However, using common mentions as a proxy for love relationships is a shallow approximation. Even if we restrict ourselves to romantic movies, the assumption that the most interacting pair of characters will be a love couple is too strong. Therefore, we decided to run a customized CoreNLP pipeline with additional annotators to extract more reliable insights. 
 
 #### 2.2. Custom CoreNLP pipeline
 
