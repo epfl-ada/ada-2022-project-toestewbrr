@@ -5,7 +5,7 @@
 
 ## Abstract 📰
 
-The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains plot summaries and metadata of 42,306 movies and 450,669 characters ranging from 1888 to 2012. Love takes a central place in movies; the word love appears as the third most common noun in these summaries (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying which two characters are coupled in a movie. Movies reflect the culture at the time of creation, therefore this enquiry can provide insights on how views on romance differ across time and across the world.
+The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains plot summaries and metadata of 42,306 movies and 450,669 characters ranging from 1888 to 2012. Love takes a central place in movies; the word love appears as the third most common noun in these summaries (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying which two characters are coupled in a movie. Movies reflect the culture at the time of creation, therefore this enquiry can provide insights on how views on romance differ across time and across the world. By using the OpenIE and KBP annotators from the coreNLP pipeline, we aim to identify common personalities in love movies and find frequent pairings among these personalities. Additionally, we will exploit the large time span of the dataset to study variations over time.
 
 ## Research questions ❓
 
@@ -22,10 +22,16 @@ To gain a better understanding of the provided datasets, we first performed an e
 
 #### 1.1. Genders in romantic and non-romantic movies
 
-The figure below shows the percentage of males and females in romantic and non-romantic movies. One can see that there are more women in romantic movies compared to non-romantic movies.
+The figure below shows the percentage of males and females in romantic and non-romantic movies. One can see that there are more women in romantic movies compared to non-romantic movies. 
 
 <p align="center" width="100%">
     <img width="70%" src="Images/Gender_movies.png">
+</p>
+
+Furthermore, one may wonder how the percentage of females in movies developed over time. The figure below shows that there seems to be a decline in the percentage of females both in romantic and non-romantic movies during the first half of the 20th century. However, since 1960 the percentage of females has increased. This effect seems stronger in non-romantic movies.
+
+<p align="center" width="100%">
+    <img width="70%" src="Images/Gender_over_time.png">
 </p>
 
 #### 1.2. Character personalities
@@ -36,7 +42,7 @@ As a first step to discovering the personalities that are matched together in a 
     <img width="70%" src="Images/Tv_trope_clusters.png">
 </p>
 
-Although this gives a rough sketch of the different personality clusters, only 500 of the 42,306 movies are involved. We have therefore conducted our own  analysis directly on the plot summaries to extract couples and character roles. 
+Although this gives a rough sketch of the different personality clusters, only 500 of the 42,306 provided movies are considered in this dataset. We have therefore conducted our own analysis directly on the plot summaries to extract couples and character roles. 
 
 ### 2. CoreNLP analysis
 
@@ -44,9 +50,9 @@ Although this gives a rough sketch of the different personality clusters, only 5
 
 #### 2.1. Exploring pre-existing analysis
 
-The authors of the dataset had performed a preliminary analysis using CoreNLP on the plot summaries. This data was useful to extract the main character as the one with the highest number of mentions for each movie. Moreover, we extracted the main pair of interacting characters by using the number of common mentions within a sentence as a proxy for interaction. 
+The authors of the dataset performed a preliminary analysis of the plot summaries using CoreNLP annotators. We used this data to extract the main character and the characters' pair with the most interactions in each movie. We define the main character of a movie as the entity 'PERSON' with the highest number of occurrences in the plot summary; and the principal characters' pair of a movie as the pair with the highest number of common mentions within a sentence over the plot summary. 
 
-However, our end goal is to extract love relationships as well as lovers' persona. Using common mentions as a proxy for love relationships is but a shallow approximation.  We concluded that we must therefore run our own NLP analysis to extract more valuable insights. We therefore decided to build our own customized CoreNLP pipeline. 
+However, using common mentions as a proxy for love relationships is a shallow approximation. Even if we restrict ourselves to romantic movies, the assumption that the most interacting pair of characters will be a love couple is too strong. Therefore, we decided to run a customized CoreNLP pipeline with additional annotators to extract more reliable insights. 
 
 #### 2.2. Custom CoreNLP pipeline
 
@@ -65,25 +71,35 @@ We now use a **custom CoreNLP pipeline** to analyze the plot summaries. A comple
 | 9. [Open Information Extraction (OpenIE)](https://stanfordnlp.github.io/CoreNLP/openie.html) | Identifies relation between words as triples *(subject, relation, object of relation)*. |
 | 10. [Knowledge Base Population (KBP)](https://stanfordnlp.github.io/CoreNLP/kbp.html) | Filters meaningful relation triples. |
 
-Note: Due to the weakness of the computing power at our disposition, our analysis is currently restricted to [ADD NUMBER] romantic comedy movies. A broader analysis will be performed on all movies when gaining access to computing clusters.  
+Note: Due to the weakness of the computing power at our disposition, our analysis is currently restricted to 1491 romantic comedy movies. A broader analysis will be performed on all movies when gaining access to computing clusters.  
 
-From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **OpenIE** and **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. 
+From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. We notice some self-relationships and some relationship where the subject was not an entity 'PERSON'. We present some preliminary results showing the distribution of the number of relationship in movies. We were able to remove the self-relationships from the dataframe but need to map the subject to an entity 'PERSON' and a character to conduct our further analysis. 
 
+<<<<<<< HEAD
 #### 2.3 An alternative: Word2Vec
 
 In this part, we tried to analyse the plot summaries to detect movies that depict a relationship, in another way than with coreNLP. The idea is to score each summary based on semantic proximity with words that we think are related to relationships and find a threshold that discards every film that does not involve two characters in love.
 
 ### 3. Future analysis
+=======
+<p align="center" width="100%">
+    <img width="70%" src="Images/Love.png">
+</p>
+
+### 3. Preliminary findings and future analysis
+>>>>>>> 2e6a931f8c846dc4fa09d1c21e60f07cc50a7c00
 
 We now define the methods we will use to answer our research questions. 
 
  > ### Are there recurrent personality types among lovers?
     
-To answer this question, we will first gather as much information as possible about each character involved in a love relationship. We can obtain the main role of each lover from the KBP tag `per:title`. Additional information including actions, adjectives and attributes will be extracted from KBP relation triples with this entity as subject.
+To answer this question, we will first gather as much information as possible about each character involved in a love relationship. As a first step, we obtained the main role of each lover from the KBP tag `per:title` with a 0.9 confidence threshold. The figure below shows the 10 most common roles among 955 romantic comedies.
 
-We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. 
+<p align="center" width="100%">
+    <img width="70%" src="Images/Character.png">
+</p>
 
-We will also strive to identify which personality types are most common for each gender using a gender annotator.
+Additional information including actions, adjectives and attributes will be extracted from depparse annotator (appos, nsubj) with this entity as subject and KBP triple relationships. We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. We will also strive to identify which personality types are most common for each gender by using a gender annotator.
 
 > ### Which type of personalities are coupled together?
 
@@ -112,7 +128,7 @@ Dividing all movies by the decade of their release, we will look at the most com
 | Alexander | Continue exploration of the dataset <br /> Set up the website and learn about interactive viz with Hugo             |
 
 ## Questions for the TA ❔
-* Find a way to label the characters or the relationships? 
+* Do you have a recommendation for learning interactive visualizations?
 * Which transformers and clustering methods are best suited to our needs?
 
 ## Bonus
