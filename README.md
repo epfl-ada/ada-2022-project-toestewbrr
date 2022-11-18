@@ -87,9 +87,7 @@ To answer this question, we will first gather as much information as possible ab
     <img width="70%" src="Images/Character.png">
 </p>
 
-Additional information including actions, adjectives and attributes will be extracted from KBP relation triples with this entity as subject. We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. 
-
-We will also strive to identify which personality types are most common for each gender using a gender annotator.
+Additional information including actions, adjectives and attributes will be extracted from KBP relation triples with this entity as subject. We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. We will also strive to identify which personality types are most common for each gender by using a gender annotator.
 
 > ### Which type of personalities are coupled together?
 
