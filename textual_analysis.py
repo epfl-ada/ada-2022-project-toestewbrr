@@ -29,7 +29,19 @@ def remove_stopwords(text):
     filtered = [w for w in word_tokens if not w.lower() in stop_words]
     #remove non-alphabetical characters (punctuation, numbers, etc.)
     filtered = [w for w in filtered if w.isalpha()]
+    #stemming (reduce a word to its base form to reduce the number of unique words)
+    stemmer = nltk.stem.PorterStemmer()
+    filtered = [stemmer.stem(w) for w in filtered]
+    #remove duplicates
+    filtered = list(dict.fromkeys(filtered))
     return filtered
+
+#extract love-related words from the summaries
+def extract_love_words(text, words, threshold):
+    love_words = []
+    for word in words:
+        love_words += [token.text for token in nlp_spacy(' '.join(text)) if token.similarity(word) > threshold]
+    return love_words
 
 
 
