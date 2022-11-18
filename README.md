@@ -116,7 +116,7 @@ Dividing all movies by the decade of their release, we will look at the most com
 | Alexander | Continue exploration of the dataset <br /> Set up the website and learn about interactive viz with Hugo             |
 
 ## Questions for the TA ❔
-* Find a way to label the characters or the relationships? 
+* Do you have a recommendation for learning interactive visualizations?
 * Which transformers and clustering methods are best suited to our needs?
 
 ## Bonus
