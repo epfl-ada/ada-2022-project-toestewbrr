@@ -77,7 +77,7 @@ It was important to run this customized pipeline to have **depparse** and **KBP*
 
 #### 2.3 An alternative: Word2Vec
 
-In this part, we tried to analyse the plot summaries to detect movies that depict a relationship, in another way than with coreNLP. The idea is to score each summary based on semantic proximity with words that we think are related to relationships and find a threshold that discards every film that does not involve two characters in love.
+In `textual_analysis.ipynb`, we tried to analyse the plot summaries to detect movies that depict a relationship, in another way than with coreNLP. The idea is to score each summary based on semantic proximity with words that we think are related to relationships and find a threshold that discards every film that does not involve two characters in love. Specifically, we tested the semantic similarity with the word "love". However, in this approach we face two problems. First, the word "love" is chosen rather arbitrarily. Second, we need to find a threshold for the similarity, after which we classify a word to be related to love. Therefore, we aim to continue with coreNLP.
 
 ### 3. Preliminary findings and future analysis
 
