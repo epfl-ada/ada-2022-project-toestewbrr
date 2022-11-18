@@ -42,7 +42,7 @@ As a first step to discovering the personalities that are matched together in a 
     <img width="70%" src="Images/Tv_trope_clusters.png">
 </p>
 
-Although this gives a rough sketch of the different personality clusters, only 500 of the 42,306 movies are involved. We have therefore conducted our own  analysis directly on the plot summaries to extract couples and character roles. 
+Although this gives a rough sketch of the different personality clusters, only 500 of the 42,306 provided movies are considered in this dataset. We have therefore conducted our own analysis directly on the plot summaries to extract couples and character roles. 
 
 ### 2. CoreNLP analysis
 
