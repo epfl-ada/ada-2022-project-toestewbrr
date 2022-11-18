@@ -18,15 +18,14 @@ To gain a comprehensive understanding of the characters paired in romantic relat
 ## Methods ✒️
 
 ### 1. General analysis
-To gain a better understanding of the provided datasets, we first performed an exploratory analysis. We show here only two findings from this analysis, while a thorough description and many more results can be found in `general_analysis.ipynb`. 
-
+To gain a better understanding of the provided datasets, we first performed an exploratory analysis. Although we only present two findings in this document, a thorough description and many more results can be found in `general_analysis.ipynb`. 
 
 #### 1.1. Genders in romantic and non-romantic movies
 
-The figure below shows the runtime of romantic movies and non-romantic movies over time. From this graph, we first note that the runtime of movies increases over time. Second, we find that, on average, romantic movies are longer than non-romantic movies.  
+The figure below shows the percen. From this graph, we first note that the runtime of movies increases over time. Second, we find that, on average, romantic movies are longer than non-romantic movies.  
 
 <p align="center" width="100%">
-    <img width="70%" src="Images/gender_in_movies.png">
+    <img width="70%" src="Images/Gender_movies.png">
 </p>
 
 #### 1.2. Character personalities
