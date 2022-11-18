@@ -36,7 +36,7 @@ Furthermore, one may wonder how the percentage of females in movies developed ov
 
 #### 1.2. Character personalities
 
-As a first step to discovering the personalities that are matched together in a couple, we used the provided TV trope personality types. Characters from approximately 500 movies were classified into 72 character types. From this, we obtained the 10 most common character types among romantic movies as shown below. For those wondering: the defining characteristics of a '*ditz*' are [profound stupidness or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
+As a first step to discovering the personalities that are matched together in a couple, we used the provided TV trope personality types. Characters from approximately 500 movies were classified into 72 character types. From this, we obtained the 10 most common character types among romantic movies as shown below. For those wondering: the defining characteristics of a '*ditz*' are [profound stupidity or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
 
 <p align="center" width="100%">
     <img width="70%" src="Images/Tv_trope_clusters.png">
@@ -101,7 +101,7 @@ From our custom pipeline, we extracted couples from all romantic comedy summarie
     <img width="70%" src="Images/Love.png">
 </p>
 
-We saw that in most movies the two characters love each other (2 relations: Hally loves Sally and Sally loves Harry) even if there is still a high number of movies where the love is not-reciprocal (1 relation). We will run this pipeline over all the plot summaries (and not only romantic commedies) to have a bigger overview of cinematic couples.  
+We saw that in most movies the two characters love each other (2 relations: Harry loves Sally and Sally loves Harry) even if there is still a high number of movies where the love is not-reciprocal (1 relation). We will run this pipeline over all the plot summaries (and not only romantic commedies) to have a bigger overview of cinematic couples.  
 
 Once we have extracted couples from all the movies, we will identify whether certain persona are frequently paired together. We will use our previous analysis about characters' personalities and demographics to explore the differences between lovers. 
 
