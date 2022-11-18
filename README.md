@@ -33,6 +33,7 @@ Furthermore, one may wonder how the percentage of females in movies developed ov
 <p align="center" width="100%">
     <img width="70%" src="Images/Gender_over_time.png">
 </p>
+
 #### 1.2. Character personalities
 
 As a first step to discovering the personalities that are matched together in a couple, we used the provided TV trope personality types. Characters from approximately 500 movies were classified into 72 character types. From this, we obtained the 10 most common character types among romantic movies as shown below. For those wondering: the defining characteristics of a '*ditz*' are [profound stupidness or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
@@ -74,7 +75,7 @@ Note: Due to the weakness of the computing power at our disposition, our analysi
 
 From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **OpenIE** and **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. 
 
-### 3. Future analysis
+### 3. Preliminary findings and future analysis
 
 We now define the methods we will use to answer our research questions. 
 
