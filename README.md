@@ -75,23 +75,19 @@ Note: Due to the weakness of the computing power at our disposition, our analysi
 
 From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. We notice some self-relationships and some relationship where the subject was not an entity 'PERSON'. We present some preliminary results showing the distribution of the number of relationship in movies. We were able to remove the self-relationships from the dataframe but need to map the subject to an entity 'PERSON' and a character to conduct our further analysis. 
 
-<<<<<<< HEAD
 #### 2.3 An alternative: Word2Vec
 
 In this part, we tried to analyse the plot summaries to detect movies that depict a relationship, in another way than with coreNLP. The idea is to score each summary based on semantic proximity with words that we think are related to relationships and find a threshold that discards every film that does not involve two characters in love.
 
-### 3. Future analysis
-=======
+### 3. Preliminary findings and future analysis
+
+We now define the methods we will use to answer our research questions. 
+
 <p align="center" width="100%">
     <img width="70%" src="Images/Love.png">
 </p>
 
-### 3. Preliminary findings and future analysis
->>>>>>> 2e6a931f8c846dc4fa09d1c21e60f07cc50a7c00
-
-We now define the methods we will use to answer our research questions. 
-
- > ### Are there recurrent personality types among lovers?
+> ### Are there recurrent personality types among lovers?
     
 To answer this question, we will first gather as much information as possible about each character involved in a love relationship. As a first step, we obtained the main role of each lover from the KBP tag `per:title` with a 0.9 confidence threshold. The figure below shows the 10 most common roles among 955 romantic comedies.
 
