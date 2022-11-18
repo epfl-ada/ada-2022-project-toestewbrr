@@ -81,7 +81,7 @@ We now define the methods we will use to answer our research questions.
 
  > ### Are there recurrent personality types among lovers?
     
-To answer this question, we will first gather as much information as possible about each character involved in a love relationship. As a first step, we obtained the main role of each lover from the KBP tag `per:title`. The figure below shows the 10 most common roles among **[INSERT NUMBER]** romantic comedies.
+To answer this question, we will first gather as much information as possible about each character involved in a love relationship. As a first step, we obtained the main role of each lover from the KBP tag `per:title`. The figure below shows the 10 most common roles among 1491 romantic comedies.
 
 <p align="center" width="100%">
     <img width="70%" src="Images/Character.png">
