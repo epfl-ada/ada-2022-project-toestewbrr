@@ -95,13 +95,15 @@ Additional information including actions, adjectives and attributes will be extr
 
 > ### Which type of personalities are coupled together?
 
-From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships with a 0.9 confidence threshold, we identified 685 relationships among 254 different romantic comedy movies. We notice 38 self-relationships in the dataset as well as some relationshipa where the subject or subject was not a character in the movie's cast (ex: subject was a pronoun). We extracted the list of characters for each movie and only considered relationships where the subject and the object belong to that list. We obtained a dataframe of 484 relationships for 217 romantic comedies. 
+From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships with a 0.9 confidence threshold, we identified 685 relationships among 254 different romantic comedy movies. We notice some self-relationships and some relationships where the subject or the object of the relation was not a character (ex: she, him). We filtered out these relations to observe the distribution of the number of relations per movie. 
 
 <p align="center" width="100%">
     <img width="70%" src="Images/Love.png">
 </p>
 
-We will identify whether certain persona are frequently paired together. We will also extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity, social status and religion. We will also use the corresponding actor metadata when available. We will then explore how these demographics differ between lovers. 
+We saw that in most movies the two characters love each other (2 relations: Hally loves Sally and Sally loves Harry) even if there is still a high number of movies where the love is not-reciprocal (1 relation). We will run this pipeline over all the plot summaries (and not only romantic commedies) to have a bigger overview of cinematic couples.  
+
+Once we have extracted couples from all the movies, we will identify whether certain persona are frequently paired together. We will use our previous analysis about characters' personalities and demographics to explore the differences between lovers. 
 
 > ### Has the cinematic couple evolved over time?
 
