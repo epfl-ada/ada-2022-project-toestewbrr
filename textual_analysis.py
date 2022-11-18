@@ -40,6 +40,9 @@ def remove_stopwords(text):
 def extract_love_words(text, words, threshold):
     love_words = []
     for word in words:
+        #if word is empty, skip
+        if word == "":
+            continue
         love_words += [token.text for token in nlp_spacy(' '.join(text)) if token.similarity(word) > threshold]
     return love_words
 
