@@ -22,12 +22,17 @@ To gain a better understanding of the provided datasets, we first performed an e
 
 #### 1.1. Genders in romantic and non-romantic movies
 
-The figure below shows the percentage of males and females in romantic and non-romantic movies. One can see that there are more women in romantic movies compared to non-romantic movies.
+The figure below shows the percentage of males and females in romantic and non-romantic movies. One can see that there are more women in romantic movies compared to non-romantic movies. 
 
 <p align="center" width="100%">
     <img width="70%" src="Images/Gender_movies.png">
 </p>
 
+Furthermore, one may wonder how the percentage of females in movies developed over time. The figure below shows that there seems to be a decline in the percentage of females both in romantic and non-romantic movies during the first half of the 20th century. However, since 1960 the percentage of females has increased. This effect seems stronger in non-romantic movies.
+
+<p align="center" width="100%">
+    <img width="70%" src="Images/Gender_over_time.png">
+</p>
 #### 1.2. Character personalities
 
 As a first step to discovering the personalities that are matched together in a couple, we used the provided TV trope personality types. Characters from approximately 500 movies were classified into 72 character types. From this, we obtained the 10 most common character types among romantic movies as shown below. For those wondering: the defining characteristics of a '*ditz*' are [profound stupidness or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
