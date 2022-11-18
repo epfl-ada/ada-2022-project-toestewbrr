@@ -93,6 +93,10 @@ Additional information including actions, adjectives and attributes will be extr
 
 We will identify whether certain persona are frequently paired together. We will also extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity, social status and religion. We will also use the corresponding actor metadata when available. We will then explore how these demographics differ between lovers. 
 
+<p align="center" width="100%">
+    <img width="70%" src="Images/Love.png">
+</p>
+
 > ### Has the cinematic couple evolved over time?
 
 Dividing all movies by the decade of their release, we will look at the most common personality types among couples and how they evolve through time. An interactive graph will display how the personality type clusters vary over time. 
