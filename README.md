@@ -73,7 +73,7 @@ We now use a **custom CoreNLP pipeline** to analyze the plot summaries. A comple
 
 Note: Due to the weakness of the computing power at our disposition, our analysis is currently restricted to 1491 romantic comedy movies. A broader analysis will be performed on all movies when gaining access to computing clusters.  
 
-It was important to run this customized pipeline to have **depparse** and **KBP** annotators. These annotators allow us to find the characteristics associated with each character along with demographics elements. We also used the KBP annotator to extract realationships between characters. The full list of relations which can be extracted from KBP is available at this link (https://stanfordnlp.github.io/CoreNLP/kbp.html). 
+It was important to run this customized pipeline to have **depparse** and **KBP** annotators. These annotators allow us to find the characteristics associated with each character along with demographics elements. We also used the KBP annotator to extract relationships between characters.
 
 #### 2.3 An alternative: Word2Vec
 
@@ -81,13 +81,7 @@ In this part, we tried to analyse the plot summaries to detect movies that depic
 
 ### 3. Preliminary findings and future analysis
 
-From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse` with a 0.9 confidence threshold. By extracting these relationships, we identified 685 relationships among 254 different romantic comedy moviea. We notice some self-relationships and some relationship where the subject was not an entity 'PERSON'. We present some preliminary results showing the distribution of the number of relationship in movies. We were able to remove the self-relationships from the dataframe but need to map the subject to an entity 'PERSON' and a character to conduct our further analysis. 
-
 We now define the methods we will use to answer our research questions. 
-
-<p align="center" width="100%">
-    <img width="70%" src="Images/Love.png">
-</p>
 
 > ### Are there recurrent personality types among lovers?
     
@@ -100,6 +94,12 @@ To answer this question, we will first gather as much information as possible ab
 Additional information including actions, adjectives and attributes will be extracted from depparse annotator (appos, nsubj) with this entity as subject and KBP triple relationships. We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. We will also strive to identify which personality types are most common for each gender by using a gender annotator.
 
 > ### Which type of personalities are coupled together?
+
+From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships with a 0.9 confidence threshold, we identified 685 relationships among 254 different romantic comedy movies. We notice 38 self-relationships in the dataset as well as some relationshipa where the subject or subject was not a character in the movie's cast (ex: subject was a pronoun). We extracted the list of characters for each movie and only considered relationships where the subject and the object belong to that list. We obtained a dataframe of 484 relationships for 217 romantic comedies. 
+
+<p align="center" width="100%">
+    <img width="70%" src="Images/Love.png">
+</p>
 
 We will identify whether certain persona are frequently paired together. We will also extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity, social status and religion. We will also use the corresponding actor metadata when available. We will then explore how these demographics differ between lovers. 
 
