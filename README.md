@@ -69,6 +69,10 @@ Note: Due to the weakness of the computing power at our disposition, our analysi
 
 From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **OpenIE** and **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. 
 
+#### 2.3 An alternative: Word2Vec
+
+In this part, we tried to analyse the plot summaries to detect movies that depict a relationship, in another way than with coreNLP. The idea is to score each summary based on semantic proximity with words that we think are related to relationships and find a threshold that discards every film that does not involve two characters in love.
+
 ### 3. Future analysis
 
 We now define the methods we will use to answer our research questions. 
