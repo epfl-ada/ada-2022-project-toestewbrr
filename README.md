@@ -73,7 +73,11 @@ We now use a **custom CoreNLP pipeline** to analyze the plot summaries. A comple
 
 Note: Due to the weakness of the computing power at our disposition, our analysis is currently restricted to 1491 romantic comedy movies. A broader analysis will be performed on all movies when gaining access to computing clusters.  
 
-From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. 
+From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships, we identified [ADD NUMBER] relationships among [ADD NUMBER] different movies. We notice some self-relationships and some relationship where the subject was not an entity 'PERSON'. We present some preliminary results showing the distribution of the number of relationship in movies. We were able to remove the self-relationships from the dataframe but need to map the subject to an entity 'PERSON' and a character to conduct our further analysis. 
+
+<p align="center" width="100%">
+    <img width="70%" src="Images/Love.png">
+</p>
 
 ### 3. Preliminary findings and future analysis
 
@@ -87,15 +91,11 @@ To answer this question, we will first gather as much information as possible ab
     <img width="70%" src="Images/Character.png">
 </p>
 
-Additional information including actions, adjectives and attributes will be extracted from KBP relation triples with this entity as subject. We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. We will also strive to identify which personality types are most common for each gender by using a gender annotator.
+Additional information including actions, adjectives and attributes will be extracted from depparse annotator (appos, nsubj) with this entity as subject and KBP triple relationships. We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. We will also strive to identify which personality types are most common for each gender by using a gender annotator.
 
 > ### Which type of personalities are coupled together?
 
 We will identify whether certain persona are frequently paired together. We will also extract demographic information about each character involved in a couple through the KBP annotator, such as their age, country of origin, ethnicity, social status and religion. We will also use the corresponding actor metadata when available. We will then explore how these demographics differ between lovers. 
-
-<p align="center" width="100%">
-    <img width="70%" src="Images/Love.png">
-</p>
 
 > ### Has the cinematic couple evolved over time?
 
