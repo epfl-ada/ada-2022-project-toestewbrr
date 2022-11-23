@@ -1,0 +1,687 @@
+	Wikipedia ID	Subject	Relation
+0	1001692	Steele	Lady Claire
+1	1006385	Lindsay	Rose
+2	10095235	Diogo Álvares	Diogo Álvares
+3	10095235	Paraguaçu	Diogo Álvares
+4	10095235	Diogo Álvares	Paraguaçu
+5	10095235	Diogo Álvares	Diogo Álvares
+6	10190365	Paro	Shambunath Mehta
+7	10190365	Shambunath Mehta	Paro
+8	101907	Gloria	Steve
+9	101907	Steve	Gloria
+10	101907	Vicky	Gloria
+11	103018	Leo Farnsworth	Julia
+12	103018	Julia	Leo Farnsworth
+13	1031573	Oxford University Anna	Ben
+14	10376736	Flanders	Cornelia
+15	10436186	Rong	Daeng
+16	10536433	Ben Murphy	Maria Gonzalez
+17	10536433	Maria Gonzalez	Ben Murphy
+18	10628838	Muthu	Roja
+19	10628838	Roja	Muthu
+20	1071219	John Clark	Beverly
+21	1071219	Beverly	John Clark
+22	10715230	Tom Ferris	Julie
+23	10715230	Julie	Tom Ferris
+24	1096949	her	Eddie
+25	1096949	Eddie	her
+26	1107052	Rob Salinger	Micki
+27	1107052	Micki	Rob Salinger
+28	11176488	Anthony Gonsalves	Riya
+29	11176488	Riya	Anthony Gonsalves
+30	11223	Scarlett	Tom
+31	11223	Prince Charles	Tom
+32	11223	Fiona	Scarlett
+33	11223	Tom	Prince Charles
+34	11223	Tom	Deirdre
+35	11223	Henrietta	Prince Charles
+36	11223	Henrietta	Scarlett
+37	11223	Chester	Henrietta
+38	11223	Tom	Fiona
+39	11223	Carrie	Prince Charles
+40	11223	David	Deirdre
+41	11223	Prince Charles	Fiona
+42	11223	David	Scarlett
+43	11223	Matthew	Prince Charles
+44	11223	Chester	Matthew
+45	11223	Carrie	Tom
+46	11223	Scarlett	Carrie
+47	11223	Prince Charles	Chester
+48	11223	Tom	David
+49	11223	Fiona	Prince Charles
+50	11223	Fiona	Deirdre
+51	11223	Carrie	Henrietta
+52	11223	Scarlett	David
+53	11223	Henrietta	Chester
+54	11223	Chester	Deirdre
+55	11223	Carrie	David
+56	11223	Carrie	Deirdre
+57	11223	Henrietta	Deirdre
+58	11223	Tom	Matthew
+59	11223	Fiona	David
+60	11223	Deirdre	Matthew
+61	11223	David	Fiona
+62	11223	Scarlett	Chester
+63	11223	Tom	Tom
+64	11223	Prince Charles	Carrie
+65	11223	Deirdre	Henrietta
+66	11223	David	Prince Charles
+67	11223	Matthew	Chester
+68	11223	Prince Charles	Henrietta
+69	11223	Chester	Fiona
+70	11223	Fiona	Tom
+71	11223	Deirdre	David
+72	11223	Deirdre	Scarlett
+73	11223	Matthew	Carrie
+74	11223	Tom	Henrietta
+75	11223	Tom	Scarlett
+76	11223	Scarlett	Henrietta
+77	11223	Matthew	Henrietta
+78	11223	Tom	Chester
+79	11223	Fiona	Matthew
+80	11223	Deirdre	Chester
+81	11223	Henrietta	Fiona
+82	11223	Scarlett	Matthew
+83	11223	Scarlett	Prince Charles
+84	11223	David	Chester
+85	11223	Matthew	David
+86	11223	Carrie	Scarlett
+87	11223	Tom	Carrie
+88	11223	David	Carrie
+89	11223	Prince Charles	Deirdre
+90	11223	Deirdre	Tom
+91	11223	Henrietta	Matthew
+92	11223	Prince Charles	Matthew
+93	11223	Matthew	Fiona
+94	11223	Fiona	Chester
+95	11223	Henrietta	Carrie
+96	11223	Deirdre	Prince Charles
+97	11223	Carrie	Chester
+98	11223	Prince Charles	David
+99	11223	Henrietta	David
+100	11223	Scarlett	Fiona
+101	11223	Carrie	Matthew
+102	11223	Chester	Tom
+103	11223	Carrie	Fiona
+104	11223	Deirdre	Carrie
+105	11223	Fiona	Henrietta
+106	11223	Chester	Prince Charles
+107	11223	Prince Charles	Scarlett
+108	11223	David	David
+109	11223	David	Matthew
+110	11223	Prince Charles	Prince Charles
+111	11223	Matthew	Scarlett
+112	11223	Henrietta	Tom
+113	11223	Chester	David
+114	11223	Deirdre	Fiona
+115	11223	Chester	Scarlett
+116	11223	Fiona	Carrie
+117	11223	Scarlett	Deirdre
+118	11223	Chester	Carrie
+119	11223	Matthew	Tom
+120	11223	David	Tom
+121	11223	David	Henrietta
+122	11223	Matthew	Deirdre
+123	1126572	Henry Dashwood	Libby
+124	1126572	Libby	Henry Dashwood
+125	113464	Hannah	Elliot
+126	1141361	his	Irene
+127	11604278	Marcia	Sherry
+128	11639895	Zack Brown	Miri Linky
+129	11646548	Claire	Woodruff
+130	11646548	Woodruff	Claire
+131	11823946	Viola	Orsino
+132	11823946	Orsino	Viola
+133	11929259	Carol Clayton	Jesse Kiffmeyer
+134	11929259	Jesse Kiffmeyer	Carol Clayton
+135	11929259	Carol Clayton	Carol Clayton
+136	11929565	Tom	Eadie
+137	11929565	Eadie	Tom
+138	1203340	Jenny Taylor	Alexis
+139	12279512	Susan	Mark Christopher
+140	12279512	Mark Christopher	Susan
+141	1273396	Tom asks Drew	Christine
+142	1273396	Christine	Tom asks Drew
+143	12812790	Sophia	his
+144	12812790	his	Sophia
+145	12812790	Sylvia	Jeff
+146	12812790	Jeff	Sylvia
+147	12834270	Jessica	Pogo
+148	12834270	Jessica	Roger Henderson
+149	12834270	Pogo	Jessica
+150	12834270	Roger Henderson	Jessica
+151	12896610	Holden Adams	Hilary Weiss
+152	12930887	Gilberte Valandray	Georges Valandray
+153	12930887	Georges Valandray	Gilberte Valandray
+154	129331	Raymond Cappomaggi	Rita
+155	129331	Rita	Raymond Cappomaggi
+156	129331	Loretta Castorini	Raymond Cappomaggi
+157	129331	Raymond Cappomaggi	Loretta Castorini
+158	13005395	Ralph Partridge	Gamel Woolsey
+159	13005395	Gamel Woolsey	Ralph Partridge
+160	13144048	his	Pooja
+161	13144048	Pooja	his
+162	1324831	Pooja Sahani	Pooja Sahani
+163	1324831	Pooja Sahani	Tina Kapoor
+164	1324831	Raj Khanna	Tina Kapoor
+165	1324831	Pooja Sahani	Raj Khanna
+166	1324831	Tina Kapoor	Raj Khanna
+167	1324831	Raj Khanna	Pooja Sahani
+168	13257327	Isobel Kimble Grayson	Susan
+169	13257327	Steve Ireland	Susan
+170	13257327	Susan	Isobel Kimble Grayson
+171	1326091	Sanjeev	Namrata
+172	1326091	Namrata	Sanjeev
+173	13291547	Dennis	Klaasje
+174	13291547	Klaasje	Dennis
+175	13291547	Klaasje	Ted
+176	13291547	Ted	Klaasje
+177	1330432	Lenny Weinrib	Amanda
+178	13345732	Reginald Denny	Sylvia Lockwood
+179	13345732	Sylvia Lockwood	Sylvia Lockwood
+180	13345732	Donald	Sylvia Lockwood
+181	13361675	Catherine	Steven
+182	13514560	Joel	Bobby
+183	13516269	him	Utpal Dutt
+184	1367110	Susan	Johnny
+185	1367110	Johnny	Susan
+186	1367110	Mike	Joan
+187	1367501	Tony	Connie
+188	1385251	William	Kathleen
+189	1385251	Claire	John Beckwith
+190	1385251	John Beckwith	Claire
+191	1385251	Jeremy	Gloria
+192	1385251	Gloria	Jeremy
+193	13904106	Wan Pagek	Wan Pagek
+194	13904106	Wan Pagek	Wan Pagek
+195	13904106	Jimmy	Aspalela
+196	13951439	Ayesha	Tony
+197	142435	Dorothy	Jerry Maguire
+198	142435	Jerry Maguire	Dorothy
+199	142780	him	Merna
+200	142780	Merna	him
+201	14291637	his	Tess
+202	14355866	Polly	William Powell
+203	14355866	William Powell	Polly
+204	14461347	Bill Clinton	Monica
+205	14461347	Monica	Bill Clinton
+206	14461347	Colin	Hannah
+207	14461347	Hannah	Colin
+208	14461347	Bill Clinton	Monica
+209	14461347	Monica	Bill Clinton
+210	14469100	Lorenzo Xavier Vega	Susan
+211	14469100	Susan	Lorenzo Xavier Vega
+212	14538051	Vijay	Megha
+213	14644512	George	Judy
+214	14647588	Annie	Rudy Hickman
+215	14647588	Rudy Hickman	Annie
+216	1468099	her	Gordon
+217	1474328	Dean Kansky Jonathan	Halley
+218	1474328	Halley	Dean Kansky Jonathan
+219	14876301	Elvira Kent	Michael
+220	14876301	Michael	Elvira Kent
+221	14877669	Baroness Cecilia Duarte	Baroness Cecilia Duarte
+222	1511944	Julien	Sophie
+223	1512171	Helen McCarter	Charles
+224	1512171	Charles	Helen McCarter
+225	15164556	Robert Blossom	Harriet
+226	15164556	Harriet	Robert Blossom
+227	15202473	Julia	William Packett
+228	15202473	William Packett	Julia
+229	15281528	Vera Barton	Tony Woodward
+230	15281528	Tony Woodward	Vera Barton
+231	15307603	his	Nisha
+232	15307603	Nisha	his
+233	15614260	Jenny	Brad
+234	15614260	Brad	Jenny
+235	15644478	Denis Cooverman	Beth
+236	15644478	Beth	Denis Cooverman
+237	1565181	Carlos	Estelle
+238	1565181	Estelle	Carlos
+239	1571083	Ann	Ann
+240	1571083	Ann	David Smith
+241	1571083	David Smith	Ann
+242	15791592	Louise Randall Pierson	Rodney Crane
+243	15791592	Rodney Crane	Louise Randall Pierson
+244	1580851	Saraswati	Raju
+245	1580851	Raju	Saraswati
+246	15867408	Rudolph Falliere	Helene Mara
+247	15867408	Helene Mara	Rudolph Falliere
+248	15907225	Louise	Ian
+249	15907225	Ian	Louise
+250	1597877	Bonnie	Donovan Donaly
+251	1597877	Donovan Donaly	Bonnie
+252	1597877	Rex	Marylin Rexroth
+253	1597877	Marylin Rexroth	Marylin Rexroth
+254	1597877	Rex	Rex
+255	1597877	Marylin Rexroth	Rex
+256	1597877	Miles	Miles
+257	16355046	Siva	Sakthi
+258	16426208	Maggie Johnson	Joe
+259	16426208	Joe	Maggie Johnson
+260	1659846	Simon Green	Marilyn
+261	1679809	Sameer	Rhea
+262	1679809	Rhea	Sameer
+263	1682270	she	she
+264	1682270	Leonard Crawley	Louisa
+265	1682270	Louisa	Leonard Crawley
+266	1682270	him	Pinky Benson
+267	1682270	Pinky Benson	him
+268	1682805	Meredith	Everett
+269	1682805	Everett	Meredith
+270	16953192	his	his
+271	16953192	his	Vikram Sinha
+272	16953192	Siddharth	Vikram Sinha
+273	16953192	his	Raj
+274	16983451	Johnny	her
+275	16983451	her	Johnny
+276	17161827	Doug	Ralph
+277	17161827	Ralph	Doug
+278	17323415	Nate	Emma Allen
+279	17323415	Emma Allen	Nate
+280	17470934	Mathilda	Werner
+281	17470934	Werner	Mathilda
+282	17475674	Robert Tentrees	Melinda
+283	17475674	Melinda	Robert Tentrees
+284	17646903	Margo	Irv ' Klopper
+285	17646903	Irv ' Klopper	Margo
+286	17867578	Eashwar	Gheetha
+287	17908468	Steven Jay Russell	Debbie
+288	1795394	Laura Partridge	McKeever
+289	1795394	McKeever	Laura Partridge
+290	17996335	Sanjana	Yogesh
+291	17996335	Yogesh	Sanjana
+292	17996335	Kanta	Anila
+293	17996335	Anila	Kanta
+294	17996335	Sanjana	Yogesh
+295	17996335	Yogesh	Sanjana
+296	18017481	Rene	Lady Malverton
+297	18017481	Lady Malverton	Rene
+298	18037052	Abhilasha	Shastri
+299	18037052	Shastri	Abhilasha
+300	180912	Ethel	Arthur Stevenson
+301	180912	Arthur Stevenson	Ethel
+302	180912	Michael	Agnes
+303	18206216	her	Yasmine
+304	18206216	Yasmine	Yasmine
+305	18206216	Yasmine	Kwame Gatmon
+306	18206216	Kwame Gatmon	Yasmine
+307	18578563	Robert	Pamela Dickson
+308	18578563	Pamela Dickson	Robert
+309	1858682	Fulton	Edwina
+310	1858682	Edwina	Fulton
+311	1875611	Deborah	Deborah
+312	18788912	her	John
+313	18788912	John	her
+314	18788912	Melodie	Randy
+315	18788912	Randy	Melodie
+316	18799982	Marilyn	Joe
+317	18799982	Joe	Marilyn
+318	18799982	Sam	Renata
+319	1888433	LCDR Charlie Madison	Jessup
+320	19082345	Vicki Anderson	Charley Pearl
+321	19082345	Charley Pearl	Vicki Anderson
+322	1908729	Maggie Carpenter	Ike
+323	1908729	Ike	Maggie Carpenter
+324	1923292	Paul	Jane
+325	1934035	John	Ariel
+326	1934127	Molly	Jack Mulcahy
+327	1934127	Jack	Molly
+328	1934127	Jack Mulcahy	Molly
+329	19451074	Kedar Chatujye	Saraswati
+330	19451074	Saraswati	Kedar Chatujye
+331	19592108	Gabi	Gabi
+332	1960065	Erlynne	Robert
+333	1960065	she	she
+334	1960065	she	Robert
+335	1960065	she	Erlynne
+336	1960065	Robert	she
+337	1960065	Robert	Erlynne
+338	1960065	Erlynne	she
+339	2021400	Andy Stitzer	Trish
+340	2021400	Trish	Andy Stitzer
+341	2025985	Daniel Vargas	Lois Vargas
+342	2025985	Lois Vargas	Daniel Vargas
+343	2032436	Ira	Glenda
+344	2066293	Billie	Harry
+345	2066293	Harry	Billie
+346	2076422	Ken Wong	Ken Wong
+347	20869430	Pascal Manise	Agnès
+348	20869430	Cécile Coste	Agnès
+349	20869430	Agnès	Cécile Coste
+350	20903266	Nisha	Sulaiman
+351	20903266	Sulaiman	Nisha
+352	20903266	Nisha	Raja
+353	20903266	Raja	Nisha
+354	21102984	Madhu	his
+355	21102984	his	Madhu
+356	21318106	Joe	Shirley
+357	21318106	Shirley	Joe
+358	21385847	Jane	Doug
+359	21385847	Doug	George Murray
+360	21385847	George Murray	Doug
+361	21385847	Jane	George Murray
+362	21385847	Doug	George Murray
+363	21385847	George Murray	Doug
+364	21385847	George Murray	Jane
+365	2161511	Marge	Dick
+366	21764056	Andre	Colleen
+367	21764056	Colleen	Andre
+368	21859735	Patrick	Katherine
+369	21859735	Katherine	Patrick
+370	21859735	Carol	Katherine
+371	21859735	Katherine	Carol
+372	22090777	her	Marvin Payne
+373	2209172	Joanna Stayton	Grant Stayton III
+374	2209172	Grant Stayton III	Joanna Stayton
+375	22099425	Kishen	Mala
+376	22099425	Mala	Kishen
+377	22153949	Allison St. James	Jason Carmichael
+378	22153949	Jason Carmichael	Allison St. James
+379	22153949	Jason Carmichael	Leo Janowitz
+380	22153949	Leo Janowitz	Phoebe Craddock
+381	22153949	Phoebe Craddock	Leo Janowitz
+382	22154516	Verona De Tessant	Lowell
+383	22154516	Roderick	Burt Farlander
+384	22154516	Burt Farlander	Roderick
+385	22154516	Tom	Munch Garnett
+386	22154516	Chris Messina	Munch Garnett
+387	2217354	Francis	Renee
+388	22276971	Ray Rehman	Noelle
+389	22276971	Noelle	Ray Rehman
+390	2229894	Nick Murder	Nick Murder
+391	2238856	Pam	his
+392	2238856	his	Pam
+393	2258378	Tom Winters	Cinzia
+394	226198	Maggie	Sam Baldwin
+395	226198	Sam Baldwin	Maggie
+396	2267635	Charles Firbank	Charles Firbank
+397	22967108	Phil	Claire Foster
+398	22967108	Claire Foster	Phil
+399	23091532	Samantha	Steve
+400	23118238	Johnny Jones	Johnny Jones
+401	23118238	Kendrick	Diane
+402	23118238	Diane	Kendrick
+403	231486	Jake Perry	Melanie Smooter
+404	231486	Melanie Smooter	Jake Perry
+405	231486	Andrew	Melanie Smooter
+406	231486	Melanie Smooter	Andrew
+407	23239530	Simon Joel Edgerton	Katrien
+408	23389321	Richard	Julie Messinger
+409	23389321	Julie Messinger	Richard
+410	23467297	his	Aman
+411	234827	Montaliéri	Monsieur de Montaliéri
+412	23561477	Emily Hefferen	Jim
+413	23561477	Jim	Emily Hefferen
+414	23561477	Rita Kirby	George
+415	2357737	William	Natasha
+416	2357737	Natasha	William
+417	23654077	his	Sethu
+418	23654077	Sethu	his
+419	23654077	his	Sethu
+420	23654077	Sethu	his
+421	23813973	Pamela	Holden
+422	23813973	Holden	Pamela
+423	238484	Tillie	Chaplin
+424	238484	Chaplin	Tillie
+425	23920659	Aarush	Hetal
+426	23920659	Batuk	Sandy
+427	23920659	Bob	Sandy
+428	23920659	Sandy	Bob
+429	23920659	Aarush	Sandy
+430	23920659	Aarush	Hetal
+431	23920659	Hetal	Aarush
+432	23954729	Agness	Jake
+433	23954729	Jake	Agness
+434	24008579	James	Tonya
+435	24008579	Tonya	James
+436	240363	Phil Potter	Jessica
+437	24063523	Shelia	Eric Reynolds
+438	24063523	Eric Reynolds	Shelia
+439	2421437	Adrian	Andrew
+440	2421437	Leopold	Andrew
+441	2451146	His	Helene
+442	2451146	Helene	His
+443	2451146	Georges	Jacques
+444	2451146	Jacques	Georges
+445	2451146	Baroness	Jacques
+446	2451146	Jacques	Jacques
+447	24551073	Meg Lloyd	Duffy Bergman
+448	24551073	Duffy Bergman	Meg Lloyd
+449	24608768	Andy	Mary Crawford
+450	24608768	Mary Crawford	Andy
+451	246559	Peggy Sue awakens	Richard
+452	246559	Richard	Peggy Sue awakens
+453	24672079	Noah Cooper	Clare
+454	24672079	Marilyn	Gene
+455	2467561	Linda Christie	Dick
+456	2467561	Dick	Linda Christie
+457	24878469	she	Larry Livingstone
+458	24878469	Larry Livingstone	she
+459	24878469	Peter	Beth
+460	24878469	Beth	Peter
+461	2492165	Sarah Huttinger	Jeff
+462	2492165	Sarah Huttinger	Scott
+463	2517072	Esha Malhotra	Rahul
+464	2517072	Rahul	Esha Malhotra
+465	2553711	Stephen	Claire Mathewson
+466	2553711	Claire Mathewson	Stephen
+467	25565399	Gladys	Bill Chandler
+468	25565399	Bill Chandler	Gladys
+469	25565399	her	Bill
+470	25565399	Bill	her
+471	25616821	Emily	Sam Sawyer
+472	25616821	Sam Sawyer	Emily
+473	25737142	Olivia	Henry
+474	25786322	Grace Herbert	Grace Herbert
+475	25954897	Madan	Mallika
+476	25954897	Mallika	Madan
+477	2608771	Sam	Alice Holbrook
+478	2608771	Alice Holbrook	Sam
+479	26107567	Ian Maxtone - Jones	Katherine
+480	26107567	Katherine	Ian Maxtone - Jones
+481	26107567	Danny Maccabee	Katherine
+482	26107567	Katherine	Danny Maccabee
+483	26107567	Devlin Adams	Palmer
+484	26107567	Palmer	Devlin Adams
+485	26554437	she	she
+486	26658618	Rachel	Tony
+487	26658618	Tony	Rachel
+488	26687336	Paramvir Singh	Mary
+489	26779875	Will	Joanna
+490	26779875	Joanna	Will
+491	27106935	her	Leon
+492	27106935	Olivia	Salvador
+493	27106935	Salvador	Olivia
+494	27226283	Elizabeth Kent	Alan
+495	27226283	Alan	Elizabeth Kent
+496	27375785	Murray	Sarah
+497	27375785	Sarah	Murray
+498	27425045	Sivadas	Radhika
+499	27425045	Radhika	Sivadas
+500	27425045	his	Gauri
+501	27425045	Gauri	his
+502	27439922	Dean	she
+503	27439922	she	Dean
+504	2748481	Barbara Latimer	Jeff
+505	2748481	Jeff	Barbara Latimer
+506	277148	Michael	Kimberly Wallace
+507	277148	Kimberly Wallace	Michael
+508	277148	Michael	Kimberly
+509	277148	Kimberly	Michael
+510	277710	Max	Dean
+511	277710	Dean	Max
+512	27944820	Abhay Suri	Madhvi
+513	27954293	Arikki @ Arivazhagan	Ramasamy
+514	27954293	Ramasamy	Arikki @ Arivazhagan
+515	2804212	Shikha	Ranjeet
+516	2804212	Ranjeet	Shikha
+517	28141854	Billie	Bob
+518	28141854	Bob	Billie
+519	2848051	Betsy	Jack Singer
+520	2848051	Jack Singer	Betsy
+521	28485791	Boozy Arthur Bach	Susan
+522	28485791	Susan	Boozy Arthur Bach
+523	28485791	Boozy Arthur Bach	Susan
+524	28485791	Susan	Boozy Arthur Bach
+525	2877584	Irene	Waldo
+526	2877584	Waldo	Irene
+527	28880684	Emily	David Lindhagen
+528	28880684	David Lindhagen	Emily
+529	29000018	Clyde	Lucy
+530	29000018	Lucy	Clyde
+531	290633	Nina Borowski	Sidney
+532	29081296	Andy	Molly Kelly
+533	29081296	Molly Kelly	Andy
+534	29165410	Lauren	FDR
+535	29165410	FDR	Lauren
+536	29176668	his	Olivia
+537	2920744	Ellen	Nick Arden
+538	2920744	Bianca	Nick Arden
+539	2920744	Nick Arden	Bianca
+540	2920744	Nick Arden	Ellen
+541	2920744	Bianca	Ellen
+542	2920744	Ellen	Nick Arden
+543	2920744	Ellen	Bianca
+544	2920744	Nick Arden	Ellen
+545	2920843	Ellen Wagstaff Arden	Nick Arden
+546	2920843	his	Bianca
+547	2920843	Bianca	his
+548	29437259	Victoria	Phil
+549	29437259	Phil	Victoria
+550	29437259	Cleavon	Victoria
+551	29437259	Phil	Victoria
+552	29437259	Zenobia	Victoria
+553	29462285	Marion Scott	Marion Scott
+554	2958168	Jane Marks	Bill
+555	2958168	Bill	Jane Marks
+556	29854616	Sivankutty	Sridevi
+557	29854616	Sridevi	Sivankutty
+558	2987468	her	Sangmin
+559	2987468	Sangmin	her
+560	2997355	Charlie Lang	Muriel
+561	2997355	Muriel	Charlie Lang
+562	2997355	Eddie	Yvonne Biasi
+563	2997355	Yvonne Biasi	Eddie
+564	3038787	Gaz	Gaz
+565	30498632	Ray	Ray
+566	30689928	Nimmi	Ramvilas Sharma
+567	30689928	Ramvilas Sharma	Nimmi
+568	3077087	Claudia Larson	Walter
+569	30860806	Amar	her
+570	30860806	Geeta	Bindiya
+571	30860806	Anchal	Geeta
+572	30860806	Bindiya	Geeta
+573	30860806	Prem	Geeta
+574	30860806	Bindiya	Prem
+575	30860806	Anchal	Amar
+576	30860806	Amar	Geeta
+577	30860806	Prem	Anchal
+578	30860806	Geeta	Amar
+579	30860806	her	Amar
+580	30860806	Bindiya	Anchal
+581	30860806	her	Bindiya
+582	30860806	Geeta	Prem
+583	30860806	Prem	Bindiya
+584	30860806	Geeta	Anchal
+585	30860806	Bindiya	Amar
+586	30860806	Geeta	her
+587	30860806	her	Prem
+588	30860806	Amar	Prem
+589	30860806	her	Anchal
+590	30860806	Anchal	Bindiya
+591	30860806	Prem	her
+592	30860806	Amar	Anchal
+593	30860806	Amar	Bindiya
+594	30860806	Prem	Amar
+595	30860806	her	Geeta
+596	30860806	Anchal	Prem
+597	30860806	Bindiya	her
+598	31083557	Charlie	Kasia
+599	3130366	Matthew	Karen
+600	3130366	Victor	Karen
+601	3130366	Karen	Karen
+602	3130366	Victor	Victor
+603	3130366	Karen	Victor
+604	3130366	Victor	Matthew
+605	3130366	Matthew	Karen
+606	3130366	Karen	Matthew
+607	313885	Fred	Cathy
+608	313885	Cathy	Fred
+609	314093	Gordon	Grace
+610	314093	Grace	Gordon
+611	314775	Hiroko	Jack Elliot
+612	314775	Jack Elliot	Hiroko
+613	3151934	Steven	Kay Hilliard
+614	3151934	Kay Hilliard	Steven
+615	3152877	Jack Chester	Sandy
+616	3152877	Sandy	Sandy
+617	3154528	Clark	Darla
+618	3154528	Darla	Clark
+619	31632887	Steve Giardino	Jackie
+620	31632887	Jackie	Steve Giardino
+621	31632887	Wall Streeter	Jackie
+622	3212842	Nikki	Neal
+623	3212842	Neal	Nikki
+624	3226241	Dolly	Chad
+625	3226241	Dolly	Darrell
+626	3226241	Dolly	Dolly
+627	3226241	Dolly	Sherise
+628	32420843	Lucy	Ben
+629	32420843	Ben	Lucy
+630	3245137	Rocky	she
+631	3253210	Anna	Danny
+632	3253210	Danny	Anna
+633	32717999	Porky	Petunia
+634	32717999	Petunia	Porky
+635	3333681	his	Nina
+636	3371111	Harold Meadows	Mary Buckingham
+637	3371111	Mary Buckingham	Harold Meadows
+638	33754268	Parvathi	Akilan
+639	33754268	Akilan	Parvathi
+640	33754268	Saroja	Akilan
+641	33946021	her	Wojciech
+642	34129784	Jeff Sherman	Adele
+643	34129784	Judson M. Blair	Adele
+644	34129784	Adele	Jeff Sherman
+645	3418109	Coleman Ettinger	Gena
+646	3418109	Gena	Coleman Ettinger
+647	3459677	Bhavana	Diya
+648	35114850	him	Patricia
+649	35114850	Patricia	him
+650	3531556	Van Stanhope	Linda
+651	3558237	John Abraham	Tehzeeb Hussain
+652	3558237	Tehzeeb Hussain	John Abraham
+653	3558237	Phoolwati Ramdayal	Phoolwati Ramdayal
+654	3621799	his	his
+655	3621799	Gallagher	his
+656	3654363	Daphne	Wagner
+657	369682	her	John
+658	370064	Harry	Karen
+659	370064	Karen	Harry
+660	370064	Daisy	Karen
+661	3790446	Adelina	Carmine
+662	3822528	his	Fortunata
+663	3822528	Fortunata	his
+664	3822528	Lichas	Trifena
+665	3823023	Harvey Holroyd	Kate
+666	3823023	Kate	Harvey Holroyd
+667	3875767	Penelope Wilhern	Vanderman
+668	3875767	Vanderman	Penelope Wilhern
+669	3875767	Lemon	Penelope Wilhern
+670	3875767	Penelope Wilhern	Lemon
+671	3943470	Gene	Betty Kerner
+672	3943470	Betty Kerner	Gene
+673	3990824	Pamela Hill	Philip
+674	3997782	Susan	Frank Allen
+675	3997782	Frank Allen	Susan
+676	4070671	Julia Seton	Johnny Case
+677	4070671	Johnny Case	Julia Seton
+678	4213599	Rosalind	Phoebe
+679	4222309	Sandra	Paul
+680	4222309	Paul	Sandra
+681	431333	Toula	Toula
+682	4339865	Max de Mirecourt	Lucie
+683	4339865	Lucie	Max de Mirecourt
+684	4343386	Peter	Kathy
+685	4343386	Kathy	Peter
