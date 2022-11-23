@@ -246,10 +246,10 @@ def get_relation(movie_id, relation_type, confidence_threshold=0.9):
     Find all subject and object pairs that have a relation type of relation_type
     Input: 
         movie_id: Wikipedia ID of the movie
-        relation_type: full list of relations can be find here https://stanfordnlp.github.io/CoreNLP/kbp.html
+        relation_type: full list of relations can be found here https://stanfordnlp.github.io/CoreNLP/kbp.html
         confidence_threshold: float between 0 and 1, the minimum confidence of the relation
     Output:
-        relations: a list of tuples (movie_id, subject, object)
+        relations: a list of tuples (movie_id, per_type, subject, object)
     '''
     tree = get_tree_romance(movie_id)
     relations = []
@@ -281,7 +281,7 @@ def get_relation(movie_id, relation_type, confidence_threshold=0.9):
                                 for el in element.iter():
                                     if el.tag == 'text':
                                         object = el.text
-                                        relations.append((movie_id, subject, object))
+                                        relations.append((movie_id, relation, subject, object))
                                         isRelationType = False
     return relations
 
