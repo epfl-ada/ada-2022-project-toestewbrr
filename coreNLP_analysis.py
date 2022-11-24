@@ -15,6 +15,9 @@ from load_data import *
 XML_DIR = 'Data/CoreNLP/corenlp_plot_summaries_xml'
 XML_DIR_ROMANCE = 'CoreNLP/RomanceOutputs'
 
+VERB_TYPES = ['nsubj', 'obl:agent', 'nsubj:pass', 'nsubj:xsubj', 'obj']
+ATTRIBUTE_TYPES = ['appos', 'amod', 'nmod:poss', 'nmod:of']
+
 # Given a movie ID, get the file tree from xml CoreNLP output
 def get_tree(movie_id):
     xml_filename = os.path.join(XML_DIR, '{}.xml'.format(movie_id))
@@ -302,3 +305,59 @@ def get_per(category, store=True):
             # Store the title_df in a csv
             df.to_csv(path, sep='\t')
     return df
+
+def get_attributes(xml_filename, relation_types): 
+    ''' Given an xml file, extracts all depparse annotations (subject, object, relation_type) 
+    among the given relation types. '''
+    #tree = get_tree(movie_id)
+    tree = ET.parse(xml_filename)
+    pairs = []
+    for child in tree.iter():
+        if child.tag == 'dep':
+            type = child.attrib['type']
+        if child.tag == 'governor': 
+            governor = child.text
+        if child.tag == 'dependent':
+            dependent = child.text
+            if type in relation_types:
+                pairs.append((governor, dependent, type))
+    return pairs
+
+def extract_attributes(xml_filename, relation_types): 
+    ''' Given a xml file and depparse annotation pairs, extracts relations of given type, 
+    removes duplicates, extracts the ones involving a character. 
+    Input: 
+        xml_filename: xml file to extract relations from
+        relation_types: list of relation types to extract, e.g. ['nsubj', 'obj']
+    Output:
+        filtered_pairs: list of tuples (full name, attribute, relation type)
+    '''
+    # Get full name of each character
+    tree = ET.parse(xml_filename)
+    characters = get_characters(tree)
+    full_names = full_name_dict(characters)
+
+    # Extract depparse pairs
+    pairs = get_attributes(xml_filename, relation_types)
+
+    # Remove duplicates
+    pairs = list(set(pairs))
+
+    # Find all pairs containing a single character name, and 
+    # add it to a list of tuples (full name, attribute, relation type)
+    filtered_pairs = []
+    for pair in pairs: 
+        try: 
+            full_name1 = full_names[pair[0]]
+        except KeyError: 
+            full_name1 = None
+        try:
+            full_name2 = full_names[pair[1]]
+        except KeyError:
+            full_name2 = None
+        if full_name1 is not None and full_name2 is None: 
+            filtered_pairs.append((full_name1, pair[1], pair[2]))
+        elif full_name1 is None and full_name2 is not None:
+            filtered_pairs.append((full_name2, pair[0], pair[2]))
+    return filtered_pairs
+    
