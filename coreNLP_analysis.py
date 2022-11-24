@@ -13,7 +13,7 @@ import itertools
 from load_data import *
 
 XML_DIR = 'Data/CoreNLP/corenlp_plot_summaries_xml'
-XML_DIR_ROMANCE = 'RomancePlotsOutputs'
+XML_DIR_ROMANCE = 'CoreNLP/RomanceOutputs'
 
 # Given a movie ID, get the file tree from xml CoreNLP output
 def get_tree(movie_id):
@@ -291,11 +291,11 @@ def get_per(category, store=True):
     Category should be in line with the per:... options from coreNLP. Get the relationships
     '''
     # if os path does not exist, load data and store it
-    path = 'Romance_Data/' + category + '.csv'
+    path = 'CoreNLP/' + category + '.csv'
     if os.path.exists(path):
         df = pd.read_csv(path, sep='\t', index_col=0)
     else:
-        df = get_relation_df(DIR='RomancePlotsOutputs',
+        df = get_relation_df(DIR='CoreNLP/RomanceOutputs',
                              relation_type='per:'+category)
         # Have list of attributes for each character
         if store:
