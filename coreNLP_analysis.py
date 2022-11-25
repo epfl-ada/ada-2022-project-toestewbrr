@@ -25,7 +25,8 @@ def get_tree(movie_id):
     return tree
 
 # Given a movie ID, get the file tree from xml CoreNLP augmented pipeline output
-def get_tree_romance(movie_id):
+def get_tree_from_drive(movie_id):
+    # TODO: access xml_filename from drive
     xml_filename = os.path.join(XML_DIR_ROMANCE, '{}.xml'.format(movie_id))
     tree = ET.parse(xml_filename)
     return tree
@@ -232,7 +233,7 @@ def extract_relations(movie_id, tags):
     Output:
         relations: a list of tuples (movie_id, subject, object, tag, confidence_level)
     '''
-    tree = get_tree_romance(movie_id)
+    tree = get_tree_from_drive(movie_id)
     relations = []
     isRelationType = False
     # Iterate through the tree
@@ -276,7 +277,8 @@ def get_relations(zip_file, tags):
         relations: a list of tuples (movie_id, subject, object, tag, confidence_level)
     '''
     relations = []
-    for filename in zip_file:
+    # Iterate through the zip file
+    for filename in zip_file.namelist():
         # Manually deleted files: 43849.xml and 1282593.xml because could not be parsed
         if filename != ".DS_Store" and filename != "43849.xml" and filename != "1282593.xml":
             movie_id = filename[:-4]
