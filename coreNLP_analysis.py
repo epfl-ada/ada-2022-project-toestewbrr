@@ -221,38 +221,16 @@ def get_plots(genres, movie_df, plot_df):
     genres_plots = genres_plots[~genres_plots['Summary'].isna()]
     return genres_plots
 
-# Create a list of tuples containing (movie_id, subject, object) for each kbp triples with title relationship
-def get_relation_df(DIR, relation_type, confidence_threshold=0.9): 
-    '''
-    Find all subject and object pairs that have a relation type of relation_type
-    Input: 
-        DIR: directory to get the xml file 
-        relation_type: full list of relations can be find here https://stanfordnlp.github.io/CoreNLP/kbp.html
-        confidence_threshold: float between 0 and 1, the minimum confidence of the relation
-    Output:
-        relations: a list of tuples (movie_id, subject, object)
-    '''
-    relation = []
-    for filename in os.listdir(DIR):
-        # Manually deleted files: 43849.xml and 1282593.xml because could not be parsed
-        if filename != ".DS_Store" and filename != "43849.xml" and filename != "1282593.xml":
-            movie_id = filename[:-4]
-            relation.append(get_relation(movie_id, relation_type, confidence_threshold))
-    # Create a dataframe with the list of tuples
-    relation_df = pd.DataFrame([item for sublist in relation for item in sublist], columns=['Wikipedia ID', 'Subject', 'Relation'])
-    return relation_df   
-
-# We define a method that takes in a movie id, relation_type and confidence threshold and 
-# outputs a list of tuples containing all subject and object pairs in the movie that have this type of relation
-def get_relation(movie_id, relation_type, confidence_threshold=0.9):
+# We define a method that takes in a movie_id and a list of tags.   
+# It outputs a list of tuples containing all subject and object pairs in the movie plot summary which have a KBP relation of a type in tags
+def extract_relations(movie_id, tags):
     '''
     Find all subject and object pairs that have a relation type of relation_type
     Input: 
         movie_id: Wikipedia ID of the movie
-        relation_type: full list of relations can be found here https://stanfordnlp.github.io/CoreNLP/kbp.html
-        confidence_threshold: float between 0 and 1, the minimum confidence of the relation
+        tags: list of relations that we want to extract
     Output:
-        relations: a list of tuples (movie_id, per_type, subject, object)
+        relations: a list of tuples (movie_id, subject, object, tag, confidence_level)
     '''
     tree = get_tree_romance(movie_id)
     relations = []
@@ -263,32 +241,51 @@ def get_relation(movie_id, relation_type, confidence_threshold=0.9):
         if child.tag == 'kbp':
             for triple in child.iter():
                 if triple.tag == 'triple':
-                    # Check if confidence level is above threshold
-                    confidence = float(triple.attrib['confidence'].replace(',', '.'))
-                    if confidence > confidence_threshold: 
-                        for element in triple.iter():
-                            # Store the subject 
-                            if element.tag == 'subject':
-                                for el in element.iter():
-                                    if el.tag == 'text':
-                                        subject = el.text
-                            # Store the relation 
-                            if element.tag == 'relation':
-                                for el in element.iter():
-                                    if el.tag == 'text':
-                                        if el.text == relation_type:
-                                            isRelationType = True
-                                            relation = el.text
-                            # If the relation type is correct, store the triple
-                            if element.tag == 'object' and isRelationType:
-                                for el in element.iter():
-                                    if el.tag == 'text':
-                                        object = el.text
-                                        relations.append((movie_id, relation, subject, object))
-                                        isRelationType = False
+                    confidence_level = float(triple.attrib['confidence'].replace(',', '.'))
+                    for element in triple.iter():
+                        # Store the subject 
+                        if element.tag == 'subject':
+                            for el in element.iter():
+                                if el.tag == 'text':
+                                    subject = el.text
+                        # Store the relation 
+                        if element.tag == 'relation':
+                            for el in element.iter():
+                                if el.tag == 'text':
+                                    if el.text in tags:
+                                        isRelationType = True
+                                        tag = el.text
+                        # If the relation type is correct, store the triple
+                        if element.tag == 'object' and isRelationType:
+                            for el in element.iter():
+                                if el.tag == 'text':
+                                    object = el.text
+                                    relations.append((movie_id, subject, object, tag, confidence_level))
+                                    isRelationType = False
     return relations
 
+# This method takes in a zip_file containing xml files of movies plot summaries processed by the CoreNLP pipeline and a list of tags. 
+# It returns a dataframe of all the KBP relationships with a type in tags find in the plot summaries. 
+def get_relations(zip_file, tags): 
+    '''
+    Find all subject and object pairs that have a relation type in tags
+    Input: 
+        file: zip file containing all the plot summaries xml files 
+        tags: list of relations that we want to extract, full list of relations can be find here https://stanfordnlp.github.io/CoreNLP/kbp.html
+    Output:
+        relations: a list of tuples (movie_id, subject, object, tag, confidence_level)
+    '''
+    relations = []
+    for filename in zip_file:
+        # Manually deleted files: 43849.xml and 1282593.xml because could not be parsed
+        if filename != ".DS_Store" and filename != "43849.xml" and filename != "1282593.xml":
+            movie_id = filename[:-4]
+            relations.append(extract_relations(movie_id, tags))
+    # Create a dataframe with the list of tuples
+    relations_df = pd.DataFrame([item for sublist in relations for item in sublist], columns=['Wikipedia ID', 'Subject', 'Object', 'Tag', 'Confidence Level'])
+    return relations_df   
 
+# TODO: delete this function. I am not sure we need it. We just need to run the code above once and save the results in a csv file. 
 def get_per(category, store=True):
     '''
     Category should be in line with the per:... options from coreNLP. Get the relationships
