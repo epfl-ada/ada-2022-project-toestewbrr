@@ -6,6 +6,7 @@ Dataset: CMU Movie Summary Corpus
 '''
 
 import os
+from  zipfile import ZipFile
 import xml.etree.ElementTree as ET
 from nltk.tree import Tree
 import itertools
@@ -13,7 +14,6 @@ import itertools
 from load_data import *
 
 XML_DIR = 'Data/CoreNLP/corenlp_plot_summaries_xml'
-XML_DIR_ROMANCE = 'CoreNLP/RomanceOutputs'
 
 VERB_TYPES = ['nsubj', 'obl:agent', 'nsubj:pass', 'nsubj:xsubj', 'obj']
 ATTRIBUTE_TYPES = ['appos', 'amod', 'nmod:poss', 'nmod:of']
@@ -24,11 +24,6 @@ def get_tree(movie_id):
     tree = ET.parse(xml_filename)
     return tree
 
-# Given a movie ID, get the file tree from xml CoreNLP augmented pipeline output
-def get_tree_romance(movie_id):
-    xml_filename = os.path.join(XML_DIR_ROMANCE, '{}.xml'.format(movie_id))
-    tree = ET.parse(xml_filename)
-    return tree
 
 # Given an xml tree, we return all of its CoreNLP parsed sentences 
 def get_parsed_sentences(tree):
@@ -221,40 +216,18 @@ def get_plots(genres, movie_df, plot_df):
     genres_plots = genres_plots[~genres_plots['Summary'].isna()]
     return genres_plots
 
-# Create a list of tuples containing (movie_id, subject, object) for each kbp triples with title relationship
-def get_relation_df(DIR, relation_type, confidence_threshold=0.9): 
+# We define a method that takes in a tree, a movie_id and a list of tags.   
+# It outputs a list of tuples containing all subject and object pairs in the movie plot summary which have a KBP relation of a type in tags
+def extract_relations(tree, movie_id, tags):
     '''
     Find all subject and object pairs that have a relation type of relation_type
     Input: 
-        DIR: directory to get the xml file 
-        relation_type: full list of relations can be find here https://stanfordnlp.github.io/CoreNLP/kbp.html
-        confidence_threshold: float between 0 and 1, the minimum confidence of the relation
-    Output:
-        relations: a list of tuples (movie_id, subject, object)
-    '''
-    relation = []
-    for filename in os.listdir(DIR):
-        # Manually deleted files: 43849.xml and 1282593.xml because could not be parsed
-        if filename != ".DS_Store" and filename != "43849.xml" and filename != "1282593.xml":
-            movie_id = filename[:-4]
-            relation.append(get_relation(movie_id, relation_type, confidence_threshold))
-    # Create a dataframe with the list of tuples
-    relation_df = pd.DataFrame([item for sublist in relation for item in sublist], columns=['Wikipedia ID', 'Subject', 'Relation'])
-    return relation_df   
-
-# We define a method that takes in a movie id, relation_type and confidence threshold and 
-# outputs a list of tuples containing all subject and object pairs in the movie that have this type of relation
-def get_relation(movie_id, relation_type, confidence_threshold=0.9):
-    '''
-    Find all subject and object pairs that have a relation type of relation_type
-    Input: 
+        tree: xml parse tree
         movie_id: Wikipedia ID of the movie
-        relation_type: full list of relations can be found here https://stanfordnlp.github.io/CoreNLP/kbp.html
-        confidence_threshold: float between 0 and 1, the minimum confidence of the relation
+        tags: list of relations that we want to extract
     Output:
-        relations: a list of tuples (movie_id, per_type, subject, object)
+        relations: a list of tuples (movie_id, subject, object, tag, confidence_level)
     '''
-    tree = get_tree_romance(movie_id)
     relations = []
     isRelationType = False
     # Iterate through the tree
@@ -263,54 +236,71 @@ def get_relation(movie_id, relation_type, confidence_threshold=0.9):
         if child.tag == 'kbp':
             for triple in child.iter():
                 if triple.tag == 'triple':
-                    # Check if confidence level is above threshold
-                    confidence = float(triple.attrib['confidence'].replace(',', '.'))
-                    if confidence > confidence_threshold: 
-                        for element in triple.iter():
-                            # Store the subject 
-                            if element.tag == 'subject':
-                                for el in element.iter():
-                                    if el.tag == 'text':
-                                        subject = el.text
-                            # Store the relation 
-                            if element.tag == 'relation':
-                                for el in element.iter():
-                                    if el.tag == 'text':
-                                        if el.text == relation_type:
-                                            isRelationType = True
-                                            relation = el.text
-                            # If the relation type is correct, store the triple
-                            if element.tag == 'object' and isRelationType:
-                                for el in element.iter():
-                                    if el.tag == 'text':
-                                        object = el.text
-                                        relations.append((movie_id, relation, subject, object))
-                                        isRelationType = False
+                    confidence_level = float(triple.attrib['confidence'].replace(',', '.'))
+                    for element in triple.iter():
+                        # Store the subject 
+                        if element.tag == 'subject':
+                            for el in element.iter():
+                                if el.tag == 'text':
+                                    subject = el.text
+                        # Store the relation 
+                        if element.tag == 'relation':
+                            for el in element.iter():
+                                if el.tag == 'text':
+                                    if el.text in tags:
+                                        isRelationType = True
+                                        tag = el.text
+                        # If the relation type is correct, store the triple
+                        if element.tag == 'object' and isRelationType:
+                            for el in element.iter():
+                                if el.tag == 'text':
+                                    object = el.text
+                                    relations.append((movie_id, subject, object, tag, confidence_level))
+                                    isRelationType = False
     return relations
 
+# This method takes in a zip_file containing xml files of movies plot summaries processed by the CoreNLP pipeline and a list of tags. 
+# It returns a dataframe of all the KBP relationships with a type in tags find in the plot summaries. 
+def get_relations(path, tags): 
+    '''
+    Find all subject and object pairs that have a relation type in tags
+    Input: 
+        file: zip file containing all the plot summaries xml files 
+        tags: list of relations that we want to extract, full list of relations can be find here https://stanfordnlp.github.io/CoreNLP/kbp.html
+    Output:
+        relations: a list of tuples (movie_id, subject, object, tag, confidence_level)
+    '''
+    relations = []
+    with ZipFile(path, 'r') as zip:
+        for filename in zip.namelist():
+        # Manually deleted files: 43849.xml and 1282593.xml because could not be parsed
+            movie_id = filename[:-4] # remove .xml
+            with zip.open('{}.xml'.format(movie_id)) as f:
+                tree = ET.parse(f)
+                root = tree.getroot()  
+            relations.append(extract_relations(root, movie_id, tags))
+    # Create a dataframe with the list of tuples
+    relations_df = pd.DataFrame([item for sublist in relations for item in sublist], columns=['Wikipedia ID', 'Subject', 'Object', 'Tag', 'Confidence Level'])
+    return relations_df   
 
-def get_per(category, store=True):
+def get_per(tag):
     '''
     Category should be in line with the per:... options from coreNLP. Get the relationships
     '''
     # if os path does not exist, load data and store it
-    path = 'CoreNLP/' + category + '.csv'
+    path = 'CoreNLP/' + tag + '.csv'
     if os.path.exists(path):
         df = pd.read_csv(path, sep='\t', index_col=0)
-    else:
-        df = get_relation_df(DIR='CoreNLP/RomanceOutputs',
-                             relation_type='per:'+category)
-        # Have list of attributes for each character
-        if store:
-            # Store the title_df in a csv
-            df.to_csv(path, sep='\t')
+    else: 
+        print("The dataframe does not exist already. We will create it by filtering on the relations csv file.")
+        df = pd.read_csv('CoreNLP/relations.csv', sep='\t', index_col=0)
+        df = df[df['Tag'] == tag]
+        df.to_csv(path, sep='\t')
     return df
 
-def get_attributes(xml_filename, relation_types): 
-    ''' Given an xml file, extracts all depparse annotations (subject, object, relation_type) 
+def get_attributes(tree, relation_types): 
+    ''' Given a xml file parsed into a tree, extracts all depparse annotations (subject, object, relation_type) 
     among the given relation types. '''
-    #tree = get_tree(movie_id)
-    tree = ET.parse(xml_filename)
     pairs = []
     for child in tree.iter():
         if child.tag == 'dep':
@@ -323,22 +313,21 @@ def get_attributes(xml_filename, relation_types):
                 pairs.append((governor, dependent, type))
     return pairs
 
-def extract_attributes(xml_filename, relation_types): 
-    ''' Given a xml file and depparse annotation pairs, extracts relations of given type, 
+def extract_attributes(tree, relation_types): 
+    ''' Given a xml parsed tree and depparse annotation pairs, extracts relations of given type, 
     removes duplicates, extracts the ones involving a character. 
     Input: 
-        xml_filename: xml file to extract relations from
+        tree: tree to extract relations from
         relation_types: list of relation types to extract, e.g. ['nsubj', 'obj']
     Output:
         filtered_pairs: list of tuples (full name, attribute, relation type)
     '''
     # Get full name of each character
-    tree = ET.parse(xml_filename)
     characters = get_characters(tree)
     full_names = full_name_dict(characters)
 
     # Extract depparse pairs
-    pairs = get_attributes(xml_filename, relation_types)
+    pairs = get_attributes(tree, relation_types)
 
     # Remove duplicates
     pairs = list(set(pairs))
