@@ -15,7 +15,9 @@ from load_data import *
 
 XML_DIR = 'Data/CoreNLP/corenlp_plot_summaries_xml'
 
-VERB_TYPES = ['nsubj', 'obl:agent', 'nsubj:pass', 'nsubj:xsubj', 'obj']
+
+AGENT_VERBS = ['nsubj', 'obl:agent']
+PATIENT_VERBS = ['nsubj:pass', 'nsubj:xsubj', 'obj']
 ATTRIBUTE_TYPES = ['appos', 'amod', 'nmod:poss', 'nmod:of']
 
 # Given a movie ID, get the file tree from xml CoreNLP output
@@ -313,27 +315,27 @@ def get_attributes(tree, relation_types):
                 pairs.append((governor, dependent, type))
     return pairs
 
-def extract_attributes(tree, relation_types): 
+def extract_attributes(tree): 
     ''' Given a xml parsed tree and depparse annotation pairs, extracts relations of given type, 
     removes duplicates, extracts the ones involving a character. 
     Input: 
         tree: tree to extract relations from
         relation_types: list of relation types to extract, e.g. ['nsubj', 'obj']
     Output:
-        filtered_pairs: list of tuples (full name, attribute, relation type)
+        agent_pairs, patient_pairs, attribute_pairs: list of relation tuples (subject, object) of given type
     '''
     # Get full name of each character
     characters = get_characters(tree)
     full_names = full_name_dict(characters)
 
     # Extract depparse pairs
+    relation_types = AGENT_VERBS + PATIENT_VERBS + ATTRIBUTE_TYPES
     pairs = get_attributes(tree, relation_types)
 
     # Remove duplicates
     pairs = list(set(pairs))
 
-    # Find all pairs containing a single character name, and 
-    # add it to a list of tuples (full name, attribute, relation type)
+    # Find all pairs containing a single character name, and add it to a list of tuples (full name, attribute, relation type)
     filtered_pairs = []
     for pair in pairs: 
         try: 
@@ -348,5 +350,45 @@ def extract_attributes(tree, relation_types):
             filtered_pairs.append((full_name1, pair[1], pair[2]))
         elif full_name1 is None and full_name2 is not None:
             filtered_pairs.append((full_name2, pair[0], pair[2]))
-    return filtered_pairs
     
+    # Split the pairs into relation types: agent verb, patient verb, attribute
+    agent_pairs = []
+    patient_pairs = []
+    attribute_pairs = []
+    for pair in filtered_pairs:
+        if pair[2] in AGENT_VERBS:
+            agent_pairs.append(pair[0:2])
+        elif pair[2] in PATIENT_VERBS:
+            patient_pairs.append(pair[0:2])
+        elif pair[2] in ATTRIBUTE_TYPES:
+            attribute_pairs.append(pair[0:2])
+    
+    return agent_pairs, patient_pairs, attribute_pairs
+    
+# For each character, aggregate all related actions and attributes
+def get_character_description(tree):
+    agent_pairs, patient_pairs, attribute_pairs = extract_attributes(tree)
+    
+    attributes = {}
+    patient_verbs = {}
+    agent_verbs = {}
+
+    for (char, verb) in agent_pairs:
+        if char not in agent_verbs:
+            agent_verbs[char] = [verb]
+        else:
+            agent_verbs[char].append(verb)
+
+    for (char, verb) in patient_pairs:
+        if char not in patient_verbs:
+            patient_verbs[char] = [verb]
+        else:
+            patient_verbs[char].append(verb)
+
+    for (char, attr) in attribute_pairs:
+        if char not in attributes:
+            attributes[char] = [attr]
+        else:
+            attributes[char].append(attr)
+    
+    return agent_verbs, patient_verbs, attributes
