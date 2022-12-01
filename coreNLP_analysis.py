@@ -3,7 +3,10 @@ Applied Data Analysis @ EPFL
 Team: ToeStewBrr - Alexander Sternfeld, Marguerite Thery, Antoine Bonnet, Hugo Bordereaux 
 Project: Love stories in movies
 Dataset: CMU Movie Summary Corpus
+
+This file contains the code for the coreNLP analysis of the movie summaries.
 '''
+
 
 import os
 from  zipfile import ZipFile
@@ -15,15 +18,40 @@ from load_data import *
 
 XML_DIR = 'Data/CoreNLP/corenlp_plot_summaries_xml'
 
-VERB_TYPES = ['nsubj', 'obl:agent', 'nsubj:pass', 'nsubj:xsubj', 'obj']
+AGENT_VERBS = ['nsubj', 'obl:agent']
+PATIENT_VERBS = ['nsubj:pass', 'nsubj:xsubj', 'obj']
 ATTRIBUTE_TYPES = ['appos', 'amod', 'nmod:poss', 'nmod:of']
+
+
+# ----------------- Filtering movie plot summaries  ----------------- #
+
+
+# We define a method that takes in a list of movie genres and outputs their plot summaries 
+def get_plots(genres, movie_df, plot_df):
+    '''
+    Find all movies of specified genres and return a dataframe containing their id and summaries
+    Input: 
+        genres: list of genres
+        movie_df: dataframe containing movies' Wikipedia ID and genres 
+        plot_df: dataframe containing movies' Wikipedia ID and their plot summaries 
+    Output:
+        genres_plots: dataframe containing movies' Wikipedia ID and their plot summaries
+    '''
+    is_genres = lambda i: lambda x: any(y in genres[i] for y in x) if type(x) == list else False
+    movie_of_genres = movie_df[movie_df['Genres'].apply(is_genres(slice(0, len(genres))))]
+    genres_plots = movie_of_genres.merge(plot_df, on='Wikipedia ID', how='left')[['Wikipedia ID', 'Summary']]
+    genres_plots = genres_plots[~genres_plots['Summary'].isna()]
+    return genres_plots
+
+
+# -------------------- Parsing coreNLP analysis output --------------------#
+
 
 # Given a movie ID, get the file tree from xml CoreNLP output
 def get_tree(movie_id):
     xml_filename = os.path.join(XML_DIR, '{}.xml'.format(movie_id))
     tree = ET.parse(xml_filename)
     return tree
-
 
 # Given an xml tree, we return all of its CoreNLP parsed sentences 
 def get_parsed_sentences(tree):
@@ -37,6 +65,10 @@ def get_parsed_sentences(tree):
 def print_tree(parsed_string):
     tree = Tree.fromstring(parsed_string)
     tree.pretty_print()
+
+
+# -------------------- Extracting characters --------------------#
+
 
 # Given an xml tree, get all of its characters as consecutive PERSON tags
 def get_characters(tree):
@@ -58,15 +90,6 @@ def get_characters(tree):
             character = ''
             was_person = False
     return characters
-    
-# DISCARD THIS METHOD?
-# Given a character in a movie, find all sentences mentioning the character
-def sentences_with_character(xml_filename, char_name):
-    char_sentences = []
-    if os.path.isfile(xml_filename):
-        sentences = get_parsed_sentences(xml_filename)
-        char_sentences = [sentence for sentence in sentences if char_name in sentence]
-    return char_sentences
 
 # Given a list of characters and a partial character name, find the full name of the character
 def get_full_name(string, characters):
@@ -155,8 +178,8 @@ def characters_in_sentence(characters, sentence):
         character = characters.pop(0)
     return characters_mentioned, characters
 
-# We define a method that takes in a movie ID, and outputs the number of common mentions 
-# (i.e. interactions) for each pair of characters. 
+# TO DISCARD
+# Find the number of common mentions (i.e. interactions) for each pair of characters in a given movie.
 def character_pairs(movie_id, plot_df):
     ''' 
     Find all pairs of characters that appear in the same sentence in a movie plot summary. 
@@ -199,22 +222,8 @@ def character_pairs(movie_id, plot_df):
     return sorted_pairs
 
 
-# We define a method that takes in a list of movie genres and outputs their plot summaries 
-def get_plots(genres, movie_df, plot_df):
-    '''
-    Find all movies of specified genres and return a dataframe containing their id and summaries
-    Input: 
-        genres: list of genres
-        movie_df: dataframe containing movies' Wikipedia ID and genres 
-        plot_df: dataframe containing movies' Wikipedia ID and their plot summaries 
-    Output:
-        genres_plots: dataframe containing movies' Wikipedia ID and their plot summaries
-    '''
-    is_genres = lambda i: lambda x: any(y in genres[i] for y in x) if type(x) == list else False
-    movie_of_genres = movie_df[movie_df['Genres'].apply(is_genres(slice(0, len(genres))))]
-    genres_plots = movie_of_genres.merge(plot_df, on='Wikipedia ID', how='left')[['Wikipedia ID', 'Summary']]
-    genres_plots = genres_plots[~genres_plots['Summary'].isna()]
-    return genres_plots
+# -------------------- Extracting KBP relationships --------------------#
+
 
 # We define a method that takes in a tree, a movie_id and a list of tags.   
 # It outputs a list of tuples containing all subject and object pairs in the movie plot summary which have a KBP relation of a type in tags
@@ -298,55 +307,3 @@ def get_per(tag):
         df.to_csv(path, sep='\t')
     return df
 
-def get_attributes(tree, relation_types): 
-    ''' Given a xml file parsed into a tree, extracts all depparse annotations (subject, object, relation_type) 
-    among the given relation types. '''
-    pairs = []
-    for child in tree.iter():
-        if child.tag == 'dep':
-            type = child.attrib['type']
-        if child.tag == 'governor': 
-            governor = child.text
-        if child.tag == 'dependent':
-            dependent = child.text
-            if type in relation_types:
-                pairs.append((governor, dependent, type))
-    return pairs
-
-def extract_attributes(tree, relation_types): 
-    ''' Given a xml parsed tree and depparse annotation pairs, extracts relations of given type, 
-    removes duplicates, extracts the ones involving a character. 
-    Input: 
-        tree: tree to extract relations from
-        relation_types: list of relation types to extract, e.g. ['nsubj', 'obj']
-    Output:
-        filtered_pairs: list of tuples (full name, attribute, relation type)
-    '''
-    # Get full name of each character
-    characters = get_characters(tree)
-    full_names = full_name_dict(characters)
-
-    # Extract depparse pairs
-    pairs = get_attributes(tree, relation_types)
-
-    # Remove duplicates
-    pairs = list(set(pairs))
-
-    # Find all pairs containing a single character name, and 
-    # add it to a list of tuples (full name, attribute, relation type)
-    filtered_pairs = []
-    for pair in pairs: 
-        try: 
-            full_name1 = full_names[pair[0]]
-        except KeyError: 
-            full_name1 = None
-        try:
-            full_name2 = full_names[pair[1]]
-        except KeyError:
-            full_name2 = None
-        if full_name1 is not None and full_name2 is None: 
-            filtered_pairs.append((full_name1, pair[1], pair[2]))
-        elif full_name1 is None and full_name2 is not None:
-            filtered_pairs.append((full_name2, pair[0], pair[2]))
-    return filtered_pairs
-    
