@@ -308,9 +308,9 @@ def get_per(tag):
     return df
 
 
-# -------------------- Extracting depparse annotations --------------------#
+# -------------------- Extracting character actions & attributes --------------------#
 
-
+# Extract all depparse annotations
 def get_attributes(tree, relation_types): 
     ''' Given a xml file parsed into a tree, extracts all depparse annotations (subject, object, relation_type) 
     among the given relation types. '''
@@ -326,6 +326,7 @@ def get_attributes(tree, relation_types):
                 pairs.append((governor, dependent, type))
     return pairs
 
+# Filter all actions/attributes from a CoreNLP output xml file
 def extract_attributes(tree): 
     ''' Given a xml parsed tree and depparse annotation pairs, extracts relations of given type, 
     removes duplicates, extracts the ones involving a character. 
@@ -376,33 +377,67 @@ def extract_attributes(tree):
     
     return agent_pairs, patient_pairs, attribute_pairs
     
-# For each character, aggregate all related actions and attributes
+# Extract all descriptions of each character in a single movie
 def get_character_description(tree):
+    ''' Given a xml file parsed into a tree, extracts all depparse annotations (subject, object, relation_type)
+    and store them in a dictionary of dictionaries: 
+        {character_full_name : {agent_verbs : [...], patient_verbs : [...], attributes : [...]}}'''
     agent_pairs, patient_pairs, attribute_pairs = extract_attributes(tree)
     
-    attributes = {}
-    patient_verbs = {}
-    agent_verbs = {}
+    descriptions = {}
 
     for (char, verb) in agent_pairs:
-        if char not in agent_verbs:
-            agent_verbs[char] = [verb]
+        if char not in descriptions:
+            descriptions[char] = {'agent_verbs': [verb], 'patient_verbs': [], 'attributes': []}
         else:
-            agent_verbs[char].append(verb)
+            descriptions[char]['agent_verbs'].append(verb)
 
     for (char, verb) in patient_pairs:
-        if char not in patient_verbs:
-            patient_verbs[char] = [verb]
+        if char not in descriptions:
+            descriptions[char] = {'agent_verbs': [], 'patient_verbs': [verb], 'attributes': []}
         else:
-            patient_verbs[char].append(verb)
+            descriptions[char]['patient_verbs'].append(verb)
 
     for (char, attr) in attribute_pairs:
-        if char not in attributes:
-            attributes[char] = [attr]
+        if char not in descriptions:
+            descriptions[char] = {'agent_verbs': [], 'patient_verbs': [], 'attributes': [attr]}
         else:
-            attributes[char].append(attr)
+            descriptions[char]['attributes'].append(attr)
     
-    return agent_verbs, patient_verbs, attributes
+    return descriptions
 
-# -------------------- Main extraction function --------------------#
+# Extract all descriptions of each character in all movies
+def extract_descriptions(output_dir, log_interval = 1000): 
+    ''' Given a directory with xml files, extract the character descriptions and store them into a dataframe'''
+    print('Extracting character descriptions...')
+
+    # Get all xml files in the directory
+    xml_files = [f for f in os.listdir(output_dir) if f.endswith('.xml')]
+    num_files = len(xml_files)
+    
+    # Create a dataframe with the extracted attributes for each movie
+    descriptions = pd.DataFrame(columns=['Wikipedia ID', 'Character name', 'Agent verbs', 'Patient verbs', 'Attributes'])
+    for idx, xml_file in enumerate(xml_files):
+        if idx % log_interval == 0:
+            print('\tExtracting file {}/{}'.format(idx, num_files))
+
+        movie_ID = xml_file.split('.')[0]
+        tree = ET.parse(os.path.join(output_dir, xml_file))
+        char_descriptions = get_character_description(tree)
+
+        # Add each character description to the dataframe
+        for char_name, char_description in char_descriptions.items():
+            descriptions.loc[len(descriptions)] = [
+                movie_ID, 
+                char_name, 
+                char_description['agent_verbs'], 
+                char_description['patient_verbs'], 
+                char_description['attributes']
+                ]
+
+    # Save descriptions to a csv file
+    descriptions.to_csv('Data/CoreNLP/character_descriptions.csv', sep='\t')
+
+    return descriptions
+
 
