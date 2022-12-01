@@ -5,13 +5,17 @@ AGENT_VERBS = ['nsubj', 'obl:agent']
 PATIENT_VERBS = ['nsubj:pass', 'nsubj:xsubj', 'obj']
 ATTRIBUTE_TYPES = ['appos', 'amod', 'nmod:poss', 'nmod:of']
 TAGS = ['per:spouse', 'per:title', 'per:religion', 'per:age']
+CORENLP_OUTPUT_DIR = 'Data/CoreNLP/PlotsOutputs'
+THRESHOLD = 0.8
+
 
 # -------------------- Extracting depparse annotations and KBP relationships --------------------#
 
-def extract_attributes_relations(tree, attribute_types, tags, threshold): 
-    ''' Given a xml file parsed into a tree, extracts all depparse annotations (subject, object, relation_type) 
-    among the given relation types. '''
-    pairs = []
+def parse_description_relation(tree, relation_types, tags, threshold): 
+    ''' Given a xml file parsed into a tree, extracts: 
+        - all depparse annotations (subject, object, relation_type) 
+        - all KBP relations (subject, object, relation_type).  '''
+    description = []
     relations = []
     isTag = False
     for child in tree.iter():
@@ -23,8 +27,8 @@ def extract_attributes_relations(tree, attribute_types, tags, threshold):
             governor = child.text
         if child.tag == 'dependent':
             dependent = child.text
-            if type in attribute_types:
-                pairs.append((governor, dependent, type))
+            if type in relation_types:
+                description.append((governor, dependent, type))
         if child.tag == 'kbp':
             for triple in child.iter():
                 if triple.tag == 'triple':
@@ -50,14 +54,23 @@ def extract_attributes_relations(tree, attribute_types, tags, threshold):
                                         object = el.text
                                         relations.append((subject, object, tag))
                                         isTag= False
-    return movie_id, pairs, relations
+    return movie_id, description, relations
 
-# -------------------- Filter on characters --------------------#
 
-def filtered_pairs(pairs, full_names):
-        # Find all pairs containing a single character name, and add it to a list of tuples (full name, attribute, attribute type)
-    filtered_pairs = []
-    for pair in pairs: 
+
+# -------------------- Filter characters --------------------#
+
+def filter_description(descriptions, full_names):
+    '''
+    Convert partial names in depparse relations to full names, keep only those in the character list.
+    Input: 
+        relations: list of tuples (partial_name, attribute, relation_type)
+        full_names: full-name dictionary mapping {partial_name: full:name}
+    Output:
+        filter_pairs: list of tuples (full_name, attribute, relation_type)
+    '''
+    filter_descriptions = []
+    for pair in descriptions: 
         try: 
             full_name1 = full_names[pair[0]]
         except KeyError: 
@@ -67,15 +80,22 @@ def filtered_pairs(pairs, full_names):
         except KeyError:
             full_name2 = None
         if full_name1 is not None and full_name2 is None: 
-            filtered_pairs.append((full_name1, pair[1], pair[2]))
+            filter_descriptions.append((full_name1, pair[1], pair[2]))
         elif full_name1 is None and full_name2 is not None:
-            filtered_pairs.append((full_name2, pair[0], pair[2]))
+            filter_descriptions.append((full_name2, pair[0], pair[2]))
 
-    return filtered_pairs
+    return filter_descriptions
 
-def filtered_relations(relations, full_names):
-    filtered_relations = []
-    # TODO: Make sure full names work correctly 
+def filter_relations(relations, full_names):
+    '''
+    Convert partial names in KBP relations to full names, keep only those in the character list.
+    Input: 
+        relations: list of tuples (subject, object, relation_type)
+        full_names: full-name dictionary mapping {partial_name: full:name}
+    Output:
+        filter_relations: list of tuples (full_name, object, relation_type)
+    '''
+    filter_relations = []
     for rel in relations:
         try: 
             subject = full_names[rel[0]]
@@ -85,71 +105,142 @@ def filtered_relations(relations, full_names):
             object = full_names[rel[1]]
         except KeyError:
             object = None
+        # Remove self-love relationships
         if subject is not None and object is not None and subject != object: 
-            filtered_relations.append((subject, object, rel[2]))
-        else: 
-            continue
+            filter_relations.append((subject, object, rel[2]))
 
-    return filtered_relations
+    return filter_relations
 
 # -------------------- Creating dataframes --------------------#
 
-def get_attributes_relations_helper(movie_id, pairs, relations):
-    # Split the pairs into relation types: agent verb, patient verb, attribute
-    agent = pd.Dataframe([pair for pair in pairs if pair[2] in AGENT_VERBS], columns=['character', 'agent', 'agent_type'])
-    patient = pd.DataFrame([pair for pair in pairs if pair[2] in PATIENT_VERBS], columns=['character', 'patient', 'patient_type'])
-    attribute = pd.DataFrame([pair for pair in pairs if pair[2] in ATTRIBUTE_TYPES], columns=['character', 'attribute', 'attribute_type'])
 
-    # Split the relations into relation types: spouse, title, religion, age
-    spouse = pd.DataFrame([rel for rel in relations if rel[2] == TAGS[0]], columns=['subject', 'object', 'relation'])
-    title = pd.DataFrame([rel for rel in relations if rel[2] == TAGS[1]], columns=['character', 'title', 'title_type'])
-    religion = pd.DataFrame([rel for rel in relations if rel[2] == TAGS[2]], columns=['character', 'religion', 'religion_type'])
-    age = pd.DataFrame([rel for rel in relations if rel[2] == TAGS[3]], columns=['character', 'age', 'age_type'])
+def split_description(descriptions): 
+    ''' Split the description pairs by relation types: {agent verb, patient verb, attribute}.'''
+    agent_verbs = []
+    patient_verbs = []
+    attributes = []
+
+    for pair in descriptions: 
+        if pair[2] in AGENT_VERBS:
+            agent_verbs.append(pair[:2])
+        elif pair[2] in PATIENT_VERBS:
+            patient_verbs.append(pair[:2])
+        elif pair[2] in ATTRIBUTE_TYPES:
+            attributes.append(pair[:2])
+
+    agent_verbs = pd.DataFrame(agent_verbs, columns=['character', 'agent_verb'])
+    patient_verbs = pd.DataFrame(patient_verbs, columns=['character', 'patient_verb'])
+    attributes = pd.DataFrame(attributes, columns=['character', 'attribute'])
+    return agent_verbs, patient_verbs, attributes
+
+def split_relations(relations):
+    ''' Split the relations by relation types: spouse, title, religion, age.'''
+    spouse = []
+    title = []
+    religion = []
+    age = []
+
+    for rel in relations:
+        if rel[2] == TAGS[0]:
+            spouse.append(rel[:2])
+        elif rel[2] == TAGS[1]:
+            title.append(rel[:2])
+        elif rel[2] == TAGS[2]:
+            religion.append(rel[:2])
+        elif rel[2] == TAGS[3]:
+            age.append(rel[:2])
+
+    spouse = pd.DataFrame(spouse, columns=['subject', 'object'])
+    title = pd.DataFrame(title, columns=['character', 'title'])
+    religion = pd.DataFrame(religion, columns=['character', 'religion'])
+    age = pd.DataFrame(age, columns=['character', 'age'])
+    return spouse, title, religion, age
+
+
+def get_descriptions_relations_helper(movie_id, descriptions, relations):
+    ''' Create dataframes for attributes and relations for a given movie.
+    Output: 
+        descriptions_df: dataframe with columns (movie_id, character, attribute)
+        relations_df: dataframe with columns (movie_id, subject, object)
+    '''
+    # Split the descriptions by relation types: {agent verb, patient verb, attribute}
+    agent_verbs, patient_verbs, attributes = split_description(descriptions)
+    
+    # Split the relations by relation types: {spouse, title, religion, age}
+    spouse, title, religion, age = split_relations(relations)
 
     # Create a dataframe containing all the info for each character
-    attributes_df = pd.merge(agent, patient, attribute, title, religion, age, how='outer', on='character')
-    attributes_df.drop(['agent_type', 'patient_type', 'attribute_type', 'title_type', 'religion_type', 'age_type'], axis=1)
+    descriptions_df = pd.merge(agent_verbs, patient_verbs, attributes, title, religion, age, how='outer', on='character')
     
     # Create dataframe containing all the love relationships between characters
-    relations_df = pd.DataFrame(spouse, columns=['subject', 'object', 'relation'])
-    relations_df.drop(columns=['relation'])
+    relations_df = pd.DataFrame(spouse, columns=['subject', 'object'])
 
     # Add movie_id column to each dataframe
-    attributes_df['movie_id'] = movie_id
+    descriptions_df['movie_id'] = movie_id
     relations_df['movie_id'] = movie_id
 
-    return attributes_df, relations_df
+    return descriptions_df, relations_df
 
-# -------------------- Main extraction function --------------------#
 
-def get_attributes_relations(tree, threshold_confidence_level): 
-    ''' Given a xml parsed tree and depparse annotation pairs, extracts relations of given type, 
-    removes duplicates, extracts the ones involving a character. 
-    Input: 
-        tree: tree to extract relations from
-        relation_types: list of relation types to extract, e.g. ['nsubj', 'obj']
-    Output:
-        agent_pairs, patient_pairs, attribute_pairs: list of relation tuples (subject, object) of given type
-    '''
+# -------------------- Extraction of a single movie --------------------#
+
+def get_descriptions_relations(tree): 
+    ''' Given a xml parsed tree and depparse annotation pairs, extracts character descriptions & relations.'''
+
     # Get full name of each character
     characters = get_characters(tree)
     full_names = full_name_dict(characters)
 
     # Extract depparse pairs and KBP relations
-    attribute_types = AGENT_VERBS + PATIENT_VERBS + ATTRIBUTE_TYPES
-    movie_id, pairs, relations = extract_attributes_relations(tree, attribute_types, TAGS, threshold_confidence_level)
+    relation_types = AGENT_VERBS + PATIENT_VERBS + ATTRIBUTE_TYPES
+    movie_id, descriptions, relations = parse_description_relation(tree, relation_types, TAGS, THRESHOLD)
     
     # Remove duplicates
-    pairs = list(set(pairs))
+    descriptions = list(set(descriptions))
     relations = list(set(relations))
 
-    # Filter pairs and relations to only include the ones where the subject is a character of the movie
-    pairs = filtered_pairs(pairs, full_names)
-    relations = filtered_relations(relations, full_names)
+    # Expand character names to full names, filter out characters not in the list
+    descriptions = filter_description(descriptions, full_names)
+    relations = filter_relations(relations, full_names)
     
-    # Create two dataframes containing respectively all the attributes for one character and all the love relationships between characters
-    attributes_df, relations_df = get_attributes_relations_helper(movie_id, pairs, relations)
+    # Create dataframes for character descriptions and relations for a given movie
+    descriptions_df, relations_df = get_descriptions_relations_helper(movie_id, descriptions, relations)
  
-    return attributes_df, relations_df
+    return descriptions_df, relations_df
 
+
+# -------------------- Extraction of all movies --------------------#
+
+
+def extract_descriptions_relations(log_interval = 1000): 
+    ''' Given a directory of xml files, extract all character descriptions and relations and store them into dataframes. '''
+    print('Extracting character descriptions & relations...')
+
+    # Get all xml files in the directory
+    xml_files = [f for f in os.listdir(CORENLP_OUTPUT_DIR) if f.endswith('.xml')]
+    num_files = len(xml_files)
+    
+    # Create dataframes to store the extracted descriptions and relations
+    descriptions = pd.DataFrame(columns=['Wikipedia ID', 'Character name', 'Agent verbs', 'Patient verbs', 'Attributes'])
+    relations = pd.DataFrame(columns=['Wikipedia ID', 'Subject', 'Object', 'Relation'])
+
+    for idx, xml_file in enumerate(xml_files):
+
+        # Print progress every log_interval files
+        if idx % log_interval == 0:
+            print('\Progress: {}/{} ({}%)'.format(idx, num_files, round(idx/num_files*100, 2)))
+
+        # Parse the xml file and extract description & relations dataframes
+        tree = ET.parse(os.path.join(CORENLP_OUTPUT_DIR, xml_file))
+        descriptions_df, relations_df = get_descriptions_relations(tree, THRESHOLD)
+
+        # Concatenate descriptions to previous descriptions
+        descriptions = pd.concat([descriptions, descriptions_df], ignore_index=True)
+        relations = pd.concat([relations, relations_df], ignore_index=True)
+
+    # Save descriptions to a csv file
+    descriptions.to_csv('Data/CoreNLP/descriptions.csv', sep='\t')
+    relations.to_csv('Data/CoreNLP/relations.csv', sep='\t')
+
+    return descriptions, relations
 
