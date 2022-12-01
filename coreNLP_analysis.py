@@ -347,7 +347,7 @@ def extract_attributes(tree):
     # Remove duplicates
     pairs = list(set(pairs))
 
-    # Find all pairs containing a single character name, and add it to a list of tuples (full name, attribute, relation type)
+    # Find all pairs containing a single character name and store them as (full name, attribute, relation type)
     filtered_pairs = []
     for pair in pairs: 
         try: 
