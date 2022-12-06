@@ -279,13 +279,13 @@ def get_descriptions_relations(tree):
 
 # -------------------- Extraction of all movies --------------------#
 
-def extract_descriptions_relations(log_interval = 1000): 
+def extract_descriptions_relations(output_dir, log_interval = 1000): 
     ''' Extracts descriptions & relations for all movies.'''
     
     print('Extracting character descriptions & relations...')
 
     # Get all xml files in the directory
-    xml_files = [f for f in os.listdir(CORENLP_OUTPUT_DIR) if f.endswith('.xml')][:1000]
+    xml_files = [f for f in os.listdir(output_dir) if f.endswith('.xml')]
     num_files = len(xml_files)
     
     # Create dataframes to store the extracted descriptions and relations
@@ -298,16 +298,12 @@ def extract_descriptions_relations(log_interval = 1000):
             print('Progress: {}/{} ({}%)'.format(idx, num_files, round(idx/num_files*100, 2)))
 
         # Parse the xml file and extract description & relations dataframes
-        tree = ET.parse(os.path.join(CORENLP_OUTPUT_DIR, xml_file))
+        tree = ET.parse(os.path.join(output_dir, xml_file))
         descriptions_df, relations_df = get_descriptions_relations(tree)
 
         # Concatenate descriptions to previous descriptions
         descriptions = pd.concat([descriptions, descriptions_df], ignore_index=True)
         relations = pd.concat([relations, relations_df], ignore_index=True)
-
-    # Save descriptions to a csv file
-    descriptions.to_csv('Data/CoreNLP/descriptions.csv', sep='\t')
-    relations.to_csv('Data/CoreNLP/relations.csv', sep='\t')
 
     return descriptions, relations
 
