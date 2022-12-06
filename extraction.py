@@ -4,7 +4,7 @@ from coreNLP_analysis import *
 AGENT_VERBS = ['nsubj', 'obl:agent']
 PATIENT_VERBS = ['nsubj:pass', 'nsubj:xsubj', 'obj']
 ATTRIBUTE_TYPES = ['appos', 'amod', 'nmod:poss', 'nmod:of']
-TAGS = ['per:spouse', 'per:title', 'per:religion', 'per:age']
+TAGS = ['per:spouse', 'per:title', 'per:religion', 'per:age', 'per:cause_of_death', 'per:children']
 CORENLP_OUTPUT_DIR = 'Data/CoreNLP/PlotsOutputs'
 THRESHOLD = 0.8
 
@@ -153,6 +153,8 @@ def split_relations(relation_pairs):
     title = []
     religion = []
     age = []
+    death = []
+    children = []
 
     for rel in relation_pairs:
         if rel[2] == TAGS[0]:
@@ -163,12 +165,18 @@ def split_relations(relation_pairs):
             religion.append(rel[:2])
         elif rel[2] == TAGS[3]:
             age.append(rel[:2])
+        elif rel[2] == TAGS[4]:
+            death.append(rel[:2])
+        elif rel[2] == TAGS[5]:
+            children.append(rel[:2])
 
     spouse = pd.DataFrame(spouse, columns=['subject', 'object'])
     title = pd.DataFrame(title, columns=['character', 'title'])
     religion = pd.DataFrame(religion, columns=['character', 'religion'])
     age = pd.DataFrame(age, columns=['character', 'age'])
-    return spouse, title, religion, age
+    death = pd.DataFrame(death, columns=['character', 'death'])
+    children = pd.DataFrame(children, columns=['character', 'children'])
+    return spouse, title, religion, age, death, children
 
 # Extract all descriptions of each character in a single movie
 def get_character_description(descriptions_pairs):
@@ -223,12 +231,14 @@ def create_descriptions_relations_df(movie_id, description_pairs, relation_pairs
             ]
 
     # Split the relations by relation types: {spouse, title, religion, age}
-    spouse, title, religion, age = split_relations(relation_pairs)
+    spouse, title, religion, age, death, children = split_relations(relation_pairs)
 
     # Create a dataframe containing all the info for each character
     descriptions_df = pd.merge(descriptions_df, title, how='outer', on='character')
     descriptions_df = pd.merge(descriptions_df, religion, how='outer', on='character')
     descriptions_df = pd.merge(descriptions_df, age, how='outer', on='character')
+    descriptions_df = pd.merge(descriptions_df, death, how='outer', on='character')
+    descriptions_df = pd.merge(descriptions_df, children, how='outer', on='character')
 
     # Create dataframe containing all the love relationships between characters
     relations_df = pd.DataFrame(spouse, columns=['subject', 'object'])
@@ -275,11 +285,11 @@ def extract_descriptions_relations(log_interval = 1000):
     print('Extracting character descriptions & relations...')
 
     # Get all xml files in the directory
-    xml_files = [f for f in os.listdir(CORENLP_OUTPUT_DIR) if f.endswith('.xml')]
+    xml_files = [f for f in os.listdir(CORENLP_OUTPUT_DIR) if f.endswith('.xml')][:1000]
     num_files = len(xml_files)
     
     # Create dataframes to store the extracted descriptions and relations
-    descriptions = pd.DataFrame(columns=['movie_id', 'character', 'agent_verbs', 'patient_verbs', 'attributes', 'title', 'religion', 'age'])
+    descriptions = pd.DataFrame(columns=['movie_id', 'character', 'agent_verbs', 'patient_verbs', 'attributes', 'title', 'religion', 'age', 'death', 'children'])
     relations = pd.DataFrame(columns=['movie_id', 'subject', 'object'])
 
     for idx, xml_file in enumerate(xml_files):
