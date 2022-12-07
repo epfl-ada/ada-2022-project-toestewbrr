@@ -307,3 +307,50 @@ def get_per(tag):
         df.to_csv(path, sep='\t')
     return df
 
+
+def is_subset(name1, name2):
+    set1 = set(name1.split(' '))
+    set2 = set(name2.split(' '))
+    return set(set1).issubset(set(set2))
+
+
+def synchronize_name(movie_id, descriptions, char_df):
+    # Get list of characters from plots
+    plot_chars = descriptions[descriptions['movie_id']
+                              == movie_id]['character'].values
+
+    # Check that movie_id is in Wikipedia ID of char_df
+    if movie_id not in char_df['Wikipedia ID'].values:
+        return {name: name for name in plot_chars}
+
+    # Get list of characters from movie metadata
+    movie_chars = char_df[char_df['Wikipedia ID']
+                          == movie_id]['Character name'].values
+
+    # Remove nan values in movie_chars, plot_chars
+    movie_chars = movie_chars[~pd.isnull(movie_chars)]
+    plot_chars = plot_chars[~pd.isnull(plot_chars)]
+
+    # Create a dictionary to store the synchronized names
+    name_sync = {}
+
+    # First pass: check if plot name is subset of some movie name
+    for plot_char in plot_chars:
+        for movie_char in movie_chars:
+            if is_subset(plot_char, movie_char):
+                name_sync[plot_char] = movie_char
+                movie_chars = movie_chars[movie_chars != movie_char]
+                plot_chars = plot_chars[plot_chars != plot_char]
+
+    # Second pass: check if remaining movie name is subset of some remaining plot name
+    for movie_char in movie_chars:
+        for plot_char in plot_chars:
+            if is_subset(movie_char, plot_char):
+                name_sync[plot_char] = movie_char
+                movie_chars = movie_chars[movie_chars != movie_char]
+                plot_chars = plot_chars[plot_chars != plot_char]
+
+    # Remaining: if some plot_chars are not synchronized, we just keep them as they are
+    for plot_char in plot_chars:
+        name_sync[plot_char] = plot_char
+    return name_sync
