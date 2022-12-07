@@ -48,8 +48,8 @@ def get_plots(genres, movie_df, plot_df):
 
 
 # Given a movie ID, get the file tree from xml CoreNLP output
-def get_tree(movie_id):
-    xml_filename = os.path.join(XML_DIR, '{}.xml'.format(movie_id))
+def get_tree(movie_id, xml_dir=XML_DIR):
+    xml_filename = os.path.join(xml_dir, '{}.xml'.format(movie_id))
     tree = ET.parse(xml_filename)
     return tree
 
