@@ -8,19 +8,65 @@ Dataset: CMU Movie Summary Corpus
 import os
 import spacy
 import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 import pandas as pd
 import numpy as np
-import string
-import re
 
+from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
+from sklearn.mixture import GaussianMixture
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 
-nltk.download('stopwords')
-nltk.download('punkt')
+import matplotlib.pyplot as plt
+
 
 #Load the spacy model
+nltk.download('stopwords')
+nltk.download('punkt')
 nlp_spacy = spacy.load("en_core_web_lg")
+
+
+def descriptions_PCA(df, n_components=3):
+    ''' Apply PCA to the embeddings of the descriptions and store the results in the dataframe.'''
+    # From the column descriptions_embeddings, get a matrix with the embeddings of each character of size n x 300
+    X = np.array(df['descriptions_embeddings'].tolist())
+    X = X.reshape(X.shape[0], X.shape[2])
+
+    # Now apply PCA to the matrix X
+    pca = PCA(n_components=n_components)
+    pca.fit(X)
+    X_pca = pca.transform(X)
+
+    # Store the results in the dataframe
+    df['pca_1'] = X_pca[:, 0]
+    df['pca_2'] = X_pca[:, 1]
+    df['pca_3'] = X_pca[:, 2]
+    
+    return df
+
+def cluster_descriptions(df, n_components): 
+    ''' Perform clustering using gaussian mixture model, on the 3 principal components in the dataframe '''
+    gmm = GaussianMixture(n_components=n_components, random_state=0)
+    gmm.fit(df[['pca_1', 'pca_2', 'pca_3']])
+    labels = gmm.predict(df[['pca_1', 'pca_2', 'pca_3']])
+    df['labels'] = labels
+    return df
+
+
+def plot_clusters_3d(df, title):
+    ''' Plot the clusters in 3D '''
+    fig = plt.figure(figsize=(10, 10))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(df['pca_1'], df['pca_2'], df['pca_3'], c=df['labels'], cmap=CMAP)
+    ax.set_xlabel('pca_1')
+    ax.set_ylabel('pca_2')
+    ax.set_zlabel('pca_3')
+    ax.set_xlim(df['pca_1'].min(), df['pca_1'].max())
+    ax.set_ylim(df['pca_2'].min(), df['pca_2'].max())
+    ax.set_zlim(df['pca_3'].min(), df['pca_3'].max())
+    plt.title(title)
+    plt.show()
+
 
 # Remove stopwords and non-alphabetical characters from a given text
 def remove_stopwords(text):
