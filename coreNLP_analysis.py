@@ -314,18 +314,16 @@ def is_subset(name1, name2):
     return set(set1).issubset(set(set2))
 
 
-def synchronize_name(movie_id, descriptions, char_df):
+def synchronize_name(movie_id, char_df, df, col_name='character'):
     # Get list of characters from plots
-    plot_chars = descriptions[descriptions['movie_id']
-                              == movie_id]['character'].values
+    plot_chars = df[df['movie_id'] == movie_id][col_name].values
 
     # Check that movie_id is in Wikipedia ID of char_df
     if movie_id not in char_df['Wikipedia ID'].values:
         return {name: name for name in plot_chars}
 
     # Get list of characters from movie metadata
-    movie_chars = char_df[char_df['Wikipedia ID']
-                          == movie_id]['Character name'].values
+    movie_chars = char_df[char_df['Wikipedia ID'] == movie_id]['Character name'].values
 
     # Remove nan values in movie_chars, plot_chars
     movie_chars = movie_chars[~pd.isnull(movie_chars)]
