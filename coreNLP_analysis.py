@@ -13,8 +13,9 @@ from  zipfile import ZipFile
 import xml.etree.ElementTree as ET
 from nltk.tree import Tree
 import itertools
-
+import spacy
 from load_data import *
+from extraction import *
 
 XML_DIR = 'Data/CoreNLP/corenlp_plot_summaries_xml'
 
@@ -352,3 +353,74 @@ def synchronize_name(movie_id, char_df, df, col_name='character'):
     for plot_char in plot_chars:
         name_sync[plot_char] = plot_char
     return name_sync
+
+def load_descr_relations():
+    romance_description_path = 'Data/CoreNLP/romance_descriptions.csv'
+    romance_relations_path = 'Data/CoreNLP/romance_relations.csv'
+
+    if not os.path.exists(romance_description_path) and not os.path.exists(romance_relations_path):
+
+        # Extract descriptions and relations from all romance xml files
+        romance_output_dir = 'Data/CoreNLP/RomancePlotsOutputs'
+
+        # Remove file '43849.xml' from the directory, as it is not a valid xml file
+        if os.path.exists(f'{romance_output_dir}/43849.xml'):
+            os.remove(f'{romance_output_dir}/43849.xml')
+
+        romance_descriptions, romance_relations = extract_descriptions_relations(
+            romance_output_dir)
+
+        # Save descriptions and relations into csv files
+        romance_descriptions.to_csv(romance_description_path, sep='\t')
+        romance_relations.to_csv(romance_relations_path, sep='\t')
+
+    # If we've already run the extraction, we can load the dataframe from a file
+    else:
+        rom_descriptions = pd.read_csv(
+            romance_description_path, sep='\t', index_col=0, low_memory=False)
+        rom_relations = pd.read_csv(
+            romance_relations_path, sep='\t', index_col=0, low_memory=False)
+
+    description_path = 'Data/CoreNLP/descriptions.csv'
+    relations_path = 'Data/CoreNLP/relations.csv'
+
+    if not os.path.exists(description_path) and not os.path.exists(relations_path):
+
+        # Extract descriptions and relations from all xml files
+        output_dir = 'Data/CoreNLP/PlotsOutputs'
+        descriptions, relations = extract_descriptions_relations(output_dir)
+
+        # Save descriptions and relations into csv files
+        descriptions.to_csv(description_path, sep='\t')
+        relations.to_csv(relations_path, sep='\t')
+
+    # If we've already run the extraction, we can load the dataframe from a file
+    else:
+        non_rom_descriptions = pd.read_csv(
+            description_path, sep='\t', index_col=0, low_memory=False)
+        non_rom_relations = pd.read_csv(
+            relations_path, sep='\t', index_col=0, low_memory=False)
+
+
+    # Merge the descriptions of romance and non-romance movies
+    non_rom_descriptions['romance'] = False
+    rom_descriptions['romance'] = True
+    descriptions = pd.concat(
+        [non_rom_descriptions, rom_descriptions], ignore_index=True)
+
+    # Merge the relations of romance and non-romance movies
+    non_rom_relations['romance'] = False
+    rom_relations['romance'] = True
+    relations = pd.concat(
+        [non_rom_relations, rom_relations], ignore_index=True)
+    
+    return descriptions, relations
+
+def embed_descriptions(char_description, nlp_spacy):
+    embeddings = np.zeros(300)
+    for word in char_description:
+        if word in nlp_spacy.vocab:
+            embeddings = embeddings + nlp_spacy(word).vector.reshape(1, -1)
+    embeddings = embeddings / len(char_description)
+    embeddings = embeddings.astype('float32')
+    return embeddings
