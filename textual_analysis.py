@@ -16,6 +16,7 @@ from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from sklearn.manifold import TSNE
 
 import matplotlib.pyplot as plt
 
@@ -105,7 +106,7 @@ def weigh_embeddings(df, nlp_spacy=nlp_spacy):
 def descriptions_PCA(df, n_components=3):
     ''' Apply PCA to the embeddings of the descriptions and store the results in the dataframe.'''
     # From the column descriptions_embeddings, get a matrix with the embeddings of each character of size n x 300
-    X = np.array(df['descriptions_embeddings'].tolist())
+    X = np.array(df['weighted_description'].tolist())
     X = X.reshape(X.shape[0], X.shape[2])
 
     # Now apply PCA to the matrix X
@@ -120,7 +121,21 @@ def descriptions_PCA(df, n_components=3):
     
     return df
 
+def descriptions_tSNE(df, n_components=3):
+    ''' Apply t-SNE to the embeddings of the descriptions and store the results in the dataframe.'''
+    # From the column descriptions_embeddings, get a matrix with the embeddings of each character of size n x 300
+    X = np.array(df['weighted_description'].tolist())
+    X = X.reshape(X.shape[0], X.shape[2])
 
+    # Reduce the dimensionality of the embeddings
+    tsne = TSNE(n_components=3, random_state=0)
+    X_tsne = tsne.fit_transform(X)
+
+    # Store the results in the dataframe
+    df['tsne_1'] = X_tsne[:, 0]
+    df['tsne_2'] = X_tsne[:, 1]
+    df['tsne_3'] = X_tsne[:, 2]
+    return df
 
 # --------------- Clustering techniques ----------------- #
 
