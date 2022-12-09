@@ -32,6 +32,9 @@ def construct_descriptions_embeddings(df, nlp_spacy):
     ''' Compute the embeddings of all words in the character descriptions. '''
     # Keep a vocabulary dictionary of {word : embedding} pairs to avoid recomputing embeddings
     vocab = {}
+    
+    # Initialize the column with NaNs
+    df['descriptions_embeddings'] = np.nan
 
     # For each character, store a dictionary of {word : embedding} pairs 
     for i, row in df.iterrows():
@@ -39,22 +42,19 @@ def construct_descriptions_embeddings(df, nlp_spacy):
 
         # If description is NaN, skip the character
         if type(row['descriptions']) == float:
-            df.at[i, 'descriptions_embeddings'] = np.nan
             continue
 
         for word in row['descriptions']:
-
             # If the word was already embedded, use the embedding from the vocabulary
             if word in vocab:
                 char_embedding[word] = vocab[word]
 
             # If it's a new word, embed it and add it to the vocabulary
-            elif word in nlp_spacy.vocab:
-                embedding = nlp_spacy(word).vector.reshape(1, -1).astype('float32')
-                vocab[word] = embedding
-                char_embedding[word] = embedding
+            embedding = nlp_spacy(word).vector.reshape(1, -1).astype('float32')
+            vocab[word] = embedding
+            char_embedding[word] = embedding
 
-        # Store the character dictionary in the dataframe
+        # Store the character dictionary in descriptions_embeddings
         df.at[i, 'descriptions_embeddings'] = char_embedding
     return df
 
