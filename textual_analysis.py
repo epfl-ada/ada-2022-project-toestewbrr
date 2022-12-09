@@ -25,6 +25,44 @@ nltk.download('stopwords')
 nltk.download('punkt')
 nlp_spacy = spacy.load("en_core_web_lg")
 
+# --------------- Embedding ----------------- #
+
+def embed_descriptions_avg(char_description, nlp_spacy):
+    ''' Embed the description of a character using the average of the word embeddings.'''
+    embeddings = np.zeros(300)
+    for word in char_description:
+        if word in nlp_spacy.vocab:
+            embeddings = embeddings + nlp_spacy(word).vector.reshape(1, -1)
+    embeddings = embeddings / len(char_description)
+    embeddings = embeddings.astype('float32')
+    return embeddings
+
+def embed_descriptions(char_description, nlp_spacy):
+    ''' Embed the description of a character as an array with rows as word embeddings.'''
+    words_in_vocab = [word for word in char_description if word in nlp_spacy.vocab]
+    char_embedding = np.array((len(words_in_vocab), 300))
+    for i, word in enumerate(words_in_vocab):
+        embedding = nlp_spacy(word).vector.reshape(1, -1)
+        char_embedding[i] = embedding.astype('float32')
+    return char_embedding
+
+def weigh_vectors(char_embedding, nlp_spacy=nlp_spacy):
+    ''' Given a (n x 300) character embedding, weigh the row vectors 
+    by cosine similarity with the average vector'''
+    # Compute average vector
+    avg_vector = np.mean(char_embedding, axis=0)
+
+    # Compute cosine similarity between each word vector and the average vector
+    similarities = [nlp_spacy.similarity(word, avg_vector) for word in char_embedding]
+
+    # Normalize weights
+    weights = similarities / np.sum(similarities)
+
+    # Return weighted average of the vectors
+    return np.average(char_embedding, axis=0, weights=weights)
+
+
+# --------------- Dimensionality reduction ----------------- #
 
 def descriptions_PCA(df, n_components=3):
     ''' Apply PCA to the embeddings of the descriptions and store the results in the dataframe.'''
@@ -44,6 +82,8 @@ def descriptions_PCA(df, n_components=3):
     
     return df
 
+# --------------- Clustering techniques ----------------- #
+
 def cluster_descriptions(df, n_components): 
     ''' Perform clustering using gaussian mixture model, on the 3 principal components in the dataframe '''
     gmm = GaussianMixture(n_components=n_components, random_state=0)
@@ -52,9 +92,12 @@ def cluster_descriptions(df, n_components):
     df['labels'] = labels
     return df
 
+# --------------- Visualization  ----------------- #
 
 def plot_clusters_3d(df, title):
     ''' Plot the clusters in 3D '''
+    n_clusters = len(df['labels'].unique())
+    cmap = plt.cm.get_cmap('viridis', n_clusters)
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection='3d')
     ax.scatter(df['tsne_1'], df['tsne_2'], df['tsne_3'], c=df['labels'])
