@@ -27,39 +27,74 @@ nlp_spacy = spacy.load("en_core_web_lg")
 
 # --------------- Embedding ----------------- #
 
-def embed_descriptions_avg(char_description, nlp_spacy):
-    ''' Embed the description of a character using the average of the word embeddings.'''
-    embeddings = np.zeros(300)
-    for word in char_description:
-        if word in nlp_spacy.vocab:
-            embeddings = embeddings + nlp_spacy(word).vector.reshape(1, -1)
-    embeddings = embeddings / len(char_description)
-    embeddings = embeddings.astype('float32')
-    return embeddings
+def construct_descriptions_embeddings(df, nlp_spacy):
+    ''' Compute the embeddings of all words in the character descriptions. '''
+    # Keep a vocabulary dictionary of {word : embedding} pairs to avoid recomputing embeddings
+    vocab = {}
 
-def embed_descriptions(char_description, nlp_spacy):
-    ''' Embed the description of a character as an array with rows as word embeddings.'''
-    words_in_vocab = [word for word in char_description if word in nlp_spacy.vocab]
-    char_embedding = np.array((len(words_in_vocab), 300))
-    for i, word in enumerate(words_in_vocab):
-        embedding = nlp_spacy(word).vector.reshape(1, -1)
-        char_embedding[i] = embedding.astype('float32')
-    return char_embedding
+    # For each character, store a dictionary of {word : embedding} pairs 
+    for i, row in df.iterrows():
+        char_embedding = {}
 
-def weigh_vectors(char_embedding, nlp_spacy=nlp_spacy):
-    ''' Given a (n x 300) character embedding, weigh the row vectors 
-    by cosine similarity with the average vector'''
-    # Compute average vector
-    avg_vector = np.mean(char_embedding, axis=0)
+        # If description is NaN, skip the character
+        if type(row['descriptions']) == float:
+            df.at[i, 'descriptions_embeddings'] = np.nan
+            continue
 
-    # Compute cosine similarity between each word vector and the average vector
-    similarities = [nlp_spacy.similarity(word, avg_vector) for word in char_embedding]
+        for word in row['descriptions']:
 
-    # Normalize weights
-    weights = similarities / np.sum(similarities)
+            # If the word was already embedded, use the embedding from the vocabulary
+            if word in vocab:
+                char_embedding[word] = vocab[word]
 
-    # Return weighted average of the vectors
-    return np.average(char_embedding, axis=0, weights=weights)
+            # If it's a new word, embed it and add it to the vocabulary
+            elif word in nlp_spacy.vocab:
+                embedding = nlp_spacy(word).vector.reshape(1, -1).astype('float32')
+                vocab[word] = embedding
+                char_embedding[word] = embedding
+
+        # Store the character dictionary in the dataframe
+        df.at[i, 'descriptions_embeddings'] = char_embedding
+    return df
+
+
+def weigh_embeddings(df, nlp_spacy=nlp_spacy):
+    ''' Compute a weighted average of all word embeddings by weighing with 
+    (1 - cosine similarity) with regards to the average vector of all characters. '''
+
+    # Compute the average vector of all characters
+    avg_vector = np.zeros(300)
+    for i, row in df.iterrows():
+        if type(row['descriptions_embeddings']) == float:
+            continue
+        for word in row['descriptions_embeddings']:
+            avg_vector += row['descriptions_embeddings'][word]
+    avg_vector /= len(df)
+
+    # For each character, weigh the embeddings by 1-cosine similarity with the average vector
+    for i, row in df.iterrows():
+        if type(row['descriptions_embeddings']) == float:
+            df.at[i, 'weighted_description'] = np.nan
+        
+        # Compute the weights of all word embeddings of the character
+        weights = []
+        for word in row['descriptions_embeddings']:
+            weight = 1 - nlp_spacy(word).similarity(nlp_spacy(avg_vector))
+            weights.append(weight)
+
+        # Normalize weights to have sum 1
+        weights = np.array(weights)
+        weights /= np.sum(weights)
+
+        # Compute the weighted average of all word embeddings of the character
+        weighted_vector = np.zeros(300)
+        for j, word in enumerate(row['descriptions_embeddings']):
+            weighted_vector += row['descriptions_embeddings'][word] * weights[j]
+        weighted_vector /= np.sum(weights)
+
+        # Store the weighted average in the dataframe
+        df.at[i, 'weighted_description'] = weighted_vector
+    return df
 
 
 # --------------- Dimensionality reduction ----------------- #
