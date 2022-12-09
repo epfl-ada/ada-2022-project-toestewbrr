@@ -47,8 +47,8 @@ def descriptions_PCA(df, n_components=3):
 def cluster_descriptions(df, n_components): 
     ''' Perform clustering using gaussian mixture model, on the 3 principal components in the dataframe '''
     gmm = GaussianMixture(n_components=n_components, random_state=0)
-    gmm.fit(df[['pca_1', 'pca_2', 'pca_3']])
-    labels = gmm.predict(df[['pca_1', 'pca_2', 'pca_3']])
+    gmm.fit(df[['tsne_1', 'tsne_2', 'tsne_3']])
+    labels = gmm.predict(df[['tsne_1', 'tsne_2', 'tsne_3']])
     df['labels'] = labels
     return df
 
@@ -57,13 +57,13 @@ def plot_clusters_3d(df, title):
     ''' Plot the clusters in 3D '''
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(df['pca_1'], df['pca_2'], df['pca_3'], c=df['labels'], cmap=CMAP)
-    ax.set_xlabel('pca_1')
-    ax.set_ylabel('pca_2')
-    ax.set_zlabel('pca_3')
-    ax.set_xlim(df['pca_1'].min(), df['pca_1'].max())
-    ax.set_ylim(df['pca_2'].min(), df['pca_2'].max())
-    ax.set_zlim(df['pca_3'].min(), df['pca_3'].max())
+    ax.scatter(df['tsne_1'], df['tsne_2'], df['tsne_3'], c=df['labels'])
+    ax.set_xlabel('tsne_1')
+    ax.set_ylabel('tsne_2')
+    ax.set_zlabel('tsne_3')
+    ax.set_xlim(df['tsne_1'].min(), df['tsne_1'].max())
+    ax.set_ylim(df['tsne_2'].min(), df['tsne_2'].max())
+    ax.set_zlim(df['tsne_3'].min(), df['tsne_3'].max())
     plt.title(title)
     plt.show()
 
