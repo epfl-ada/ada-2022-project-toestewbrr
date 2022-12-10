@@ -86,7 +86,7 @@ def weight_embeddings(df):
         # Compute the average vector of all word embeddings of the character
         avg_word = np.zeros(300)
         for word in embedding:
-            word_vector = embedding[word]
+            word_vector = np.squeeze(embedding[word])
             word_vector = word_vector / np.linalg.norm(word_vector)
             avg_word += word_vector
         avg_word = avg_word / len(embedding)
@@ -109,7 +109,7 @@ def weight_embeddings(df):
 
         # Compute weight of each word
         for word in embedding:
-            word_vector = embedding[word].flatten()
+            word_vector = np.squeeze(embedding[word]).flatten()
             weight = spatial.distance.cosine(word_vector, avg_vector)
             weights.append(weight)
             
@@ -122,7 +122,7 @@ def weight_embeddings(df):
         for j, word in enumerate(embedding):
 
             # Normalize word vector and compute weighted average
-            word_vector = embedding[word]
+            word_vector = np.squeeze(embedding[word])
             word_vector = word_vector / np.linalg.norm(word_vector)
             weighted_vector = weighted_vector + word_vector * weights[j]
         
@@ -147,12 +147,10 @@ def descriptions_PCA(df, n_components=3):
     pca = PCA(n_components=n_components)
     pca.fit(X)
     X_pca = pca.transform(X)
-
-    # Store the results in the dataframe at idx
-    df['pca_1'] = X_pca[:, 0]
-    df['pca_2'] = X_pca[:, 1]
-    df['pca_3'] = X_pca[:, 2]
     
+    # Store the transformed result as 'weighted_description' column in df
+    df['weighted_description'] = X_pca.tolist()
+
     return df
 
 def descriptions_tSNE(df, n_components=3):
