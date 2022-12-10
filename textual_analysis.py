@@ -63,7 +63,7 @@ def weigh_embeddings(df, nlp_spacy=nlp_spacy):
     ''' Compute a weighted average of all word embeddings by weighing with 
     (1 - cosine similarity) with regards to the average vector of all characters. '''
 
-    df['weighted_description'] = np.empty([df.shape[0], 300]).tolist()
+    df['weighted_description'] = (np.empty([df.shape[0], 300]) * np.nan).tolist()
     
     # Compute the average vector of all characters
     avg_vector = np.zeros(300)
@@ -81,6 +81,7 @@ def weigh_embeddings(df, nlp_spacy=nlp_spacy):
 
         # If NaN, skip the character
         if type(embedding) == float:
+            df.at[i, 'weighted_description'] = np.nan
             continue
         
         # Compute the weights of all word embeddings of the character
@@ -109,7 +110,7 @@ def weigh_embeddings(df, nlp_spacy=nlp_spacy):
 def descriptions_PCA(df, n_components=3):
     ''' Apply PCA to the embeddings of the descriptions and store the results in the dataframe.'''
     # From the column descriptions_embeddings, get a matrix with the embeddings of each character of size n x 300
-    X = np.array(df['weighted_description'].tolist())
+    X = np.array(df['weighted_description'])
     X = X.reshape(X.shape[0], X.shape[2])
 
     # Now apply PCA to the matrix X
