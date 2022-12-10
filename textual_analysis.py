@@ -11,6 +11,7 @@ import nltk
 import pandas as pd
 import numpy as np
 
+from scipy import spatial
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
@@ -69,8 +70,8 @@ def weigh_embeddings(df, nlp_spacy=nlp_spacy):
         if type(embedding) == float:
             continue
         for word in embedding:
-            avg_vector += embedding[word]
-    avg_vector /= len(df)
+            avg_vector = avg_vector + embedding[word]
+    avg_vector = avg_vector / len(df)
 
     # For each character, weigh the embeddings by 1-cosine similarity with the average vector
     for i, character in df.iterrows():
@@ -83,18 +84,19 @@ def weigh_embeddings(df, nlp_spacy=nlp_spacy):
         # Compute the weights of all word embeddings of the character
         weights = []
         for word in embedding:
-            weight = 1 - nlp_spacy(word).similarity(nlp_spacy(avg_vector))
+            #weight = 1 - nlp_spacy(word).similarity(nlp_spacy(avg_vector))
+            weight = spatial.distance.cosine(embedding[word].flatten(), avg_vector.flatten())
             weights.append(weight)
 
         # Normalize weights to have sum 1
         weights = np.array(weights)
-        weights /= np.sum(weights)
+        weights = weights / np.sum(weights)
 
         # Compute the weighted average of all word embeddings of the character
         weighted_vector = np.zeros(300)
         for j, word in enumerate(embedding):
-            weighted_vector += embedding[word] * weights[j]
-        weighted_vector /= np.sum(weights)
+            weighted_vector = weighted_vector + embedding[word] * weights[j]
+        weighted_vector = weighted_vector / np.sum(weights)
 
         # Store the weighted average in the dataframe
         df.at[i, 'weighted_description'] = weighted_vector
