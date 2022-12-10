@@ -63,7 +63,7 @@ def weigh_embeddings(df, nlp_spacy=nlp_spacy):
     ''' Compute a weighted average of all word embeddings by weighing with 
     (1 - cosine similarity) with regards to the average vector of all characters. '''
 
-    df['weighted_description'] = (np.empty([df.shape[0], 300]) * np.nan).tolist()
+    df['weighted_description'] = np.empty([df.shape[0], 300]).tolist()
     
     # Compute the average vector of all characters
     avg_vector = np.zeros(300)
