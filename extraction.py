@@ -1,13 +1,15 @@
 import pandas as pd 
-from coreNLP_analysis import *
+import numpy as np
+import os
 
-AGENT_VERBS = ['nsubj', 'obl:agent']
-PATIENT_VERBS = ['nsubj:pass', 'nsubj:xsubj', 'obj']
-ATTRIBUTE_TYPES = ['appos', 'amod', 'nmod:poss', 'nmod:of']
+AGENT_VERBS = ['nsubj', 'obl:agent', 'obl']
+PATIENT_VERBS = ['nsubj:pass', 'nsubj:xsubj', 'obj', "obl:as", "obl:with", "obl:by", 'obl:after', "obl:of", "obl:in", "obl:from"]
+ATTRIBUTE_TYPES = ['appos', 'amod', 'nmod', 'nmod:poss', 'nmod:of', 'nmod:to', 'nmod:for', 'nmod:at', 'nmod:as', 'nmod:such_as', 'nmod:in', 'nmod:on', 'nmod:about', 'nmod:about']
 TAGS = ['per:spouse', 'per:title', 'per:religion', 'per:age', 'per:cause_of_death', 'per:children']
 CORENLP_OUTPUT_DIR = 'Data/CoreNLP/PlotsOutputs'
 THRESHOLD = 0.8
 
+from coreNLP_analysis import *
 
 # -------------------- Extracting depparse annotations and KBP relationships --------------------#
 
@@ -307,3 +309,65 @@ def extract_descriptions_relations(output_dir, log_interval = 1000):
 
     return descriptions, relations
 
+
+def load_descr_relations():
+    romance_description_path = 'Data/CoreNLP/romance_descriptions.csv'
+    romance_relations_path = 'Data/CoreNLP/romance_relations.csv'
+
+    if not os.path.exists(romance_description_path) and not os.path.exists(romance_relations_path):
+
+        # Extract descriptions and relations from all romance xml files
+        romance_output_dir = 'Data/CoreNLP/RomancePlotsOutputs'
+
+        # Remove file '43849.xml' from the directory, as it is not a valid xml file
+        if os.path.exists(f'{romance_output_dir}/43849.xml'):
+            os.remove(f'{romance_output_dir}/43849.xml')
+
+        rom_descriptions, rom_relations = extract_descriptions_relations(
+            romance_output_dir)
+
+        # Save descriptions and relations into csv files
+        rom_descriptions.to_csv(romance_description_path, sep='\t')
+        rom_relations.to_csv(romance_relations_path, sep='\t')
+
+    # If we've already run the extraction, we can load the dataframe from a file
+    else:
+        rom_descriptions = pd.read_csv(
+            romance_description_path, sep='\t', index_col=0, low_memory=False)
+        rom_relations = pd.read_csv(
+            romance_relations_path, sep='\t', index_col=0, low_memory=False)
+
+    non_rom_description_path = 'Data/CoreNLP/descriptions.csv'
+    non_rom_relations_path = 'Data/CoreNLP/relations.csv'
+
+    if not os.path.exists(non_rom_description_path) and not os.path.exists(non_rom_relations_path):
+
+        # Extract descriptions and relations from all xml files
+        output_dir = 'Data/CoreNLP/PlotsOutputs'
+        non_rom_descriptions, non_rom_relations = extract_descriptions_relations(output_dir)
+
+        # Save descriptions and relations into csv files
+        non_rom_descriptions.to_csv(non_rom_description_path, sep='\t')
+        non_rom_relations.to_csv(non_rom_relations_path, sep='\t')
+
+    # If we've already run the extraction, we can load the dataframe from a file
+    else:
+        non_rom_descriptions = pd.read_csv(
+            non_rom_description_path, sep='\t', index_col=0, low_memory=False)
+        non_rom_relations = pd.read_csv(
+            non_rom_relations_path, sep='\t', index_col=0, low_memory=False)
+
+
+    # Merge the descriptions of romance and non-romance movies
+    non_rom_descriptions['romance'] = False
+    rom_descriptions['romance'] = True
+    descriptions = pd.concat(
+        [non_rom_descriptions, rom_descriptions], ignore_index=True)
+
+    # Merge the relations of romance and non-romance movies
+    non_rom_relations['romance'] = False
+    rom_relations['romance'] = True
+    relations = pd.concat(
+        [non_rom_relations, rom_relations], ignore_index=True)
+    
+    return descriptions, relations
