@@ -18,6 +18,7 @@ from sklearn.mixture import GaussianMixture
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.manifold import TSNE
+from sklearn.preprocessing import StandardScaler
 
 import matplotlib.pyplot as plt
 
@@ -75,7 +76,6 @@ def weight_embeddings(df):
     avg_vector = np.zeros(300)
 
     for i, character in df.iterrows():
-
         embedding = character['descriptions_embeddings']
 
         # If no word recognized, store NaN and skip the character
@@ -83,7 +83,7 @@ def weight_embeddings(df):
             df.at[i, 'weighted_description'] = np.nan
             continue
 
-        # Compute the average vector of all word embeddings of the character
+        # Compute the average vector of all normalized word embeddings of the character
         avg_word = np.zeros(300)
         for word in embedding:
             word_vector = np.squeeze(embedding[word])
@@ -110,6 +110,7 @@ def weight_embeddings(df):
         # Compute weight of each word
         for word in embedding:
             word_vector = np.squeeze(embedding[word]).flatten()
+            word_vector = word_vector / np.linalg.norm(word_vector)
             weight = spatial.distance.cosine(word_vector, avg_vector)
             weights.append(weight)
             
@@ -120,15 +121,13 @@ def weight_embeddings(df):
         # Compute the weighted average of all word embeddings of the character
         weighted_vector = np.zeros(300)
         for j, word in enumerate(embedding):
-
             # Normalize word vector and compute weighted average
             word_vector = np.squeeze(embedding[word])
             word_vector = word_vector / np.linalg.norm(word_vector)
             weighted_vector = weighted_vector + word_vector * weights[j]
         
-        
         # Store the weighted average in the dataframe
-        df.at[i, 'weighted_description'] = weighted_vector#[0]
+        df.at[i, 'weighted_description'] = weighted_vector
 
     return df
 
@@ -142,6 +141,9 @@ def descriptions_PCA(df, n_components=3):
 
     # From the column descriptions_embeddings, get a matrix with the embeddings of each character of size n x 300
     X = np.array(df['weighted_description'].tolist())
+
+    # Standardize the columns of X
+    X = StandardScaler().fit_transform(X)
     
     # Now apply PCA to the matrix X
     pca = PCA(n_components=n_components)
@@ -153,16 +155,19 @@ def descriptions_PCA(df, n_components=3):
 
     return df
 
-def descriptions_tSNE(df, n_components=3):
+def descriptions_tSNE(df, n_components=3, learning_rate='auto'):
     ''' Apply t-SNE to the embeddings of the descriptions and store the results in the dataframe.'''
     # Remove all NaNs
     df = df.dropna(subset=['weighted_description'])
     
     # From the column descriptions_embeddings, get a matrix with the embeddings of each character of size n x 300
     X = np.array(df['weighted_description'].tolist())
+
+    # Standardize the columns of X	
+    X = StandardScaler().fit_transform(X)
     
     # Reduce the dimensionality of the embeddings
-    tsne = TSNE(n_components=n_components, random_state=0, init='pca', learning_rate='auto')
+    tsne = TSNE(n_components=n_components, random_state=0, init='pca', learning_rate=learning_rate)
     X_tsne = tsne.fit_transform(X)
 
     # Store the results in the dataframe
