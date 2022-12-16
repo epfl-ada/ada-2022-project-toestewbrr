@@ -13,7 +13,7 @@ import numpy as np
 
 from scipy import spatial
 from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, DBSCAN
 from sklearn.mixture import GaussianMixture
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -66,65 +66,153 @@ def construct_descriptions_embeddings(df, nlp_spacy):
         df.at[i, 'descriptions_embeddings'] = char_embedding
     return df
 
-def weight_embeddings(df, column):
-    ''' Compute a weighted average of all word embeddings by weighing with 
-    (1 - cosine similarity) with regards to the average vector of all characters. '''
-    newname = 'weighted_' + column
-    df[newname] = np.empty([df.shape[0], 300]).tolist()
-    
-    # Compute the average normalized vector of all characters
-    avg_vector = np.zeros(300)
+def embeddings_categorical(df):
+    # Create a column 'attributes_embeddings', with the average of the embeddings corresponding to the words in the column 'attributes'
+    # Column 'description_embeddings' contains a dictionary with the embeddings of each word in the description
+    df = df.apply(lambda row: dict_embeddings(row, 'attributes', row['descriptions_embeddings']), axis=1)
+    df = df.apply(lambda row: dict_embeddings(row, 'title', row['descriptions_embeddings']), axis=1)
+    df = df.apply(lambda row: dict_embeddings(row, 'agent_verbs', row['descriptions_embeddings']), axis=1)
+    df = df.apply(lambda row: dict_embeddings(row, 'patient_verbs', row['descriptions_embeddings']), axis=1)
+    return df
 
+def dict_embeddings(row, column, embeddings):
+    # Create a dictionary with the embeddings of each word in the column 'column', store the dictionary in the column 'column_embeddings'
+    if type(row[column]) == float:
+        row[column + '_embeddings'] = np.nan
+    else:
+        dict = {}
+        for word in row[column]:
+            if word in embeddings:
+                dict[word] = embeddings[word]
+        row[column + '_embeddings'] = dict
+    return row
+
+
+# ------------- Weighting embeddings --------------- #
+
+def weight_embeddings(df, column, percentile=0, title_weight=0):
+    ''' Compute a weighted average of all word embeddings of each type by weighing with 
+    (1 - cosine similarity) with regards to the average vector of that type of all characters. 
+    Inputs: 
+        df: dataframe of word embeddings
+        column: column of embeddings to weigh ('descriptions', 'agent_verbs', 'patient_verbs', 'attributes')
+        percentile: to compute weighted average, only take into account words in top cos_diff percentile %
+        title_weight: weight of the title in the weighted average of description, if present.
+            (if 0, counts as any other word) 
+    '''
+    df = df.copy(deep=True)
+    # If we have already weighted that column, skip. 
+    embed_column = column + '_embeddings'
+    newname = 'weighted_' + embed_column
+    weight_column = column + '_weights'
+
+    if newname in df.columns:
+        return df 
+
+    # If we are weighting the descriptions, first weight other columns then aggregate 
+    if column == 'descriptions': 
+
+        # Weight the other columns if not already done
+        columns = ['agent_verbs', 'patient_verbs', 'attributes', 'title']
+        for col in columns: 
+            df = weight_embeddings(df, col, percentile, title_weight)
+
+        # Gather number of filtered words per column
+        agent_verbs_num = df['agent_verbs_weights'].apply(lambda x: len(x) if type(x) != float else 0)
+        patient_verbs_num = df['patient_verbs_weights'].apply(lambda x: len(x) if type(x) != float else 0)
+        attributes_num = df['attributes_weights'].apply(lambda x: len(x) if type(x) != float else 0)
+        titles_num = df['title_weights'].apply(lambda x: len(x) if type(x) != float else 0)
+        total_num = agent_verbs_num + patient_verbs_num + attributes_num
+
+        # Weighted average of all other columns by frequency, give weight to title if desired
+        nan_to_zero = lambda x: x if type(x) != float else 0 # avoid NaN embeddings
+        zero_to_one = lambda x: x if x != 0 else 1 # avoid division by zero
+        if title_weight == 0: 
+            total_num += titles_num
+            df[newname] = df['weighted_title_embeddings'].apply(nan_to_zero) * titles_num / total_num.apply(zero_to_one)
+            df[newname] += df['weighted_agent_verbs_embeddings'].apply(nan_to_zero) * agent_verbs_num / total_num.apply(zero_to_one)
+            df[newname] += df['weighted_patient_verbs_embeddings'].apply(nan_to_zero) * patient_verbs_num / total_num.apply(zero_to_one)
+            df[newname] += df['weighted_attributes_embeddings'].apply(nan_to_zero) * attributes_num / total_num.apply(zero_to_one)
+        else:
+            df[newname] = df['weighted_agent_verbs_embeddings'].apply(nan_to_zero) * agent_verbs_num / total_num.apply(zero_to_one)
+            df[newname] += df['weighted_patient_verbs_embeddings'].apply(nan_to_zero) * patient_verbs_num / total_num.apply(zero_to_one)
+            df[newname] += df['weighted_attributes_embeddings'].apply(nan_to_zero) * attributes_num/ total_num.apply(zero_to_one)
+            df[newname] *= (1-title_weight)
+            df[newname] += df['weighted_title_embeddings'].apply(nan_to_zero) * title_weight
+
+        # Remove weight columns if we have weighted the embeddings for descriptions
+        df = df.drop(columns=['agent_verbs_weights', 'patient_verbs_weights', 'attributes_weights', 'title_weights'])
+
+        # Convert all zeros to Nans in weighted embeddings
+        df[newname] = df[newname].apply(lambda x: np.nan if type(x) == float else x)
+
+        return df
+
+    df[newname] = np.empty([df.shape[0], 300]).tolist()
+
+    # Compute the average normalized vector of all characters for that column
+    avg_vector = np.zeros(300)
     for i, character in df.iterrows():
-        embedding = character[column]
+        embedding = character[embed_column]
 
         # If no word recognized, store NaN and skip the character
         if type(embedding) == float or len(embedding) == 0:
-            df.at[i, newname] = np.nan
             continue
 
-        # Compute the average vector of all normalized word embeddings of the character
+        # Compute average word embedding of that type over all characters
         avg_word = np.zeros(300)
         for word in embedding:
             word_vector = np.squeeze(embedding[word])
             avg_word += word_vector
         avg_word = avg_word / len(embedding)
 
-        avg_vector += avg_word
+        avg_vector += avg_word 
 
     # Compute the average vector of all characters
     avg_vector = (avg_vector / len(df)).flatten()
 
+    # Initialize weighted average
+    df[weight_column] = np.nan
+
     # For each character, weigh the embeddings by 1-cosine similarity with the average vector
     for i, character in df.iterrows():
-        embedding = character[column]
+        embedding = character[embed_column]
 
         # If NaN or no words, skip the character
         if type(embedding) == float or len(embedding) == 0:
+            df.at[i, newname] = np.nan
             continue
-        
-        # Compute the weights of all word embeddings of the character
-        weights = []
 
-        # Compute weight of each word
+        words = list(embedding.keys())
+        
+        # Compute the weights of all word embeddings of the character: 
+        # weight = (cosine diff with average) * (frequency of word)
+        weights = []
         for word in embedding:
-            word_vector = np.squeeze(embedding[word]).flatten()
-            weight = spatial.distance.cosine(word_vector, avg_vector)
+            word_vector = np.squeeze(embedding[word])
+            cos_diff = spatial.distance.cosine(word_vector, avg_vector)
+            weight = cos_diff * words.count(word)
             weights.append(weight)
-            
+
         # Normalize weights to have sum = 1
+        weight_dict = {}
         weights = np.array(weights)
-        weights = weights / np.sum(weights)
+        min_weight = np.percentile(weights, percentile)
+        norm_weights = weights / np.sum(weights)
 
         # Compute the weighted average of all word embeddings of the character
         weighted_vector = np.zeros(300)
-        for j, word in enumerate(embedding):
-            # Normalize word vector and compute weighted average
-            word_vector = np.squeeze(embedding[word])
-            weighted_vector = weighted_vector + word_vector * weights[j]
+        for j, word in enumerate(embedding): 
+            word_vector = np.squeeze(embedding[word]).flatten()
+
+            # Only keep weights above the percentile
+            if weights[j] >= min_weight:
+                weighted_vector += word_vector * norm_weights[j]
+                weight_dict[word] = norm_weights[j]
         
         # Store the weighted average in the dataframe
         df.at[i, newname] = weighted_vector
+        df.at[i, weight_column] = weight_dict
 
     return df
 
@@ -137,7 +225,7 @@ def descriptions_PCA(df, column, n_components=3):
     df = df.dropna(subset=[column])
 
     # From the column descriptions_embeddings, get a matrix with the embeddings of each character of size n x 300
-    X = np.array(df[column].tolist())
+    X = np.array(df[column].tolist(), dtype=object)
 
     # Standardize the columns of X
     X = StandardScaler().fit_transform(X)
@@ -148,8 +236,12 @@ def descriptions_PCA(df, column, n_components=3):
     X_pca = pca.transform(X)
     
     # Store the transformed result as 'weighted_description' column in df
-    df[column] = X_pca.tolist()
-
+    if n_components > 3: 
+        df[column] = X_pca.tolist()
+    elif n_components == 3: 
+        df['pca_1_'+column] = X_pca[:, 0]
+        df['pca_2_'+column] = X_pca[:, 1]
+        df['pca_3_'+column] = X_pca[:, 2]
     return df
 
 def descriptions_tSNE(df, column, n_components=3, learning_rate='auto'):
@@ -175,32 +267,132 @@ def descriptions_tSNE(df, column, n_components=3, learning_rate='auto'):
 
 # --------------- Clustering techniques ----------------- #
 
-def cluster_descriptions(df, column, n_components): 
+def refine_clusters(df, column, type, rate=0.2):
+    ''' Remove outliers from the clusters.
+    Input:
+    - rate: rate of points to remove from each cluster
+    '''
+    x_axis = type+'_1_'+column
+    y_axis = type+'_2_'+column
+    z_axis = type+'_3_'+column
+    for label in df['labels'].unique():
+        mean_point = df.loc[df['labels'] == label,
+                            [x_axis, y_axis, z_axis]].mean()
+        # Calculate distance of each point to the mean point
+        df.loc[df['labels'] == label, 'distance'] = np.sqrt(np.sum(
+            (df.loc[df['labels'] == label, [x_axis, y_axis, z_axis]] - mean_point)**2, axis=1))
+        # Calculate the number of points to remove according to the rate parameter
+        nbr_points_cluster = len(df.loc[df['labels'] == label])
+        nbr_points_to_remove = int(nbr_points_cluster * rate)
+        # Sort the points by descending distance and remove the nbr_points_to_remove with the highest distance
+        ind_points_to_remove = df.loc[df['labels'] == label].sort_values(
+            by='distance', ascending=False).iloc[nbr_points_to_remove:].index
+        df = df.drop(ind_points_to_remove)
+    df = df.drop(columns=['distance'])
+    return df
+
+def GMM_cluster(df, column, n_components, method='tsne'): 
     ''' Perform clustering using gaussian mixture model, on the 3 principal components in the dataframe '''
     gmm = GaussianMixture(n_components=n_components, random_state=0)
-    dim1 = 'tsne_1_' + column
-    dim2 = 'tsne_2_' + column
-    dim3 = 'tsne_3_' + column
+    dim1 = method + '_1_' + column
+    dim2 = method + '_2_' + column
+    dim3 = method + '_3_' + column
     gmm.fit(df[[dim1, dim2, dim3]])
     labels = gmm.predict(df[[dim1, dim2, dim3]])
     df['labels'] = labels
     return df
 
+def DBSCAN_cluster(df, column, method='tsne', eps=5, min_samples=50): 
+    ''' Perform clustering using DBSCAN, on the 3 principal components in the dataframe 
+    Inputs: 
+        eps: The maximum distance between two samples for one to be considered as in the neighborhood of the other
+        min_samples: The number of samples (or total weight) in a neighborhood for a point to be considered as a core point. 
+    '''
+    dbscan = DBSCAN(eps=eps, min_samples=min_samples, metric='euclidean')
+    dim1 = method + '_1_' + column
+    dim2 = method + '_2_' + column
+    dim3 = method + '_3_' + column
+
+    db = dbscan.fit(df[[dim1, dim2, dim3]])
+    labels = db.labels_
+    df['labels'] = labels
+
+    # Number of clusters in labels, ignoring noise if present.
+    n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
+    n_noise = list(labels).count(-1)
+    # Remove noise points
+    df = df[df['labels'] != -1]
+
+    return df, n_clusters, n_noise
+
 # --------------- Visualization  ----------------- #
 
-def plot_clusters_3d(df, title, x_axis='tsne_1', y_axis='tsne_2', z_axis='tsne_3'):
+def plot_clusters_3d(df, title, column, method='tsne'):
     ''' Plot the clusters in 3D '''
+    x_axis = method + '_1_' + column
+    y_axis = method + '_2_' + column
+    z_axis = method + '_3_' + column
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection='3d')
-    ax.scatter(df[x_axis], df[y_axis], df[z_axis], c=df['labels'])
+    ax.scatter(df[x_axis], df[y_axis], df[z_axis], c=df['labels'], cmap=plt.get_cmap('tab20'))
     ax.set_xlabel(x_axis)
     ax.set_ylabel(y_axis)
     ax.set_zlabel(z_axis)
-    ax.set_xlim(df[x_axis].min(), df[x_axis].max())
-    ax.set_ylim(df[y_axis].min(), df[y_axis].max())
-    ax.set_zlim(df[z_axis].min(), df[z_axis].max())
+    #ax.set_xlim(df[x_axis].min(), df[x_axis].max())
+    #ax.set_ylim(df[y_axis].min(), df[y_axis].max())
+    #ax.set_zlim(df[z_axis].min(), df[z_axis].max())
     plt.title(title)
     plt.show()
+
+
+# --------------- Main ----------------- #
+
+def cluster_embeddings(df, weighing=1, desc='description', sample=1, min_words=0, eps=0.5, min_samples=5):
+    ''' Experiment with embeddings. PCA -> t-SNE -> DBSCAN clustering
+    Inputs: 
+        df: dataframe with (pre-weighted if weighing=1!) categorical embeddings
+        weighing: weighing of the word embeddings (0: averaging, 1: weighing)
+        desc: type of description (title, attributes, descriptions) to use 
+        sample: sample of the data to use (1: all data) (for t-SNE speedup)
+        min_words: filter out characters with less than min_words words in their desc column
+        DBSCAN parameters: eps, min_samples
+    '''
+    df = df.copy(deep=True)
+
+    # Ablation if desired
+    if min_words > 0:
+        df = df[df[desc].apply(lambda x: len(x) if type(x) == list else 0) >= min_words]
+
+    # Weighing or averaging 
+    embed_type = desc + '_embeddings'
+    if weighing: 
+        column = 'weighted_' + embed_type
+        if column not in df.columns:
+            raise ValueError('Pass a weighted dataframe if using weighted averages. ')
+    else: 
+        column = 'average_' + embed_type
+        df[column] = df[embed_type].apply(lambda x: np.squeeze(np.mean(list(x.values()), axis=0)) if type(x) == dict else x)
+
+    # Dimensionality reduction: PCA to 50 dimensions -> t-SNE to 3 dimensions
+    if sample < 1: 
+        df = df.sample(frac=sample, random_state=1)
+        
+    # Get number of non-Nan values in desc column for title
+    n_total = df[column].apply(lambda x: 1 if type(x) == np.ndarray else 0).sum()
+    df = descriptions_PCA(df, column=column, n_components=50)
+    df = descriptions_tSNE(df, column=column, n_components=3, learning_rate='auto')
+
+    # DBSCAN Clustering
+    df, n_clusters, n_removed = DBSCAN_cluster(df, column, method='tsne', eps=eps, min_samples=min_samples)
+    title = 't-SNE + DBSCAN with {} clusters, \nRemoved {}/{} noisy data points\nDBSCAN: eps = {}, min_samples = {}\nFilter: weighing = {}, desc = {}, sample={}, min_words={}'.format(n_clusters, n_removed, n_total, eps, min_samples, weighing, desc, sample, min_words)
+    
+    # Plot clusters
+    plot_clusters_3d(df, title, column=column)
+
+    return df
+
+
+# --------------- TO REVIEW  ----------------- #
 
 
 # Remove stopwords and non-alphabetical characters from a given text
@@ -208,12 +400,9 @@ def remove_stopwords(text):
     stop_words = set(stopwords.words('english')) 
     word_tokens = word_tokenize(text) 
     filtered = [w for w in word_tokens if not w.lower() in stop_words]
-    #remove non-alphabetical characters (punctuation, numbers, etc.)
     filtered = [w for w in filtered if w.isalpha()]
-    #stemming (reduce a word to its base form to reduce the number of unique words)
     stemmer = nltk.stem.PorterStemmer()
     filtered = [stemmer.stem(w) for w in filtered]
-    #remove duplicates
     filtered = list(dict.fromkeys(filtered))
     return filtered
 
@@ -227,29 +416,6 @@ def extract_love_words(text, words, threshold):
         love_words += [token.text for token in nlp_spacy(' '.join(text)) if token.similarity(word.text) > threshold]
     return love_words
 
-
-
-
-def embeddings_categorical(df):
-    # Create a column 'attributes_embeddings', with the average of the embeddings corresponding to the words in the column 'attributes'
-    # Column 'description_embeddings' contains a dictionary with the embeddings of each word in the description
-    df = df.apply(lambda row: dict_embeddings(row, 'attributes', row['descriptions_embeddings']), axis=1)
-    df = df.apply(lambda row: dict_embeddings(row, 'title', row['descriptions_embeddings']), axis=1)
-    df = df.apply(lambda row: dict_embeddings(row, 'agent_verbs', row['descriptions_embeddings']), axis=1)
-    df = df.apply(lambda row: dict_embeddings(row, 'patient_verbs', row['descriptions_embeddings']), axis=1)
-    return df
-
-def dict_embeddings(row, column, embeddings):
-    # Create a dictionary with the embeddings of each word in the column 'column', store the dictionary in the column 'column_embeddings'
-    if type(row[column]) == float:
-        row[column + '_embeddings'] = np.nan
-    else:
-        dict = {}
-        for word in row[column]:
-            if word in embeddings:
-                dict[word] = embeddings[word]
-        row[column + '_embeddings'] = dict
-    return row
 
 
 
