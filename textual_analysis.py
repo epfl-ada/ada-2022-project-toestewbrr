@@ -31,14 +31,11 @@ nlp_spacy = spacy.load("en_core_web_lg")
 # --------------- Embedding ----------------- #
 
 def construct_descriptions_embeddings(df, nlp_spacy):
-    ''' Compute the embeddings of all words in the character descriptions. '''
     # Keep a vocabulary dictionary of {word : embedding} pairs to avoid recomputing embeddings
     vocab = {}
-    
     # Initialize the column with NaNs
     df['descriptions_embeddings'] = np.nan
-
-    # For each character, store a dictionary of {word : embedding} pairs 
+    # For each character, store a dictionary of {word : embedding} pairs
     for i, row in df.iterrows():
         char_embedding = {}
 
@@ -51,19 +48,18 @@ def construct_descriptions_embeddings(df, nlp_spacy):
             # If the word was already embedded, use the embedding from the vocabulary
             if word in vocab:
                 char_embedding[word] = vocab[word]
-
-            # If it's a new word, embed it and add it to the vocabulary
-            word_vector = nlp_spacy(word).vector.reshape(1, -1).astype('float32')
-
-            # If embedding is all zeros, the word is not recognized
-            if np.count_nonzero(word_vector) == 0:
-                continue
-
-            vocab[word] = word_vector
-            char_embedding[word] = word_vector
-
+            else:
+                # If it's a new word, embed it and add it to the vocabulary
+                word_vector = nlp_spacy(word).vector.reshape(
+                    1, -1).astype('float32')
+                # If embedding is all zeros, the word is not recognized
+                if np.count_nonzero(word_vector) == 0:
+                    continue
+                else:
+                    vocab[word] = word_vector
+                    char_embedding[word] = word_vector
         # Store the character dictionary in descriptions_embeddings
-        df.at[i, 'descriptions_embeddings'] = char_embedding
+        df.at[i, 'descriptions_embeddings'] = [char_embedding]
     return df
 
 def embeddings_categorical(df):
@@ -80,10 +76,11 @@ def dict_embeddings(row, column, embeddings):
     if type(row[column]) == float:
         row[column + '_embeddings'] = np.nan
     else:
+        embeddings_dic = embeddings[0]
         dict = {}
         for word in row[column]:
-            if word in embeddings:
-                dict[word] = embeddings[word]
+            if word in embeddings_dic:
+                dict[word] = embeddings_dic[word]
         row[column + '_embeddings'] = dict
     return row
 
@@ -210,9 +207,10 @@ def weight_embeddings(df, column, percentile=0, title_weight=0):
                 weighted_vector += word_vector * norm_weights[j]
                 weight_dict[word] = norm_weights[j]
         
+        print('got here')
         # Store the weighted average in the dataframe
         df.at[i, newname] = weighted_vector
-        df.at[i, weight_column] = weight_dict
+        df.at[i, weight_column] = [weight_dict]
 
     return df
 
