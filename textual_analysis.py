@@ -206,8 +206,7 @@ def weight_embeddings(df, column, percentile=0, title_weight=0):
             if weights[j] >= min_weight:
                 weighted_vector += word_vector * norm_weights[j]
                 weight_dict[word] = norm_weights[j]
-        
-        print('got here')
+    
         # Store the weighted average in the dataframe
         df.at[i, newname] = weighted_vector
         df.at[i, weight_column] = [weight_dict]
