@@ -121,6 +121,14 @@ def weight_embeddings(df, column, percentile=0, title_weight=0):
         titles_num = df['title_weights'].apply(lambda x: len(x) if type(x) != float else 0)
         total_num = agent_verbs_num + patient_verbs_num + attributes_num
 
+        # Get a list of all filtered words
+        concat_words = lambda x: [] if type(x) == float else list(x[0].keys())
+        df['filtered_descriptions'] = df['agent_verbs_weights'].apply(concat_words)
+        df['filtered_descriptions'] += df['patient_verbs_weights'].apply(concat_words)
+        df['filtered_descriptions'] += df['attributes_weights'].apply(concat_words)
+        df['filtered_descriptions'] += df['title_weights'].apply(concat_words)
+        df['filtered_descriptions'] = df['filtered_descriptions'].apply(lambda x: np.nan if len(x) == 0 else x)
+
         # Weighted average of all other columns by frequency, give weight to title if desired
         nan_to_zero = lambda x: x if type(x) != float else 0 # avoid NaN embeddings
         zero_to_one = lambda x: x if x != 0 else 1 # avoid division by zero
@@ -204,9 +212,10 @@ def weight_embeddings(df, column, percentile=0, title_weight=0):
 
             # Only keep weights above the percentile
             if weights[j] >= min_weight:
-                weighted_vector += word_vector * norm_weights[j]
+                norm_word_vector = word_vector / np.linalg.norm(word_vector)
+                weighted_vector += norm_word_vector * norm_weights[j]
                 weight_dict[word] = norm_weights[j]
-    
+        
         # Store the weighted average in the dataframe
         df.at[i, newname] = weighted_vector
         df.at[i, weight_column] = [weight_dict]
@@ -344,14 +353,13 @@ def plot_clusters_3d(df, title, column, method='tsne'):
 
 # --------------- Main ----------------- #
 
-def cluster_embeddings(df, weighing=1, desc='description', sample=1, min_words=0, eps=0.5, min_samples=5):
+def cluster_embeddings(df, desc='descriptions', min_words=0, eps=5, min_samples=50, percentile=50, title_weight=0.3):
     ''' Experiment with embeddings. PCA -> t-SNE -> DBSCAN clustering
     Inputs: 
-        df: dataframe with (pre-weighted if weighing=1!) categorical embeddings
-        weighing: weighing of the word embeddings (0: averaging, 1: weighing)
+        df: dataframe with weighted categorical embeddings
         desc: type of description (title, attributes, descriptions) to use 
         sample: sample of the data to use (1: all data) (for t-SNE speedup)
-        min_words: filter out characters with less than min_words words in their desc column
+        min_words: filter out characters with less than min_words descriptive words
         DBSCAN parameters: eps, min_samples
     '''
     df = df.copy(deep=True)
@@ -361,27 +369,17 @@ def cluster_embeddings(df, weighing=1, desc='description', sample=1, min_words=0
         df = df[df[desc].apply(lambda x: len(x) if type(x) == list else 0) >= min_words]
 
     # Weighing or averaging 
-    embed_type = desc + '_embeddings'
-    if weighing: 
-        column = 'weighted_' + embed_type
-        if column not in df.columns:
-            raise ValueError('Pass a weighted dataframe if using weighted averages. ')
-    else: 
-        column = 'average_' + embed_type
-        df[column] = df[embed_type].apply(lambda x: np.squeeze(np.mean(list(x.values()), axis=0)) if type(x) == dict else x)
+    column = 'weighted_' + desc + '_embeddings'
 
     # Dimensionality reduction: PCA to 50 dimensions -> t-SNE to 3 dimensions
-    if sample < 1: 
-        df = df.sample(frac=sample, random_state=1)
-        
-    # Get number of non-Nan values in desc column for title
     n_total = df[column].apply(lambda x: 1 if type(x) == np.ndarray else 0).sum()
     df = descriptions_PCA(df, column=column, n_components=50)
     df = descriptions_tSNE(df, column=column, n_components=3, learning_rate='auto')
 
     # DBSCAN Clustering
     df, n_clusters, n_removed = DBSCAN_cluster(df, column, method='tsne', eps=eps, min_samples=min_samples)
-    title = 't-SNE + DBSCAN with {} clusters, \nRemoved {}/{} noisy data points\nDBSCAN: eps = {}, min_samples = {}\nFilter: weighing = {}, desc = {}, sample={}, min_words={}'.format(n_clusters, n_removed, n_total, eps, min_samples, weighing, desc, sample, min_words)
+    title = 't-SNE + DBSCAN with {} clusters, \nRemoved {}/{} noisy data points\nDBSCAN: eps = {}, min_samples = {}\nWeighing: weighing = {}, percentile = {}, title_weight = {}\nFilter: desc = {}, sample={}, min_words={}'.format(
+        n_clusters, n_removed, n_total, eps, min_samples, weighing, percentile, title_weight, desc, sample, min_words)
     
     # Plot clusters
     plot_clusters_3d(df, title, column=column)
