@@ -19,7 +19,6 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.manifold import TSNE
 from sklearn.preprocessing import StandardScaler
-
 import matplotlib.pyplot as plt
 
 
@@ -387,7 +386,7 @@ def cluster_embeddings(df, desc='descriptions', min_words=0, eps=5, min_samples=
 
     return df
 
-# --------------- Keep three most important descriptions ----------------- #
+# --------------- Cluster analysis ----------------- #
 
 
 def filter_descriptions(cluster_df):
@@ -410,6 +409,7 @@ def filter_descriptions(cluster_df):
     cluster_df['filtered_descriptions'] = cluster_df['descriptions_embeddings'].apply(
         lambda x: sorted(x, key=lambda word: cosine_similarity(x[word].reshape(300, -1), avg_descr.reshape(300, -1))[0][0], reverse=True)[:3] if type(x) == dict else x)
     return cluster_df
+
 
 # --------------- TO REVIEW  ----------------- #
 
