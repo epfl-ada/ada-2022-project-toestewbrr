@@ -98,6 +98,7 @@ def weight_embeddings(df, column, percentile=0, title_weight=0):
             (if 0, counts as any other word) 
     '''
     df = df.copy(deep=True)
+
     # If we have already weighted that column, skip. 
     embed_column = column + '_embeddings'
     newname = 'weighted_' + embed_column
@@ -199,22 +200,22 @@ def weight_embeddings(df, column, percentile=0, title_weight=0):
             weight = cos_diff * words.count(word)
             weights.append(weight)
 
-        # Normalize weights to have sum = 1
-        weight_dict = {}
+        # Only keep weights above the percentile
         weights = np.array(weights)
         min_weight = np.percentile(weights, percentile)
+        weights[weights < min_weight] = 0
+
+        # Normalize weights to have sum = 1
         norm_weights = weights / np.sum(weights)
 
-        # Compute the weighted average of all word embeddings of the character
+        # Compute the weighted average of all normalized word embeddings of the character
+        weight_dict = {}
         weighted_vector = np.zeros(300)
         for j, word in enumerate(embedding): 
             word_vector = np.squeeze(embedding[word]).flatten()
-
-            # Only keep weights above the percentile
-            if weights[j] >= min_weight:
-                norm_word_vector = word_vector / np.linalg.norm(word_vector)
-                weighted_vector += norm_word_vector * norm_weights[j]
-                weight_dict[word] = norm_weights[j]
+            norm_word_vector = word_vector / np.linalg.norm(word_vector)
+            weighted_vector += norm_word_vector * norm_weights[j]
+            weight_dict[word] = norm_weights[j]
         
         # Store the weighted average in the dataframe
         df.at[i, newname] = weighted_vector
@@ -386,6 +387,29 @@ def cluster_embeddings(df, desc='descriptions', min_words=0, eps=5, min_samples=
 
     return df
 
+# --------------- Keep three most important descriptions ----------------- #
+
+
+def filter_descriptions(cluster_df):
+    # Apply np.squeeze on every row of the column descriptions_embeddings
+    cluster_df['descriptions_embeddings'] = cluster_df['descriptions_embeddings'].apply(
+        lambda x: np.squeeze(x) if type(x) == list else x)
+
+    # Apply np.squeeze on each value in the dictionary of the column descriptions_embeddings
+    cluster_df['descriptions_embeddings'] = cluster_df['descriptions_embeddings'].apply(
+        lambda x: {key: np.squeeze(x[key]) for key in x} if type(x) == dict else x)
+
+    # Find the average embedding over all rows in descriptions_embeddings, each row is a dictionary.
+    # The dictionary has as keys the words and as values the embedding.
+    avg_descr = np.mean([np.mean(list(x.values()), axis=0)
+                        for x in cluster_df['descriptions_embeddings'].values if type(x) == dict], axis=0)
+    # import cosine_similarity from sklearn.metrics.pairwise
+    from sklearn.metrics.pairwise import cosine_similarity
+    # Column descriptions_embeddings contains a dictionary with as keys the words and as values a list with the embedding as the first element.
+    # Get the three keys of which the values have the highest cosine similarity to avg_descr
+    cluster_df['filtered_descriptions'] = cluster_df['descriptions_embeddings'].apply(
+        lambda x: sorted(x, key=lambda word: cosine_similarity(x[word].reshape(300, -1), avg_descr.reshape(300, -1))[0][0], reverse=True)[:3] if type(x) == dict else x)
+    return cluster_df
 
 # --------------- TO REVIEW  ----------------- #
 
