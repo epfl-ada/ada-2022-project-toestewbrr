@@ -65,7 +65,7 @@ def set_layout(fig):
         plot_bgcolor='rgba(0,0,0,0)',
         coloraxis_showscale=False,
         showlegend=False,
-        height=800, width=1200, 
+        height=800, width=1100, 
         scene_camera_eye=dict(x=1.2, y=0.5, z=0), 
     )
     fig = fig.update_traces(hovertemplate=HOVER_TEMPLATE)
@@ -211,13 +211,13 @@ def create_rel_cloud(df, save=False):
                 pad={"r": 10, "t": 10}, #showactive=True,
                 buttons=list([
                     dict(
-                        args=[{"visible": [True] + [False] * (num_traces - 1)}],
-                        label="Hide relationships",
-                        method="update"
-                    ),
-                    dict(
                         args=[{"visible": [True] * num_traces}],
                         label="Show relationships",
+                        method="update"
+                    ),
+                     dict(
+                        args=[{"visible": [True] + [False] * (num_traces - 1)}],
+                        label="Hide relationships",
                         method="update"
                     )
                 ]),
