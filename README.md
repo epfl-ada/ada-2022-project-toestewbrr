@@ -22,7 +22,7 @@ Movies reflect the culture at the time of creation, therefore this enquiry can p
 To gain a comprehensive understanding of the types of characters portrayed in movies and how character are paired in romantic relationships, we aim to answer the following questions:
 
 1. What are the most common character types in movies?
-2. How have common character types evolved over time
+2. How have common character types evolved over time?
 3. How are characters paired together in romantic relationships?
 
 ## Methods ✒️
@@ -93,11 +93,7 @@ Last, we applied DBSCAN clustering to obtain the clusters, which we labeled manu
 
 ### 3. Findings and future analysis
 
-We now define the methods we will use to answer our research questions. 
-
-> ### What are the most common character types in movies?
-> ### What type of personalities appeared most in romance movies? 
-> ### How are characters paried together in romantic relationships?
+The answer of the research questions can be find in the datastory. 
     
 
 ## Organization within the team 💪
