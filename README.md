@@ -75,11 +75,19 @@ Note: Due to the weakness of the computing power at our disposition, our analysi
 
 It was important to run this customized pipeline to have **depparse** and **KBP** annotators. These annotators allow us to find the characteristics associated with each character along with demographics elements. We also used the KBP annotator to extract relationships between characters.
 
-#### 2.3 An alternative: Word2Vec
+### 3. Clustering 
 
-In `textual_analysis.ipynb`, we tried to analyse the plot summaries to detect movies that depict a relationship, in another way than with coreNLP. The idea is to score each summary based on semantic proximity with words that we think are related to relationships and find a threshold that discards every film that does not involve two characters in love. Specifically, we tested the semantic similarity with the word "love". However, in this approach we face two problems. First, the word "love" is chosen rather arbitrarily. Second, we need to find a threshold for the similarity, after which we classify a word to be related to love. Therefore, we aim to continue with coreNLP.
+For each character, we extracted attributes, agent verbs, patient verbs and tags (title, spouse, age) from coreNLP output. We then embed all descriptive words (actions, attributes, titles) of all characters into a high-dimensional vector space using [spaCy](https://spacy.io/). 
 
-### 3. Preliminary findings and future analysis
+We then weighed the word embedding of each word for each character by their cosine distance to the average semantic vector of words with the same type used for all characters in the dataset. The *cosine distance* is defined as:
+
+$$\text{cosine distance}(x_1, x_2) = 1-\frac{x_1 \cdot x_2}{||x_1||\cdot||x_2||}$$ where $x_1$ and $x_2$ are the vector representations of two words.
+
+To visualize our clusters, we then mapped these high-dimensional descriptive vectors to 50-dimensional space using Principal Component Analysis to prepare the ground for a second dimensionality reduction technique. We now perform [t-SNE dimensionality reduction](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding) on the pre-reduced weighted embeddings. 
+
+Last, we applied DBSCAN clustering to obtain the clusters, which we labeled manually based on the descriptions of the characters. Specifically, we looked at the ten characters that originated from movies with the highest box office revenue in that cluster.
+
+### 3. Findings and future analysis
 
 We now define the methods we will use to answer our research questions. 
 
@@ -109,27 +117,14 @@ Once we have extracted couples from all the movies, we will identify whether cer
 
 Dividing all movies by the decade of their release, we will look at the most common personality types among couples and how they evolve through time. An interactive graph will display how the personality type clusters vary over time. 
 
-## Proposed timeline ⏲️
-* 19-11-2022: Submit the second milestone. 
-* 23-11-2022: Run CoreNLP augmented pipeline on all the plot summaries. 
-* 25-11-2022: Extract couples and their corresponding characteristics. 
-* 02-12-2022: Perform analysis on demographics and personality types between characters in a romantic relationship. 
-* 09-12-2022: Run temporal analysis. Begin developing a rough draft of the datastory.
-* 16-12-2022: Complete code implementation and interactive visualizations. 
-* 20-12-2022: Complete datastory. 
-* 23-12-2022: Final submission.
 
 ## Organization within the team 💪
 |            | **Task**                                                                                             |
 |------------|------------------------------------------------------------------------------------------------------|
-| Antoine | Develop core NLP pipeline with Marguerite <br /> Use core NLP to describe relationships between characters |
-| Marguerite | Develop core NLP pipeline with Antoine <br /> Cluster characters by main characteristics                |
-| Hugo | Refine classification for romantic words  <br /> Set up the website and learn about interactive viz with Alexander                                         |
-| Alexander | Continue exploration of the dataset <br /> Set up the website and learn about interactive viz with Hugo             |
-
-## Questions for the TA ❔
-* Do you have a recommendation for learning interactive visualizations?
-* Which transformers and clustering methods are best suited to our needs?
+| Antoine | Develop core NLP pipeline with Marguerite <br /> Use core NLP to describe relationships between characters <br /> Extract characters' information based on CoreNLP outputs <br /> Embed descriptions and cluster characters with Alexander. <br /> Label the clusters <br/> Generate data for interactive cluster visualization with Alexander |
+| Marguerite | Develop core NLP pipeline with Antoine <br /> Cluster characters by main characteristics <br />  Create general analysis plot for the website <br /> Write the datastory with Alexander <br />         |
+| Hugo | Refine classification for romantic words  <br /> Set up general layout of the website <br /> Generate interactive plot for the clusters with Alexander                                      |
+| Alexander | Conduct General Analysis <br /> Embed descriptions and cluster characters with Antoine. <br />  Generate interactive plot for the clusters with Hugo <br /> Generate data for interactive cluster visualization with Antoine <br /> Write the datastory with Marguerite <br /> Create graphs for each cluster's characterisitcs <br /> Adjust general layout of the website|
 
 ## Bonus
     if (permutation(team_name) == professor_name): 
