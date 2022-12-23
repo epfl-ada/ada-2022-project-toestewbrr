@@ -1,4 +1,4 @@
-# Call Me By Your Cluster: A Data-Driven Analysis of Character Archetypes and Love
+# Call Me By Your Cluster: Character Archetypes and Cinematic Love
 
 <p align="center"><b>Team: ToeStewBrr 🍲 🦶</b></p>
 <p align="center">Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery</p>
@@ -11,9 +11,9 @@ Be patient... it is worth it 😉
 
 ## Abstract 📰
 
-The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains metadata of 81,741 plot summaries and 450,669 characters ranging from 1888 to 2012. Additionally, plot summaries of 42,306 movies are provided. These stories are a reflection of society and show our norms and values. So what do we learn from movies? In this datastory, we take you on a journey through time and space to discover movies through the eyes of characters. Which characters are most represented in movies? What are the characters most present in each genre? \
+The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains metadata of 81,741 plot summaries and 450,669 characters ranging from 1888 to 2012. Additionally, plot summaries of 42,306 movies are provided. These stories are a reflection of society and show our norms and values. So what do we learn from movies? In this datastory, we take you on a journey through time and space to discover movies through the eyes of characters by investigating the most common character type through time and genres. 
 \
-We also wanted to see how characters interact with one another. We decided to focus on romantic relationships as love takes a central place in movies; the word love appears as the third most common noun in these summaries (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying which two characters are coupled in a movie. \
+We also want to see how characters interact with one another. For that, we decided to focus on romantic relationships. Love takes a central place in movies; the word love appears as the third most common noun in these summaries (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying which two characters are coupled in a movie. \
 \
 Movies reflect the culture at the time of creation, therefore this enquiry can provide insights about what personalities traits are associated with actions (ex: who are the characters in adventure movies?) and how they are paired together. By using the OpenIE and KBP annotators from the coreNLP pipeline, we aim to identify common personalities in movies and find frequent pairings among these personalities. Additionally, we will exploit the large time span of the dataset to study variations over time.
 
@@ -21,7 +21,7 @@ Movies reflect the culture at the time of creation, therefore this enquiry can p
 
 To gain a comprehensive understanding of the types of characters portrayed in movies and how character are paired in romantic relationships, we aim to answer the following questions:
 
-1. What are the most common character types in movies?
+1. Which characters are most represented in movies? 
 2. How have common character types evolved over time?
 3. How are characters paired together in romantic relationships?
 
@@ -100,9 +100,9 @@ The answer of the research questions can be find in the datastory.
 |            | **Task**                                                                                             |
 |------------|------------------------------------------------------------------------------------------------------|
 | Antoine | Core NLP pipeline with Marguerite : write pipeline and run extraction <br /> Clustering with Alexander: embed and weight descriptions and get the clusters <br /> Label the clusters <br/> Cluster visualization with Alexander and Hugo  <br /> Tidy up repository  |
-| Marguerite | Core NLP pipeline with Antoine : write pipeline and run extraction <br /> Create general analysis interactive plots <br /> Write the datastory with Alexander <br /> GitHub expert and final touches      |
+| Marguerite | Core NLP pipeline with Antoine : write pipeline and run extraction <br /> Create general analysis interactive plots <br /> Write the datastory with Alexander   |
 | Hugo | Romantic words analysis  <br /> Set up general layout of the website <br />  Cluster visualization with Antoine and Alexander <br /> Assist for website layout                            |
-| Alexander | Conduct General Analysis <br /> Clustering with Antoine: embed and weight descriptions and get the clusters <br />  Cluster visualization with Antoine and Hugo <br /> Generate data for interactive cluster visualization with Antoine <br /> Write the datastory with Marguerite <br /> Create wordclouds graph and characters' visualization <br /> Adjust general layout of the website |
+| Alexander | Conduct General Analysis <br /> Clustering with Antoine: embed and weight descriptions and get the clusters <br />  Cluster visualization with Antoine and Hugo <br /> Generate data for interactive cluster visualization with Antoine <br /> Create wordclouds graph and characters' visualization <br/ > Write the datastory with Marguerite <br />   |
 
 ## Bonus
     if (permutation(team_name) == professor_name): 
