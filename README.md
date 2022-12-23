@@ -1,4 +1,4 @@
-# Call Me By Your Cluster: A Data-Driven Analysis of Character Types in Movies 
+# Call Me By Your Cluster: A Data-Driven Analysis of Character Types in Movies and a bit of love
 
 <p align="center"><b>Team: ToeStewBrr 🍲 🦶</b></p>
 <p align="center">Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery</p>
