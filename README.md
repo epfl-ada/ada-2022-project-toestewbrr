@@ -22,7 +22,7 @@ Movies reflect the culture at the time of creation, therefore this enquiry can p
 To gain a comprehensive understanding of the types of characters portrayed in movies and how character are paired in romantic relationships, we aim to answer the following questions:
 
 1. What are the most common character types in movies?
-2. What type of personalities appeared most in romance movies? 
+2. How have common character types evolved over time
 3. How are characters paired together in romantic relationships?
 
 ## Methods ✒️
