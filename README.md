@@ -5,7 +5,8 @@
 
 ## Datastory
 
-Here is the link to our datastory: [Call me by your Cluster](https://bdx786.github.io/) Be patient, it is worth it 😉
+Here is the link to our datastory: [Call me by your Cluster](https://bdx786.github.io/).
+Be patient... it is worth it 😉
 
 
 ## Abstract 📰
