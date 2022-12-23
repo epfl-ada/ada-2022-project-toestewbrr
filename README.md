@@ -99,10 +99,10 @@ The answer of the research questions can be find in the datastory.
 ## Organization within the team 💪
 |            | **Task**                                                                                             |
 |------------|------------------------------------------------------------------------------------------------------|
-| Antoine | Develop core NLP pipeline with Marguerite <br /> Use core NLP to describe relationships between characters <br /> Extract characters' information based on CoreNLP outputs <br /> Embed descriptions and cluster characters with Alexander. <br /> Label the clusters <br/> Generate data for interactive cluster visualization with Alexander |
-| Marguerite | Develop core NLP pipeline with Antoine <br /> Cluster characters by main characteristics <br />  Create general analysis plot for the website <br /> Write the datastory with Alexander <br />         |
-| Hugo | Refine classification for romantic words  <br /> Set up general layout of the website <br /> Generate interactive plot for the clusters with Alexander                                      |
-| Alexander | Conduct General Analysis <br /> Embed descriptions and cluster characters with Antoine. <br />  Generate interactive plot for the clusters with Hugo <br /> Generate data for interactive cluster visualization with Antoine <br /> Write the datastory with Marguerite <br /> Create graphs for each cluster's characterisitcs <br /> Adjust general layout of the website|
+| Antoine | Core NLP pipeline with Marguerite : write pipeline and run extraction <br /> Clustering with Alexander: embed and weight descriptions and get the clusters <br /> Label the clusters <br/> Cluster visualization with Alexander and Hugo <br /> Write the datastory with Marguerite and Alexander <br /> Tidy up repository  |
+| Marguerite | Core NLP pipeline with Antoine : write pipeline and run extraction <br /> Create general analysis interactive plots <br /> Write the datastory with Alexander and Antoine <br /> GitHub expert and final touches      |
+| Hugo | Romantic words analysis  <br /> Set up general layout of the website <br />  Cluster visualization with Antoine and Alexander <br /> Assist for website layout                            |
+| Alexander | Conduct General Analysis <br /> Clustering with Antoine: embed and weight descriptions and get the clusters <br />  Cluster visualization with Antoine and Hugo <br /> Generate data for interactive cluster visualization with Antoine <br /> Write the datastory with Marguerite and Antoine <br /> Create wordclouds graph and characters' visualization <br /> Adjust general layout of the website |
 
 ## Bonus
     if (permutation(team_name) == professor_name): 
