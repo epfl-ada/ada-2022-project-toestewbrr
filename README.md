@@ -32,13 +32,7 @@ To gain a better understanding of the provided datasets, we first performed an e
 
 #### 1.1. Genders in romantic and non-romantic movies
 
-The figure below shows the percentage of males and females in romantic and non-romantic movies. One can see that there are more women in romantic movies compared to non-romantic movies. 
-
-<p align="center" width="100%">
-    <img width="70%" src="Images/Gender_movies.png">
-</p>
-
-Furthermore, one may wonder how the percentage of females in movies developed over time. The figure below shows that there seems to be a decline in the percentage of females both in romantic and non-romantic movies during the first half of the 20th century. However, since 1960 the percentage of females has increased. This effect seems stronger in non-romantic movies.
+The figure shows the percentage of females in romantic and non-romantic movies over time. One can see that there are more women in romantic movies compared to non-romantic movies. Furthermore, the figures shows that there seems to be a decline in the percentage of females both in romantic and non-romantic movies during the first half of the 20th century. However, since 1960 the percentage of females has increased. This effect seems stronger in non-romantic movies.
 
 <p align="center" width="100%">
     <img width="70%" src="Images/Gender_over_time.png">
@@ -46,7 +40,7 @@ Furthermore, one may wonder how the percentage of females in movies developed ov
 
 #### 1.2. Character personalities
 
-As a first step to discovering the personalities that are matched together in a couple, we used the provided TV trope personality types. Characters from approximately 500 movies were classified into 72 character types. From this, we obtained the 10 most common character types among romantic movies as shown below. For those wondering: the defining characteristics of a '*ditz*' are [profound stupidity or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
+As a first step to discovering the personalities that are present in romantic movies, we used the provided TV trope personality types. Characters from approximately 500 movies were classified into 72 character types. From this, we obtained the 10 most common character types among romantic movies as shown below. For those wondering: the defining characteristics of a '*ditz*' are [profound stupidity or quirkiness](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheDitz). 
 
 <p align="center" width="100%">
     <img width="70%" src="Images/Tv_trope_clusters.png">
@@ -101,32 +95,10 @@ Last, we applied DBSCAN clustering to obtain the clusters, which we labeled manu
 
 We now define the methods we will use to answer our research questions. 
 
-> ### Are there recurrent personality types among lovers?
+> ### What are the most common character types in movies?
+> ### What type of personalities appeared most in romance movies? 
+> ### How are characters paried together in romantic relationships?
     
-To answer this question, we will first gather as much information as possible about each character involved in a love relationship. As a first step, we obtained the main role of each lover from the KBP tag `per:title` with a 0.9 confidence threshold. The figure below shows the 10 most common roles among 955 romantic comedies.
-
-<p align="center" width="100%">
-    <img width="70%" src="Images/Character.png">
-</p>
-
-Additional information including actions, adjectives and attributes will be extracted from depparse annotator (appos, nsubj) with this entity as subject and KBP triple relationships. We will then cluster the above character descriptions for all movies using a BERT pre-trained transformer to embed it into a high-dimensional space. We will then perform dimensionality reduction to a 2- or 3-dimensional space. Finally, we will use a clustering algorithm such as K-means to agglomerate personality types, which will be displayed in an interactive graph. We will also strive to identify which personality types are most common for each gender by using a gender annotator.
-
-> ### Which type of personalities are coupled together?
-
-From our custom pipeline, we extracted couples from all romantic comedy summaries. The **NER** annotator recognizes characters, while **coref** links together all common mentions of each character. The **KBP** annotators then conveniently label love relationships between entities as `per:spouse`. By extracting these relationships with a 0.9 confidence threshold, we identified 685 relationships among 254 different romantic comedy movies. We notice some self-relationships and some relationships where the subject or the object of the relation was not a character (ex: she, him). We filtered out these relations to observe the distribution of the number of relations per movie. 
-
-<p align="center" width="100%">
-    <img width="70%" src="Images/Love.png">
-</p>
-
-We saw that in most movies the two characters love each other (2 relations: Harry loves Sally and Sally loves Harry) even if there is still a high number of movies where the love is not-reciprocal (1 relation). We will run this pipeline over all the plot summaries (and not only romantic commedies) to have a bigger overview of cinematic couples.  
-
-Once we have extracted couples from all the movies, we will identify whether certain persona are frequently paired together. We will use our previous analysis about characters' personalities and demographics to explore the differences between lovers. 
-
-> ### Has the cinematic couple evolved over time?
-
-Dividing all movies by the decade of their release, we will look at the most common personality types among couples and how they evolve through time. An interactive graph will display how the personality type clusters vary over time. 
-
 
 ## Organization within the team 💪
 |            | **Task**                                                                                             |
