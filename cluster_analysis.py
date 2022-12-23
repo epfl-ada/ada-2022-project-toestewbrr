@@ -14,8 +14,8 @@ HOVER_TEMPLATE += "Actor name: %{customdata[2]}<br>" +  "Actor age at release: %
 HOVER_TEMPLATE += "Gender: %{customdata[4]}<br>" + "Character archetype: %{customdata[6]}<br>" 
 HOVER_TEMPLATE += "Description: %{customdata[7]}<br>" + "Genres: %{customdata[8]}<br>" + "Box office revenue: %{customdata[9]}<br>" 
 TITLES = ['Decision-makers', 'Heroes & anti-heroes', 'Femme fatale', 'Cunning evil', 'Clumsy', 'Virtuous', 'Righteous warrior', 'Benevolent leader', 'Wise mentor', 'Captain', 'Ingenuous', 'Tycoon', 'Ruthless commander', 'Arrogant leader', 'Love interest', 'Reconciliator', 'Adventurous woman', 'Apprentice', 'Young lover', 'Logistician', 'Lawyer', 'Stubborn fool', 'Eccentric villain', 'Marksman', 'Goofy friend', 'Hardworking learner', 'Benevolent', 'Sophisticated psycopath', 'Nemesis', 'Corrupt', 'Good cop', 'Musician', 'Protector', 'Family-oriented']
-COLOR_SCALE = px.colors.cyclical.HSV
-COLOR_PALETTE = [[round(255*c) for c in color] for color in sns.color_palette("hls", len(TITLES))]
+#COLOR_SCALE = px.colors.cyclical.HSV
+#COLOR_PALETTE = [[round(255*c) for c in color] for color in sns.color_palette("hls", len(TITLES))]
 
 def compute_centroids(df, column='labels'):
     ''' Make a dataframe with the centroids of each cluster'''
@@ -39,7 +39,7 @@ def set_scatter(df):
     ''' Add scatter plot of all points to the figure.'''
     fig = px.scatter_3d(
         df, x='X', y='Y', z='Z', 
-        color = 'labels', color_continuous_scale = COLOR_SCALE, 
+        color = 'labels',# color_continuous_scale = COLOR_SCALE, 
         opacity=0.7, 
         hover_name='Character name',
         hover_data={
@@ -65,12 +65,19 @@ def set_layout(fig):
         plot_bgcolor='rgba(0,0,0,0)',
         coloraxis_showscale=False,
         showlegend=False,
-        height=800, width=1100, 
-        scene_camera_eye=dict(x=0.7, y=0.7, z=0.7), 
+        height=800, width=1200, 
+        scene_camera_eye=dict(x=1.2, y=0.5, z=0), 
     )
     fig = fig.update_traces(hovertemplate=HOVER_TEMPLATE)
-    fig = fig.update_traces(marker=dict(colorscale=COLOR_SCALE))
+    #fig = fig.update_traces(marker=dict(colorscale=COLOR_SCALE))
     fig = fig.update_layout(layout)
+    # Move initial camera position off centered to the left
+    camera = dict(
+        up=dict(x=0, y=0, z=1),
+        center=dict(x=0, y=0, z=0),
+        eye=dict(x=1.2, y=0.5, z=0)
+    )
+    fig.update_layout(scene_camera=camera)
     return fig
 
 def create_cloud(df, save=False): 
@@ -139,6 +146,7 @@ def create_cat_clouds(df, save=False):
     # Make color gray for some traces
     for i in [2, 4, 6, 8, 9]:
         fig_romgen.data[i].marker.color = 'rgba(0,0,0,0.15)'
+
         
     # Add buttons for each category
     vis_idx = [[0], [1,2], [3,4], [5,6,9], [7,8,9]]
@@ -180,7 +188,8 @@ def add_relations(rel_fig, df):
                         y=[df['Y'][i], df['Y'][index]], 
                         z=[df['Z'][i], df['Z'][index]], 
                         mode='lines', hoverinfo='none', 
-                        line=dict(color=df['labels'][i], width=3, colorscale=COLOR_SCALE), 
+                        #line=dict(color=df['labels'][i], width=3, colorscale=COLOR_SCALE), 
+                        line=dict(color=df['labels'][i], width=3), 
                         opacity=0.25))
                 num_traces += 1
     
@@ -197,7 +206,7 @@ def create_rel_cloud(df, save=False):
     rel_fig.update_layout(
         updatemenus=[
             dict(
-                type="buttons", direction="left", x=0.35, y=1.12, font=dict(color="black"),
+                type="buttons", direction="left", x=0.5, y=1.12, font=dict(color="black"),
                 bgcolor="grey", xanchor = 'left', yanchor = 'top', 
                 pad={"r": 10, "t": 10}, #showactive=True,
                 buttons=list([
