@@ -102,7 +102,7 @@ The answer of the research questions can be find in the datastory.
 | Antoine | Core NLP pipeline with Marguerite : write pipeline and run extraction <br /> Clustering with Alexander: embed and weight descriptions and get the clusters <br /> Label the clusters <br/> Cluster visualization with Alexander and Hugo  <br /> Tidy up repository  |
 | Marguerite | Core NLP pipeline with Antoine : write pipeline and run extraction <br /> Create general analysis interactive plots <br /> Write the datastory with Alexander   |
 | Hugo | Romantic words analysis  <br /> Set up general layout of the website <br />  Cluster visualization with Antoine and Alexander <br /> Assist for website layout                            |
-| Alexander | Conduct General Analysis <br /> Clustering with Antoine: embed and weight descriptions and get the clusters <br />  Cluster visualization with Antoine and Hugo <br /> Generate data for interactive cluster visualization with Antoine <br /> Write the datastory with Marguerite <br /> Create wordclouds graph and characters' visualization <br /> Adjust general layout of the website |
+| Alexander | Conduct General Analysis <br /> Clustering with Antoine: embed and weight descriptions and get the clusters <br />  Cluster visualization with Antoine and Hugo <br /> Generate data for interactive cluster visualization with Antoine <br /> Create wordclouds graph and characters' visualization <br/ > Write the datastory with Marguerite <br />   |
 
 ## Bonus
     if (permutation(team_name) == professor_name): 
