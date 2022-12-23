@@ -23,7 +23,7 @@ To gain a comprehensive understanding of the types of characters portrayed in mo
 
 1. What are the most common character types in movies?
 2. What type of personalities appeared most in romance movies? 
-3. How are characters paried together in romantic relationships?
+3. How are characters paired together in romantic relationships?
 
 ## Methods ✒️
 
