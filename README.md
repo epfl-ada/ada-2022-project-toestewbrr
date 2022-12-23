@@ -1,4 +1,4 @@
-# Call Me By Your Cluster: A Data-Driven Analysis of Character Archetypes (and a bit of love..)
+# Call Me By Your Cluster: A Data-Driven Analysis of Character Archetypes and Love
 
 <p align="center"><b>Team: ToeStewBrr 🍲 🦶</b></p>
 <p align="center">Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery</p>
