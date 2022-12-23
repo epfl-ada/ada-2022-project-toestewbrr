@@ -1,4 +1,4 @@
-# Call Me By Your Cluster: A Data-Driven Analysis of Character Types in Movie and Love
+# Call Me By Your Cluster: A Data-Driven Analysis of Character Types in Movies 
 
 <p align="center"><b>Team: ToeStewBrr 🍲 🦶</b></p>
 <p align="center">Antoine Bonnet, Hugo Bordereaux, Alexander Sternfeld & Marguerite Thery</p>
@@ -11,7 +11,9 @@ Be patient... it is worth it 😉
 
 ## Abstract 📰
 
-The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains metadata of 81,741 plot summaries and 450,669 characters ranging from 1888 to 2012. Additionally, plot summaries of 42,306 movies are provided. These stories are a reflection of society and show our norms and values. So what do we learn from movies? In this datastory, we take you on a journey through time and space to discover movies through the eyes of characters. And specifically, who do we look up to? In this datastory, we take you on a journey through time and space and discover movies through the eyes of characters. Love takes a central place in movies; the word love appears as the third most common noun in these summaries (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying which two characters are coupled in a movie. Movies reflect the culture at the time of creation, therefore this enquiry can provide insights on how views on romance differ across time and across the world. By using the OpenIE and KBP annotators from the coreNLP pipeline, we aim to identify common personalities in love movies and find frequent pairings among these personalities. Additionally, we will exploit the large time span of the dataset to study variations over time.
+The [CMU Movie Summary Corpus](http://www.cs.cmu.edu/~ark/personas/) contains metadata of 81,741 plot summaries and 450,669 characters ranging from 1888 to 2012. Additionally, plot summaries of 42,306 movies are provided. These stories are a reflection of society and show our norms and values. So what do we learn from movies? In this datastory, we take you on a journey through time and space to discover movies through the eyes of characters. Which characters are most represented in movies? What are the characters most present in each genre? \
+We also wanted to see how characters interact with one another. We decided to focus on romantic relationships as love takes a central place in movies; the word love appears as the third most common noun in these summaries (after father and man… #YOUGOGIRL). We aim to assess how romantic relationships are depicted in movies, by studying which two characters are coupled in a movie. \
+Movies reflect the culture at the time of creation, therefore this enquiry can provide insights about what personalities traits are associated with actions (ex: who are the characters in adventure movies?) and how they are paired together. By using the OpenIE and KBP annotators from the coreNLP pipeline, we aim to identify common personalities in movies and find frequent pairings among these personalities. Additionally, we will exploit the large time span of the dataset to study variations over time.
 
 ## Research questions ❓
 
